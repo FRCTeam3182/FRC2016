@@ -18,7 +18,7 @@ public class RobotMap {
 	public static int collectorMotor =2; 
 	
 	//Arm
-	public static int armMotor1 = 3;
+	public static int armMotor = 3;
 	
 	//Drivetrain sensors
     

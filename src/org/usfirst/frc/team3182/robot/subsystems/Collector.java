@@ -18,8 +18,8 @@ public class Collector extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 	
-	public void collect() {
-		collectorMotor.set(0.7654321);
+	public void collect(double speed) {
+		collectorMotor.set(speed);
 	}
 	
 	public void initializeCounter() {
@@ -30,8 +30,8 @@ public class Collector extends Subsystem {
         return counter.get() > 0;
 	}
 	
-	public void expel() {
-		collectorMotor.set(-1.0);
+	public void expel(double speed) {
+		collectorMotor.set(-speed);
 	}
 	
 	public void stop() {

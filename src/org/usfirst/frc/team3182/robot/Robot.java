@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3182.robot.commands.TestAutoCommand;
+import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,7 +25,8 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
-//	public static final Collector collector = new Collector();
+	public static final Collector collector = new Collector();
+	public static final Arm arm = new Arm();
 	
 
     Command autonomousCommand;
