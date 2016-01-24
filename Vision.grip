@@ -1,0 +1,105 @@
+<grip:Pipeline>
+  <sources>
+    <grip:Camera>
+      <property name="address" value="http://192.168.1.100/"/>
+    </grip:Camera>
+  </sources>
+  <steps>
+    <grip:Step name="HSL Threshold">
+      <grip:Input step="0" socket="0"/>
+      <grip:Input step="0" socket="1">
+        <value>
+          <double>64.74820143884892</double>
+          <double>105.12733446519526</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="0" socket="2">
+        <value>
+          <double>229.31654676258992</double>
+          <double>255.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="0" socket="3">
+        <value>
+          <double>64.20863309352518</double>
+          <double>205.21222410865872</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="0" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Find Contours">
+      <grip:Input step="1" socket="0"/>
+      <grip:Input step="1" socket="1">
+        <value>false</value>
+      </grip:Input>
+      <grip:Output step="1" socket="0" previewed="false"/>
+    </grip:Step>
+    <grip:Step name="Filter Contours">
+      <grip:Input step="2" socket="0"/>
+      <grip:Input step="2" socket="1">
+        <value>300.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="2">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="3">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="4">
+        <value>1000</value>
+      </grip:Input>
+      <grip:Input step="2" socket="5">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="6">
+        <value>1000</value>
+      </grip:Input>
+      <grip:Output step="2" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Publish ContoursReport">
+      <grip:Input step="3" socket="0"/>
+      <grip:Input step="3" socket="1">
+        <value>goalContours</value>
+      </grip:Input>
+      <grip:Input step="3" socket="2">
+        <value>true</value>
+      </grip:Input>
+      <grip:Input step="3" socket="3">
+        <value>true</value>
+      </grip:Input>
+      <grip:Input step="3" socket="4">
+        <value>true</value>
+      </grip:Input>
+      <grip:Input step="3" socket="5">
+        <value>true</value>
+      </grip:Input>
+      <grip:Input step="3" socket="6">
+        <value>true</value>
+      </grip:Input>
+    </grip:Step>
+  </steps>
+  <connections>
+    <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="1" socket="0" previewed="false"/>
+      <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="1" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="true"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+  </connections>
+  <settings>
+    <networkProtocol>NONE</networkProtocol>
+    <teamNumber>3182</teamNumber>
+    <publishAddress></publishAddress>
+    <deployAddress></deployAddress>
+  </settings>
+</grip:Pipeline>
