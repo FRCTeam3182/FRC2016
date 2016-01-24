@@ -2,6 +2,7 @@ package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team3182.robot.commands.AutoCollect;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
@@ -40,18 +41,40 @@ public class OI {
      */
 	
 	Joystick stick = new Joystick(RobotMap.joystick);
-	JoystickButton button1 = new JoystickButton(stick, 13);
-	JoystickButton button2 = new JoystickButton(stick, 14);
-	JoystickButton button3 = new JoystickButton(stick, 15);
-	JoystickButton button4 = new JoystickButton(stick, 16);
+	JoystickButton button1 = new JoystickButton(stick, 2);
+	JoystickButton button2 = new JoystickButton(stick, 4);
+	JoystickButton button3 = new JoystickButton(stick, 3);
+	JoystickButton button4 = new JoystickButton(stick, 1);
 	
 	double speedMult = 0.5;
 	double turnMult = 0.3;
 	
 	public OI() {
 		
-		button1.whenPressed(null);
-		
+		button1.whenPressed(new changeMultipliers(){
+			@Override
+			protected void end() {				
+				incSpeed();
+			}
+		});
+		button2.whenPressed(new changeMultipliers(){
+			@Override
+			protected void end() {
+				incTurn();
+			}
+		});
+		button3.whenPressed(new changeMultipliers(){
+			@Override
+			protected void end() {
+				decSpeed();
+			}
+		});
+		button4.whenPressed(new changeMultipliers(){
+			@Override
+			protected void end() {
+				decTurn();
+			}
+		});
 		
 	}
 	
@@ -63,12 +86,12 @@ public class OI {
 	public void decSpeed() {
 		speedMult -= 0.1;
 	}
-	public void incTurn {
+	public void incTurn() {
 		turnMult += 0.1;
 		
 	}
 	
-	public void decTurn {
+	public void decTurn() {
 		turnMult -= 0.1;
 	}
 	public double getY() {
@@ -89,6 +112,22 @@ public class OI {
 		return stick.getX() * turnMult;
 	}
 	
-	
+	abstract class changeMultipliers extends Command {
+
+		@Override
+		protected void initialize() {}
+		@Override
+		protected void execute() {}
+		@Override
+		protected boolean isFinished() {
+			return true;
+		}
+		@Override
+		protected abstract void end();
+		@Override
+		protected void interrupted() {}
+		
+		
+	}
 }
 
