@@ -1,11 +1,10 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team3182.robot.commands.AutoCollect;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
-import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -41,15 +40,53 @@ public class OI {
      */
 	
 	Joystick stick = new Joystick(RobotMap.joystick);
-	JoystickButton button1 = new JoystickButton(stick, 1);
+	JoystickButton button1 = new JoystickButton(stick, 13);
+	JoystickButton button2 = new JoystickButton(stick, 14);
+	JoystickButton button3 = new JoystickButton(stick, 15);
+	JoystickButton button4 = new JoystickButton(stick, 16);
+	
+	double speedMult = 0.5;
+	double turnMult = 0.3;
 	
 	public OI() {
-		button1.toggleWhenPressed(new DriveControl());
-	
+		
+		button1.whenPressed(null);
+		
+		
 	}
 	
-	public double getSpeed() {
-		return stick.getY();
+	
+	public void incSpeed() {
+		speedMult += 0.1;
+	}
+	
+	public void decSpeed() {
+		speedMult -= 0.1;
+	}
+	public void incTurn {
+		turnMult += 0.1;
+		
+	}
+	
+	public void decTurn {
+		turnMult -= 0.1;
+	}
+	public double getY() {
+		return stick.getY() * speedMult;
+	}
+	
+	public double getLeft() {
+//		double left = stick.getRawAxis(3);
+//		if(left < 0.1) return 0;
+//		return left * 0.5;
+		return stick.getX() * -turnMult;
+	}
+	
+	public double getRight() {
+//		double right = stick.getRawAxis(4);
+//		if(right < 0.1) return 0;
+//		return right * 0.5;
+		return stick.getX() * turnMult;
 	}
 	
 	

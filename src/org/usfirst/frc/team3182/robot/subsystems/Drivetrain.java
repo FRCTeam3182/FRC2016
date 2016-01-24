@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
 import org.usfirst.frc.team3182.robot.RobotMap;
+import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -8,17 +9,30 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
 
-	Talon w1 = new Talon(RobotMap.wheel1);
-	Talon w2 = new Talon(RobotMap.wheel2);
-	Talon w3 = new Talon(RobotMap.wheel3);
-	Talon w4 = new Talon(RobotMap.wheel4);
 	
-	Talon[] wheels = {w1, w2, w3, w4};
-	Talon[] leftWheels = {w1, w2}; //will be changed eventually
-	Talon[] rightWheels = {w3, w4};
+	Talon[] wheels;
+	Talon[] leftWheels;
+	Talon[] rightWheels;
+	public Drivetrain() {
+		leftWheels = new Talon[RobotMap.leftWheels.length];
+		rightWheels = new Talon[RobotMap.rightWheels.length];
+		wheels = new Talon[leftWheels.length + rightWheels.length];
+		for(int i = 0; i <  RobotMap.leftWheels.length; i++) {
+			leftWheels[i] = new Talon(RobotMap.leftWheels[i]);
+			wheels[i] = leftWheels[i];
+		}
+		
+		for(int i = 0; i <  RobotMap.rightWheels.length; i++) {
+			rightWheels[i] = new Talon(RobotMap.rightWheels[i]);
+			wheels[i+RobotMap.leftWheels.length] = rightWheels[i];
+			wheels[i].setInverted(true);
+		}
+		
+		
+	}
 	
 	public void initDefaultCommand() {
-		
+		this.setDefaultCommand(new DriveControl());
 	}
 	
 	public void drive(double speed) { //some might need to be reversed
@@ -31,12 +45,14 @@ public class Drivetrain extends Subsystem {
 		drive(0);
 	}
 		
-	public void turn(double speed) {
+	public void drive(double speedL, double speedR) {
 	   for(Talon l : leftWheels) {
-		   l.set(speed);
+		   l.set(speedL);
 	   }
 	   for(Talon r : rightWheels) {
-		   r.set(-speed);
+		   r.set(speedR);
 	   }
 	}
 }
+
+

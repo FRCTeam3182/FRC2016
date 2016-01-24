@@ -8,11 +8,12 @@ import org.usfirst.frc.team3182.robot.Robot;
 /**
  *
  */
+@SuppressWarnings("unused")
 public class ExampleCommand extends Command {
 
     public ExampleCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+        //requires(Bot3182.exampleSubsystem);
     }
 
     // Called just before this Command runs the first time

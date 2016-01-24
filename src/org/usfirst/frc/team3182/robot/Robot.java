@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3182.robot.commands.TestAutoCommand;
+import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team3182.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,8 +21,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drivetrain drivetrain = new Drivetrain();
+	
 	public static OI oi;
+	public static final Drivetrain drivetrain = new Drivetrain();
+//	public static final Collector collector = new Collector();
+	
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -34,7 +38,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
+        chooser.addObject("Test Auto", new TestAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
@@ -62,7 +66,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-        
+//        
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -91,6 +95,9 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        
+        
+        
     }
 
     /**
