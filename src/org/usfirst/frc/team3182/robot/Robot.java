@@ -67,6 +67,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	//TODO: all of this
         autonomousCommand = (Command) chooser.getSelected();
 //        
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

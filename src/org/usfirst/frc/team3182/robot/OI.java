@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Operator Interface
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * 
+ * In progress
  */
 public class OI {
 
@@ -20,6 +20,8 @@ public class OI {
 	JoystickButton button2 = new JoystickButton(stick, 4);
 	JoystickButton button3 = new JoystickButton(stick, 3);
 	JoystickButton button4 = new JoystickButton(stick, 1);
+	
+	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
 	
 	double speedMult = 0.5;
 	double turnMult = 0.3;
@@ -74,28 +76,18 @@ public class OI {
 	}
 	
 	public double getLeft() {
-//		double left = stick.getRawAxis(3);
-//		if(left < 0.1) return 0;
-//		return left * 0.5;
 		return stick.getX() * -turnMult;
 	}
 	
 	public double getRight() {
-//		double right = stick.getRawAxis(4);
-//		if(right < 0.1) return 0;
-//		return right * 0.5;
 		return stick.getX() * turnMult;
 	}
 	
-	public double getPowerGloveX() {
-		return 1.0;
+	public double getPowerGloveTilt() {
+		return powerGlove.getX();
 	}
-	
-	public double getPowerGloveY() {
-		return 1.0;
-	}
-	public double getPowerGloveZ() {
-		return 1.0;
+	public double getPowerGloveClench() {
+		return powerGlove.getY();
 	}
 	
 	abstract class changeMultipliers extends Command {

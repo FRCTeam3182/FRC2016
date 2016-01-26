@@ -10,8 +10,9 @@ import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
- *
+ *Incomplete
  */
+@SuppressWarnings("unused")
 public class AutoCollect extends Command {
 
 	Ultrasonic u1 = new Ultrasonic(RobotMap.ultraSonic1_ping, RobotMap.ultraSonic1_receive);
@@ -41,7 +42,7 @@ public class AutoCollect extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	long finalTime = System.currentTimeMillis();
+//    	long finalTime = System.currentTimeMillis();
     	
 //        return collector.isSwitchSet() || (finalTime - startTime > 2000);
     	return false;

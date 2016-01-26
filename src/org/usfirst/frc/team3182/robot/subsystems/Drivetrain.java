@@ -5,7 +5,10 @@ import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+/**
+ * Complete
+ * Tested with demo-bot
+ */
 
 public class Drivetrain extends Subsystem {
 

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3182.robot.Robot;
 
 /**
- *
+ * Complete and tested with demo-bot
  */
 public class DriveControl extends Command {
 

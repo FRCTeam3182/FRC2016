@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+/**
+ * Complete but needs testing
+ */
 
 public class Collector extends Subsystem {
 

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3182.robot.Robot;
 
 /**
- *
+ *	Complete, needs tuning and testing
  */
 public class ArmControl extends Command {
 
@@ -22,7 +22,7 @@ public class ArmControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setToHeight(Robot.oi.getPowerGloveZ());
+    	Robot.arm.setToAngle(Robot.oi.getPowerGloveTilt());
     }
 
     // Make this return true when this Command no longer needs to run execute()
