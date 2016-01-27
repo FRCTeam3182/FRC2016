@@ -1,14 +1,13 @@
 
 package org.usfirst.frc.team3182.robot;
 
+import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3182.robot.commands.TestAutoCommand;
-import org.usfirst.frc.team3182.robot.subsystems.Collector;
-import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -38,7 +37,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new ExampleCommand());
-        chooser.addObject("Test Auto", new TestAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }
 	

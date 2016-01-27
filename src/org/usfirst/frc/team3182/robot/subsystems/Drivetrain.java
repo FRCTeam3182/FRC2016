@@ -8,27 +8,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 public class Drivetrain extends Subsystem {
-
+	private Talon leftWheel;
+	private Talon rightWheel;
 	
-	Talon[] wheels;
-	Talon[] leftWheels;
-	Talon[] rightWheels;
 	public Drivetrain() {
-		leftWheels = new Talon[RobotMap.leftWheels.length];
-		rightWheels = new Talon[RobotMap.rightWheels.length];
-		wheels = new Talon[leftWheels.length + rightWheels.length];
-		for(int i = 0; i <  RobotMap.leftWheels.length; i++) {
-			leftWheels[i] = new Talon(RobotMap.leftWheels[i]);
-			wheels[i] = leftWheels[i];
-		}
-		
-		for(int i = 0; i <  RobotMap.rightWheels.length; i++) {
-			rightWheels[i] = new Talon(RobotMap.rightWheels[i]);
-			wheels[i+RobotMap.leftWheels.length] = rightWheels[i];
-			wheels[i].setInverted(true);
-		}
-		
-		
+		leftWheel = new Talon(RobotMap.leftWheel);
+		rightWheel = new Talon(RobotMap.rightWheel);
 	}
 	
 	public void initDefaultCommand() {
@@ -36,22 +21,17 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void drive(double speed) { //some might need to be reversed
-		for (Talon w : wheels) {
-			w.set(speed);
-		}
+		leftWheel.set(speed);
+		rightWheel.set(speed);
+	}
+		
+	public void drive(double speedL, double speedR) {
+	   leftWheel.set(speedL);
+	   rightWheel.set(speedR);
 	}
 	
 	public void stop() {
 		drive(0);
-	}
-		
-	public void drive(double speedL, double speedR) {
-	   for(Talon l : leftWheels) {
-		   l.set(speedL);
-	   }
-	   for(Talon r : rightWheels) {
-		   r.set(speedR);
-	   }
 	}
 }
 
