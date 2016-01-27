@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3182.robot;
 
+import org.usfirst.frc.team3182.robot.commands.AutoCheval;
+import org.usfirst.frc.team3182.robot.commands.AutoDrive;
+import org.usfirst.frc.team3182.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team3182.robot.commands.DefaultAuto;
 
 import edu.wpi.first.wpilibj.command.Command;
