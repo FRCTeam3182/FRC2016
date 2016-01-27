@@ -3,10 +3,11 @@ package org.usfirst.frc.team3182.robot.subsystems;
 import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
- * Complete
+ * Complete except for encoder stuff
  * Tested with demo-bot
  */
 
@@ -16,6 +17,7 @@ public class Drivetrain extends Subsystem {
 	Talon[] wheels;
 	Talon[] leftWheels;
 	Talon[] rightWheels;
+	Encoder rightEncoder, leftEncoder;
 	public Drivetrain() {
 		leftWheels = new Talon[RobotMap.leftWheels.length];
 		rightWheels = new Talon[RobotMap.rightWheels.length];
@@ -31,7 +33,16 @@ public class Drivetrain extends Subsystem {
 			wheels[i].setInverted(true);
 		}
 		
-		
+		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
+		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
+	}
+	public void reset() {
+		rightEncoder.reset();
+		leftEncoder.reset();
+	}
+	//TODO set encoder distance
+	public double getDistanceTraveled() {
+		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2; //* multiplier
 	}
 	
 	public void initDefaultCommand() {
