@@ -2,7 +2,8 @@ package org.usfirst.frc.team3182.robot.commands;
 import org.usfirst.frc.team3182.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-public class AutoCheval extends Command{
+public class AutoCheval extends Command {
+	
 	public AutoCheval() {
 		requires(Robot.arm);
 		requires(Robot.drivetrain);
@@ -17,7 +18,7 @@ public class AutoCheval extends Command{
 
 	@Override
 	protected void execute() {
-		if(Robot.arm.getAngle() < 30) {
+		if(Robot.arm.getAngle() <= 30) {
 			Robot.drivetrain.drive(.5);
 			if(Robot.drivetrain.getDistanceTraveled() > 1) {
 				Robot.arm.setToAngle(-5);

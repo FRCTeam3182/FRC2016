@@ -12,16 +12,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class Drivetrain extends Subsystem {
-
 	
 	Talon[] wheels;
 	Talon[] leftWheels;
 	Talon[] rightWheels;
 	Encoder rightEncoder, leftEncoder;
+	
 	public Drivetrain() {
 		leftWheels = new Talon[RobotMap.leftWheels.length];
 		rightWheels = new Talon[RobotMap.rightWheels.length];
 		wheels = new Talon[leftWheels.length + rightWheels.length];
+		
 		for(int i = 0; i <  RobotMap.leftWheels.length; i++) {
 			leftWheels[i] = new Talon(RobotMap.leftWheels[i]);
 			wheels[i] = leftWheels[i];
@@ -36,10 +37,12 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
 		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
 	}
+	
 	public void reset() {
 		rightEncoder.reset();
 		leftEncoder.reset();
 	}
+	
 	//TODO set encoder distance
 	public double getDistanceTraveled() {
 		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2; //* multiplier

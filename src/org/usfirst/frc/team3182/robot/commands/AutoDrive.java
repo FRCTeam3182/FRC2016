@@ -10,6 +10,7 @@ public class AutoDrive extends Command {
 		requires(Robot.arm);
 		requires(Robot.drivetrain);
 	}
+	
 	@Override
 	protected void initialize() {
 		Robot.drivetrain.reset();
@@ -19,6 +20,7 @@ public class AutoDrive extends Command {
 
 	@Override
 	protected void execute() {
+		
 	}
 
 	@Override
@@ -29,7 +31,6 @@ public class AutoDrive extends Command {
 	@Override
 	protected void end() {
 		Robot.drivetrain.stop();
-
 	}
 
 	@Override
