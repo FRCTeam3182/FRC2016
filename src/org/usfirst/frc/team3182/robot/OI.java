@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
+import org.usfirst.frc.team3182.robot.commands.AutoDriveForward;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +22,8 @@ public class OI {
 	JoystickButton button2 = new JoystickButton(stick, 4);
 	JoystickButton button3 = new JoystickButton(stick, 3);
 	JoystickButton button4 = new JoystickButton(stick, 1);
+	
+	JoystickButton buttonTestAuto1 = new JoystickButton(stick, 10);
 	
 	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
 	
@@ -53,6 +57,9 @@ public class OI {
 			}
 		});
 		
+		buttonTestAuto1.toggleWhenPressed(new AutoDriveForward());
+		System.out.println("OI init");
+
 	}
 	
 	

@@ -27,7 +27,7 @@ public class AutoPortcullis extends Command {
 	protected void execute() {
 		if(Robot.arm.getAngle() < -5) {
 			Robot.drivetrain.drive(0.5);
-			if(Robot.drivetrain.getDistanceTraveled() > 1.5) {
+			if(Robot.drivetrain.getDistance() > 1.5) {
 				Robot.arm.raise();
 			}
 		}
@@ -38,7 +38,7 @@ public class AutoPortcullis extends Command {
 	@Override
 	//TODO:  Encoder stuff
 	protected boolean isFinished() {
-		return Robot.drivetrain.getDistanceTraveled() > 3; //Hopefully less than 3 meters.
+		return Robot.drivetrain.getDistance() > 3; //Hopefully less than 3 meters.
 	}
 
 	@Override

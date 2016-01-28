@@ -12,18 +12,24 @@ public class AutoDriveForward extends Command {
 	}
 	@Override
 	protected void initialize() {
+		System.out.println("Starting to drive");
 		Robot.drivetrain.reset();
-		Robot.arm.setToAngle(0);
+		//Robot.arm.setToAngle(0);
 		Robot.drivetrain.drive(1);
+		
 	}
 
 	@Override
 	protected void execute() {
+		Robot.drivetrain.drive(1);
+		System.out.println("Driving");
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
 		return Robot.drivetrain.getDistance() > 3;
+		//return false;
 	}
 
 	@Override
@@ -35,7 +41,7 @@ public class AutoDriveForward extends Command {
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-
+		end();
 	}
 
 }

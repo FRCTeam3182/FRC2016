@@ -19,12 +19,12 @@ public class CollectorControl extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.collector.stop();
+//		Robot.collector.stop();
 	}
 
 	@Override
 	protected void execute() {
-		Robot.collector.collect(Robot.oi.getPowerGloveClench());
+//		Robot.collector.collect(Robot.oi.getPowerGloveClench());
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class CollectorControl extends Command {
 
 	@Override
 	protected void end() {
-		Robot.collector.stop();
+//		Robot.collector.stop();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.collector.stop();
+		end();
 	}
 
 }

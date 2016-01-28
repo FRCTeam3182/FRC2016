@@ -33,16 +33,20 @@ public class Drivetrain extends Subsystem {
 			wheels[i].setInverted(true);
 		}
 		
-		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
-		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
+		//rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
+		//leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
+		System.out.println("Drivetrain init");
+
 	}
 	public void reset() {
-		rightEncoder.reset();
-		leftEncoder.reset();
+//		rightEncoder.reset();
+//		leftEncoder.reset();
+		
 	}
 	//TODO set encoder distance
-	public double getDistanceTraveled() {
-		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2; //* multiplier
+	public double getDistance() {
+//		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2; //* multiplier
+		return 0;
 	}
 	
 	public void initDefaultCommand() {

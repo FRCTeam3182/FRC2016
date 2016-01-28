@@ -24,10 +24,10 @@ public class RobotMap {
 	public static final int armMotor = 3;
 	
 	//Drivetrain sensors
-	public static final int rightEncoder_A = -1;
-	public static final int rightEncoder_B = -1;
-	public static final int leftEncoder_A = -1;
-	public static final int leftEncoder_B = -1;
+	public static final int rightEncoder_A = 1;
+	public static final int rightEncoder_B = 2;
+	public static final int leftEncoder_A = 3;
+	public static final int leftEncoder_B = 4;
     
 	//Collector sensors
 	public static final int ultraSonic1_ping = 5;
