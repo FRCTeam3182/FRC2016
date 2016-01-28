@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Collector extends Subsystem {
 
 	Talon collectorMotor = new Talon(RobotMap.collectorMotor);
+	DigitalInput irBallSensor = new DigitalInput(RobotMap.irBallSensor);
 	DigitalInput limitSwitch = new DigitalInput(RobotMap.collectorLimitSwitch);
 	Counter counter = new Counter(limitSwitch);
 	
@@ -41,5 +42,8 @@ public class Collector extends Subsystem {
 		collectorMotor.set(0);		
 	}
 	
-
+	/** Returns true if ball is in front of the collector */
+	public boolean inRange() {
+		return irBallSensor.get();
+	}
 }

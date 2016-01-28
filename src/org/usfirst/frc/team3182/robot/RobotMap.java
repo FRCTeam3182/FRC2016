@@ -18,7 +18,7 @@ public class RobotMap {
 	public static final int[] leftWheels = {1};
 	
 	//Collector
-	public static final int collectorMotor =2; 
+	public static final int collectorMotor = 2; 
 	
 	//Arm
 	public static final int armMotor = 3;
@@ -36,6 +36,8 @@ public class RobotMap {
 	public static final int ultraSonic2_receive = 8;
 
 	public static final int collectorLimitSwitch = 9;
+	
+	public static final int irBallSensor = 10;
 	
 	//Arm sensors
 	public static final int armEncoder_A = -1;
