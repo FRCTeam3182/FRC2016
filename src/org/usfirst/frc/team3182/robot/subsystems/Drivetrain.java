@@ -20,11 +20,13 @@ public class Drivetrain extends PIDSubsystem {
 	Talon[] leftWheels;
 	Talon[] rightWheels;
 	Encoder rightEncoder, leftEncoder;
+	
 	public Drivetrain() {
 		super("Drivetrain", .1, .001, 0);
 		leftWheels = new Talon[RobotMap.leftWheels.length];
 		rightWheels = new Talon[RobotMap.rightWheels.length];
 		wheels = new Talon[leftWheels.length + rightWheels.length];
+		
 		for(int i = 0; i <  RobotMap.leftWheels.length; i++) {
 			leftWheels[i] = new Talon(RobotMap.leftWheels[i]);
 			wheels[i] = leftWheels[i];
@@ -46,11 +48,13 @@ public class Drivetrain extends PIDSubsystem {
 		
 
 	}
+	
 	public void reset() {
 		rightEncoder.reset();
 		leftEncoder.reset();
 		
 	}
+	
 	//TODO set encoder distance
 	public double getDistance() {
 		System.out.printf("RE: %5f  LE: %5f %n", rightEncoder.getDistance(), leftEncoder.getDistance());
@@ -95,5 +99,3 @@ public class Drivetrain extends PIDSubsystem {
 		
 	}
 }
-
-

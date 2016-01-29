@@ -24,7 +24,8 @@ public class DriveControl extends Command {
     protected void execute() {
     	Robot.drivetrain.drive(-Robot.oi.getY() + Robot.oi.getLeft(), -Robot.oi.getY() + Robot.oi.getRight());
     	Robot.drivetrain.getDistance();
-    	    }
+    }
+
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

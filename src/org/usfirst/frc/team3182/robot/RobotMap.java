@@ -41,6 +41,4 @@ public class RobotMap {
 	public static final int armEncoder_A = -1;
 	public static final int armEncoder_B = -1;
 	
-	
-	//Camera??
 }

@@ -7,9 +7,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//import org.usfirst.frc.team3182.robot.commands.AutoCollect;
-//import org.usfirst.frc.team3182.robot.commands.DriveControl;
-
 /**
  * Operator Interface
  * 
@@ -33,25 +30,25 @@ public class OI {
 	
 	public OI() {
 		
-		button1.whenPressed(new changeMultipliers(){
+		button1.whenPressed(new ChangeMultipliers() {
 			@Override
 			protected void end() {				
 				incSpeed();
 			}
 		});
-		button2.whenPressed(new changeMultipliers(){
+		button2.whenPressed(new ChangeMultipliers() {
 			@Override
 			protected void end() {
 				incTurn();
 			}
 		});
-		button3.whenPressed(new changeMultipliers(){
+		button3.whenPressed(new ChangeMultipliers() {
 			@Override
 			protected void end() {
 				decSpeed();
 			}
 		});
-		button4.whenPressed(new changeMultipliers(){
+		button4.whenPressed(new ChangeMultipliers() {
 			@Override
 			protected void end() {
 				decTurn();
@@ -101,7 +98,7 @@ public class OI {
 		return powerGlove.getY();
 	}
 	
-	abstract class changeMultipliers extends Command {
+	abstract class ChangeMultipliers extends Command {
 
 		@Override
 		protected void initialize() {}
@@ -115,7 +112,6 @@ public class OI {
 		protected abstract void end();
 		@Override
 		protected void interrupted() {}
-		
 		
 	}
 }
