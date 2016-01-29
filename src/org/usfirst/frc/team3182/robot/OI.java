@@ -5,6 +5,7 @@ import org.usfirst.frc.team3182.robot.commands.AutoDriveForward;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //import org.usfirst.frc.team3182.robot.commands.AutoCollect;
 //import org.usfirst.frc.team3182.robot.commands.DriveControl;
@@ -60,6 +61,9 @@ public class OI {
 		buttonTestAuto1.toggleWhenPressed(new AutoDriveForward());
 		System.out.println("OI init");
 
+		
+		SmartDashboard.putData("AutoDriveForward", new AutoDriveForward());
+		SmartDashboard.putData(Robot.drivetrain);
 	}
 	
 	
