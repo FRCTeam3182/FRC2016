@@ -1,1 +1,31 @@
-/bin/
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+.gradle/
+
+# Java
+bin
+
+# Maven
+target/
+
+# Mac
+.DS_Store
+
+# misc
+.settings
+*.class
+dependency-reduced-pom.xml
+META-INF/application.xml
+*.gradle
+gradlew.bat
+gradlew.sh
+gradlew
+gradle/
+
+build/
+
+*.txt
