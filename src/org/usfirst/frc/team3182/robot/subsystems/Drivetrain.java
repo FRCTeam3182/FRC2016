@@ -4,6 +4,10 @@ import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,6 +24,14 @@ public class Drivetrain extends PIDSubsystem {
 	Talon[] leftWheels;
 	Talon[] rightWheels;
 	Encoder rightEncoder, leftEncoder;
+	PIDController positionControllerR,
+				positionControllerL, 
+				velocityStabilizerR, 
+				velocityStabilizerL, 
+				driftStabilizerR, 
+				driftStabilizerL;
+	
+	double speedR, speedL;
 	
 	public Drivetrain() {
 		super("Drivetrain", .1, .001, 0);
@@ -44,6 +56,25 @@ public class Drivetrain extends PIDSubsystem {
 		rightEncoder.setDistancePerPulse(.002909); //TODO change for big wheels
 		leftEncoder.setDistancePerPulse(.002909);
 		
+		
+		PIDWrapper controlledPositionR = new PIDWrapper();
+		positionControllerR = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(rightEncoder), controlledPositionR);
+		
+		PIDWrapper controlledPositionL = new PIDWrapper();
+		positionControllerL = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(leftEncoder), controlledPositionL);		
+
+		PIDWrapper stabilizedDriftR = new PIDWrapper();
+		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftR);
+
+		PIDWrapper stabilizedDriftL = new PIDWrapper();
+		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftL);
+		
+		PIDWrapper stabilizedVelocityR = new PIDWrapper();
+		velocityStabilizerR = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(rightEncoder), stabilizedVelocityR);
+		
+		PIDWrapper stabilizedVelocityL = new PIDWrapper();
+		velocityStabilizerL = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(leftEncoder), stabilizedVelocityL);
+		
 		System.out.println("Drivetrain init");
 		
 
@@ -58,14 +89,29 @@ public class Drivetrain extends PIDSubsystem {
 	//TODO set encoder distance
 	public double getDistance() {
 		System.out.printf("RE: %5f  LE: %5f %n", rightEncoder.getDistance(), leftEncoder.getDistance());
-		return  leftEncoder.getDistance() / 2 + rightEncoder.getDistance()/2;
-		
-		
+		return  leftEncoder.getDistance() / 2 + rightEncoder.getDistance()/2;	
 	}
+	
+	public double getPosR() {
+		return rightEncoder.getDistance();
+	}
+	public double getPosL() {
+		return leftEncoder.getDistance();
+	}
+	public double getRateR() {
+		return rightEncoder.getRate();
+	}
+	public double getRateL() {
+		return leftEncoder.getRate();
+	}
+	
+	
 	
 	public void initDefaultCommand() {
 		this.setDefaultCommand(new DriveControl());
 	}
+	
+	
 	
 	public void drive(double speed) { //some might need to be reversed
 		for (Talon w : wheels) {
@@ -98,4 +144,60 @@ public class Drivetrain extends PIDSubsystem {
 		drive(output);
 		
 	}
+}
+class PIDWrapper implements PIDOutput, PIDSource {
+	double value;
+	@Override
+	public void pidWrite(double output) {
+		value = output;
+	}
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {}
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return null;
+	}
+	@Override
+	public double pidGet() {
+		return value;
+	}
+	
+}
+class PIDRateEncoder implements PIDSource {
+	Encoder e;
+	public PIDRateEncoder(Encoder e) {
+		this.e = e;
+	}
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return PIDSourceType.kRate;
+	}
+
+	@Override
+	public double pidGet() {
+		return e.getRate();
+	}
+	
+}
+class PIDDistanceEncoder implements PIDSource {
+	Encoder e;
+	public PIDDistanceEncoder(Encoder e) {
+		this.e = e;
+	}
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return PIDSourceType.kDisplacement;
+	}
+
+	@Override
+	public double pidGet() {
+		return e.getDistance();
+	}
+	
 }
