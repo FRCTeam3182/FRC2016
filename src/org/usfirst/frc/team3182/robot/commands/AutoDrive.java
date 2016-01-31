@@ -3,6 +3,7 @@ package org.usfirst.frc.team3182.robot.commands;
 import org.usfirst.frc.team3182.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class AutoDrive extends Command {
 
@@ -38,5 +39,4 @@ public class AutoDrive extends Command {
 		end();
 
 	}
-
 }
