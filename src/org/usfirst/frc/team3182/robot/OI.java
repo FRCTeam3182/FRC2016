@@ -55,11 +55,11 @@ public class OI {
 			}
 		});
 		
-		buttonTestAuto1.toggleWhenPressed(new AutoDrive());
+		buttonTestAuto1.toggleWhenPressed(new AutoDrive(0)); // TODO Set appropriate AutoDrive position [perden]  
 		System.out.println("OI init");
 
 		
-		SmartDashboard.putData("AutoDriveForward", new AutoDrive());
+		SmartDashboard.putData("AutoDriveForward", new AutoDrive(0)); // TODO Set appropriate AutoDrive position [perden]
 		SmartDashboard.putData(Robot.drivetrain);
 	}
 	
