@@ -65,15 +65,20 @@ public class Drivetrain extends PIDSubsystem {
 
 		PIDWrapper stabilizedDriftR = new PIDWrapper();
 		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftR);
-
+		driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
+		
+		
 		PIDWrapper stabilizedDriftL = new PIDWrapper();
 		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftL);
+		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
 		
 		PIDWrapper stabilizedVelocityR = new PIDWrapper();
 		velocityStabilizerR = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(rightEncoder), stabilizedVelocityR);
+		//velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
 		
 		PIDWrapper stabilizedVelocityL = new PIDWrapper();
 		velocityStabilizerL = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(leftEncoder), stabilizedVelocityL);
+		//velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
 		
 		System.out.println("Drivetrain init");
 		
