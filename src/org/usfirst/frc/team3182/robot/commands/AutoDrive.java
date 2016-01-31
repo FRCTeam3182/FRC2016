@@ -15,17 +15,17 @@ public class AutoDrive extends Command {
 	protected void initialize() {
 		Robot.drivetrain.reset();
 		Robot.arm.setToAngle(0);
-		Robot.drivetrain.drive(1);
+		Robot.drivetrain.drive(0.3);
 	}
 
 	@Override
 	protected void execute() {
-		
+		Robot.drivetrain.drive(0.3);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.drivetrain.getDistanceTraveled() > 3;
+		return Robot.drivetrain.getDistance() > 1;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class AutoDrive extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
+		end();
 
 	}
 

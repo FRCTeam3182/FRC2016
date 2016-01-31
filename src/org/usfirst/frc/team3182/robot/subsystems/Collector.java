@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
 import org.usfirst.frc.team3182.robot.RobotMap;
+import org.usfirst.frc.team3182.robot.commands.CollectorControl;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,27 +20,7 @@ public class Collector extends Subsystem {
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-	
-	public void collect(double speed) {
-		collectorMotor.set(speed);
-	}
-	
-	public void initializeCounter() {
-		counter.reset();
-	}
-	
-	public boolean isSwitchSet() {
-        return counter.get() > 0;
-	}
-	
-	public void expel(double speed) {
-		collectorMotor.set(-speed);
-	}
-	
-	public void stop() {
-		collectorMotor.set(0);		
+		setDefaultCommand(new CollectorControl());
 	}
 	
 	/** Returns true if ball is in front of the collector */

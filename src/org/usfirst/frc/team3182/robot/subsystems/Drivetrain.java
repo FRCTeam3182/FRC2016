@@ -5,13 +5,16 @@ import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Complete except for encoder stuff
  * Tested with demo-bot
  */
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
+
 	
 	Talon[] wheels;
 	Talon[] leftWheels;
@@ -19,6 +22,7 @@ public class Drivetrain extends Subsystem {
 	Encoder rightEncoder, leftEncoder;
 	
 	public Drivetrain() {
+		super("Drivetrain", .1, .001, 0);
 		leftWheels = new Talon[RobotMap.leftWheels.length];
 		rightWheels = new Talon[RobotMap.rightWheels.length];
 		wheels = new Talon[leftWheels.length + rightWheels.length];
@@ -36,16 +40,27 @@ public class Drivetrain extends Subsystem {
 		
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
 		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
+		
+		rightEncoder.setDistancePerPulse(.002909); //TODO change for big wheels
+		leftEncoder.setDistancePerPulse(.002909);
+		
+		System.out.println("Drivetrain init");
+		
+
 	}
 	
 	public void reset() {
 		rightEncoder.reset();
 		leftEncoder.reset();
+		
 	}
 	
 	//TODO set encoder distance
-	public double getDistanceTraveled() {
-		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2; //* multiplier
+	public double getDistance() {
+		System.out.printf("RE: %5f  LE: %5f %n", rightEncoder.getDistance(), leftEncoder.getDistance());
+		return  leftEncoder.getDistance() / 2 + rightEncoder.getDistance()/2;
+		
+		
 	}
 	
 	public void initDefaultCommand() {
@@ -56,6 +71,10 @@ public class Drivetrain extends Subsystem {
 		for (Talon w : wheels) {
 			w.set(speed);
 		}
+		SmartDashboard.putNumber("Drive Speed", speed);
+		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getDistance());
+		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getDistance());
+
 	}
 	
 	public void stop() {
@@ -69,5 +88,14 @@ public class Drivetrain extends Subsystem {
 	   for(Talon r : rightWheels) {
 		   r.set(speedR);
 	   }
+	}
+	@Override
+	protected double returnPIDInput() {
+		return getDistance();
+	}
+	@Override
+	protected void usePIDOutput(double output) {
+		drive(output);
+		
 	}
 }
