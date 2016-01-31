@@ -17,11 +17,13 @@ public class AutoSelector
 	public static final int CHEVAL = 2;
 	public static final int COLLECT = 3;
 	
+	private int position;
 	private int tactic;
 	private Command command;
 	
-	public AutoSelector(int tactic) 
+	public AutoSelector(int position, int tactic) 
 	{
+		this.position = position;
 		this.tactic = tactic;
 		command = new DefaultAuto();
 		
@@ -38,13 +40,13 @@ public class AutoSelector
 		switch(tactic)
 		{
 		case AUTODRIVE:
-			command = new AutoDrive();
+			command = new AutoDrive(position);
 		case PORTCULLIS:
-			command = new AutoPortcullis();
+			command = new AutoPortcullis(position);
 		case CHEVAL:
-			command = new AutoCheval();
+			command = new AutoCheval(position);
 		case COLLECT:
-			command = new AutoCollect();
+			command = new AutoCollect(position);
 		}
 	}
 }

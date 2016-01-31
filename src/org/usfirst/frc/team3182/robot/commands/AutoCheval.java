@@ -4,7 +4,7 @@ import org.usfirst.frc.team3182.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 public class AutoCheval extends Command {
 	
-	public AutoCheval() {
+	public AutoCheval(int position) {
 		requires(Robot.arm);
 		requires(Robot.drivetrain);
 		

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoDrive extends Command {
 
-	public AutoDrive() {
+	public AutoDrive(int position) {
 		requires(Robot.arm);
 		requires(Robot.drivetrain);
 	}

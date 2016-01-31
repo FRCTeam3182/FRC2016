@@ -23,7 +23,7 @@ public class AutoCollect extends Command {
 	
 	long startTime;
 	
-    public AutoCollect() {
+    public AutoCollect(int position) {
         // Use requires() here to declare subsystem dependencies
 //        requires(Robot.drivetrain);
 //        requires(Robot.collector);

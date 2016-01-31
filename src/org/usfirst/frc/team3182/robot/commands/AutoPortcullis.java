@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoPortcullis extends Command {
 
-	public AutoPortcullis() {
+	public AutoPortcullis(int position) {
 		requires(Robot.arm);
 		requires(Robot.drivetrain);
 	}
