@@ -18,15 +18,16 @@ public class AutoSelector
 	public static final int COLLECT = 3;
 	
 	private int position;
-	private int tactic;
+	private int defense;
 	private Command command;
 	
-	public AutoSelector(int position, int tactic) 
+	public AutoSelector(int position, int defense) 
 	{
 		this.position = position;
-		this.tactic = tactic;
+		this.defense = defense;
 		command = new DefaultAuto();
 		
+		setPath();
 		findSuitableCommand();
 	}
 	
@@ -35,9 +36,55 @@ public class AutoSelector
 		return command;
 	}
 	
+	public void setPath()
+	{
+		switch(position)
+		{
+		case 1:
+			//drive(6.8333FT)
+			//turn(56deg to right)
+			//drive(4.7982FT)
+			//turn(56deg to left)
+			//drive(2.6500FT)
+			//turn(60deg to right)
+			//drive(1.4142FT)
+			break;
+			
+		case 2:
+			//drive(12.1333FT)
+			//turn(60deg to right)
+			//drive(1.4142FT)
+			break;
+			
+		case 3: 
+			//drive(6.8333FT)
+			//turn(56deg to left)
+			//drive(4.7982FT)
+			//turn(56deg to right)
+			//drive(2.6500FT)
+			//turn(60deg to right)
+			//drive(1.4142FT)
+			break;
+			
+		case 4:
+			//drive(6.8333FT)
+			//turn(56deg to right)
+			//drive(4.7982FT)
+			//turn(56deg to left)
+			//drive(5.484FT)
+			//turn(60deg to left)
+			break;
+			
+		case 5:
+			//drive(14.9673FT)
+			//turn(60deg to right)
+			break;
+		}
+		
+	}
 	private void findSuitableCommand() 
 	{
-		switch(tactic)
+		switch(defense)
 		{
 		case AUTODRIVE:
 			command = new AutoDrive(position);
