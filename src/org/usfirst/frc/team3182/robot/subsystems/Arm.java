@@ -1,10 +1,10 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.ArmControl;
+
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Complete but needs tuning and testing
  * 

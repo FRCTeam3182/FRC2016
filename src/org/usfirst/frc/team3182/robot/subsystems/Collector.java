@@ -2,8 +2,8 @@ package org.usfirst.frc.team3182.robot.subsystems;
 
 import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.CollectorControl;
+import org.w3c.dom.css.Counter;
 
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
