@@ -28,4 +28,6 @@ gradle/
 
 build/
 
+.classpath
+
 *.txt
