@@ -23,17 +23,16 @@ public class DriveControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	double driveX = Math.min(Robot.oi.getY() + Robot.oi.getLeft(), 1);
+    	double driveX = Robot.oi.getY() + Robot.oi.getLeft();
     	if(driveX > 1.0) driveX = 1.0;
     	else if(driveX < -1.0) driveX = -1.0;
     	
-    	double driveY = Math.min(Robot.oi.getY() + Robot.oi.getRight(), 1);
+    	double driveY = Robot.oi.getY() + Robot.oi.getRight();
     	if(driveY > 1.0) driveY = 1.0;
     	else if(driveY < -1.0) driveY = -1.0;
     	
     	
     	Robot.drivetrain.drive(driveX, driveY);
-    	Robot.drivetrain.getDistance();
     }
 
 

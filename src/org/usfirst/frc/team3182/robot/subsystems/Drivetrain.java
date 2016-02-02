@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
+import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
 
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Complete except for encoder stuff
@@ -54,20 +56,31 @@ public class Drivetrain extends Subsystem {
 		
 		controlledPositionR = new PIDWrapper();
 		positionControllerR = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(rightEncoder), controlledPositionR);
+		//positionControllerR.startLiveWindowMode();
 		
 		controlledPositionL = new PIDWrapper();
 		positionControllerL = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(leftEncoder), controlledPositionL);		
-
+		//positionControllerL.startLiveWindowMode();
+		
 		stabilizedDriftR = new PIDWrapper();
 		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftR);
-		driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
+		//driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
+		//driftStabilizerR.startLiveWindowMode();
 		
 		stabilizedDriftL = new PIDWrapper();
 		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftL);
-		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
+		//driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
+		//driftStabilizerL.startLiveWindowMode();
 		
 		velocityStabilizerR = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(rightEncoder), rightWheel);
+		velocityStabilizerR.startLiveWindowMode();
+		velocityStabilizerR.enable();
+		LiveWindow.addSensor("Drivetrain", "VelStabR", velocityStabilizerR);
+		
 		velocityStabilizerL = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(leftEncoder), leftWheel);
+		velocityStabilizerL.startLiveWindowMode();
+		velocityStabilizerL.enable();
+		LiveWindow.addSensor("Drivetrain", "VelStabL", velocityStabilizerL);
 		
 		System.out.println("Drivetrain init");
 		
