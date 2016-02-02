@@ -16,7 +16,7 @@ public class Collector extends Subsystem {
 	Talon collectorMotor = new Talon(RobotMap.collectorMotor);
 	DigitalInput irBallSensor = new DigitalInput(RobotMap.irBallSensor);
 	DigitalInput limitSwitch = new DigitalInput(RobotMap.collectorLimitSwitch);
-	Counter counter = new Counter(limitSwitch);
+	//Counter counter = new Counter(limitSwitch);
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
