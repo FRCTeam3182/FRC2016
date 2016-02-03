@@ -25,7 +25,7 @@ public class OI {
 	
 	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
 	
-	double speedMult = 0.5;
+	double speedMult = 1.0;
 	double turnMult = 0.3;
 	
 	public OI() {

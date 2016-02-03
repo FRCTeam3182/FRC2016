@@ -72,12 +72,12 @@ public class Drivetrain extends Subsystem {
 		//driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
 		//driftStabilizerL.startLiveWindowMode();
 		
-		velocityStabilizerR = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(rightEncoder), rightWheel);
+		velocityStabilizerR = new PIDController(.1, 0.001, 0, new PIDRateEncoder(rightEncoder), rightWheel);
 		velocityStabilizerR.startLiveWindowMode();
 		velocityStabilizerR.enable();
 		LiveWindow.addSensor("Drivetrain", "VelStabR", velocityStabilizerR);
 		
-		velocityStabilizerL = new PIDController(0.1, 0.001, 0, new PIDRateEncoder(leftEncoder), leftWheel);
+		velocityStabilizerL = new PIDController(.1, 0.001, 0, new PIDRateEncoder(leftEncoder), leftWheel);
 		velocityStabilizerL.startLiveWindowMode();
 		velocityStabilizerL.enable();
 		LiveWindow.addSensor("Drivetrain", "VelStabL", velocityStabilizerL);
@@ -124,9 +124,9 @@ public class Drivetrain extends Subsystem {
 		for (Talon w : wheels) {
 			w.set(speed);
 		}
-		SmartDashboard.putNumber("Drive Speed", speed);
-		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getDistance());
-		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getDistance());
+//		SmartDashboard.putNumber("Drive Speed", speed);
+//		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getDistance());
+//		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getDistance());
 
 	}
 	
@@ -135,8 +135,15 @@ public class Drivetrain extends Subsystem {
 	}
 		
 	public void drive(double speedL, double speedR) { //Needs to be called constantly (in a loop)
+		   //velocityStabilizerL.setPID(velocityStabilizerL.getP(), velocityStabilizerL.getI(), velocityStabilizerL.getD(), speedL);
 		   velocityStabilizerL.setSetpoint(speedL);
+
 		   velocityStabilizerR.setSetpoint(speedR);
+
+			SmartDashboard.putNumber("Drive Speed L", speedL);
+			SmartDashboard.putNumber("Drive Speed R", speedR);
+			SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
+			SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {
