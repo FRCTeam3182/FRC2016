@@ -70,27 +70,25 @@ public class Drivetrain extends Subsystem {
 		
 		stabilizedDriftR = new PIDWrapper();
 		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftR);
-		//driftStabilizerR.setSetpoint(controlledPositionL.pidGet());
 		driftStabilizerR.startLiveWindowMode();
 		driftStabilizerR.enable();
-		LiveWindow.addSensor("Drivetrain", "DriftStabR", driftStabilizerR);
+		LiveWindow.addSensor("Drivetrain2", "DriftStabR", driftStabilizerR);
 		
 		stabilizedDriftL = new PIDWrapper();
 		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftL);
-		//driftStabilizerL.setSetpoint(controlledPositionR.pidGet());
 		driftStabilizerL.startLiveWindowMode();
 		driftStabilizerL.enable();
-		LiveWindow.addSensor("Drivetrain", "DriftStabL", driftStabilizerL);
+		LiveWindow.addSensor("Drivetrain2", "DriftStabL", driftStabilizerL);
 		
-		velocityStabilizerR = new PIDController(.1, 0.001, 0, new PIDRateEncoder(rightEncoder), rightWheel);
+		velocityStabilizerR = new PIDController(.08, 0.000, 0, new PIDRateEncoder(rightEncoder), rightWheel);
 		velocityStabilizerR.startLiveWindowMode();
 		velocityStabilizerR.enable();
-		LiveWindow.addSensor("Drivetrain", "VelStabR", velocityStabilizerR);
+		LiveWindow.addSensor("Drivetrain3", "VelStabR", velocityStabilizerR);
 		
-		velocityStabilizerL = new PIDController(.1, 0.001, 0, new PIDRateEncoder(leftEncoder), leftWheel);
+		velocityStabilizerL = new PIDController(.08, 0.001, 0, new PIDRateEncoder(leftEncoder), leftWheel);
 		velocityStabilizerL.startLiveWindowMode();
 		velocityStabilizerL.enable();
-		LiveWindow.addSensor("Drivetrain", "VelStabL", velocityStabilizerL);
+		LiveWindow.addSensor("Drivetrain3", "VelStabL", velocityStabilizerL);
 		
 		System.out.println("Drivetrain init");
 		
@@ -168,9 +166,16 @@ public class Drivetrain extends Subsystem {
 	
 	public void updatePID() {
 		driftStabilizerR.setSetpoint(controlledPositionL.pidGet());
+		SmartDashboard.putNumber("ConPosL", controlledPositionL.pidGet());
 		driftStabilizerL.setSetpoint(controlledPositionR.pidGet());
-		velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
-		velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
+		SmartDashboard.putNumber("ConPosR", controlledPositionR.pidGet());
+		//velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
+		SmartDashboard.putNumber("driftStabR", driftStabilizerR.getSetpoint());
+		//velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
+		SmartDashboard.putNumber("driftStabL", driftStabilizerL.getSetpoint());
+		SmartDashboard.putNumber("VelStabR", velocityStabilizerR.getSetpoint());
+		SmartDashboard.putNumber("VelStabL", velocityStabilizerL.getSetpoint());
+		drive(stabilizedDriftL.pidGet(), stabilizedDriftR.pidGet());
 	}
 	
 	public void driveFPS(double speedL, double speedR) {
