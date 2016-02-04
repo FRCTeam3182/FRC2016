@@ -24,7 +24,7 @@ public class DriveControl extends Command {
     protected void execute() {
     	
     	double driveX = -Robot.oi.getY() + Robot.oi.getLeft();
-    	if(driveX > 1.0) driveX = 1.0;
+    	if(driveX > 1.00) driveX = 1.00;
     	else if(driveX < -1.0) driveX = -1.0;
     	
     	double driveY = -Robot.oi.getY() + Robot.oi.getRight();
