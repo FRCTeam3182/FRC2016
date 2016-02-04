@@ -20,12 +20,14 @@ public class AutoSelector
 	private int position;
 	private int defense;
 	private Command command;
+	private Command path;
 	
 	public AutoSelector(int position, int defense) 
 	{
 		this.position = position;
 		this.defense = defense;
 		command = new DefaultAuto();
+		path = null;
 		
 		setPath();
 		findSuitableCommand();
@@ -36,52 +38,12 @@ public class AutoSelector
 		return command;
 	}
 	
-	public void setPath()
+	public Command getPath()
 	{
-		switch(position)
-		{
-		case 1:
-			//drive(6.8333FT)
-			//turn(56deg to right)
-			//drive(4.7982FT)
-			//turn(56deg to left)
-			//drive(2.6500FT)
-			//turn(60deg to right)
-			//drive(1.4142FT)
-			break;
-			
-		case 2:
-			//drive(12.1333FT)
-			//turn(60deg to right)
-			//drive(1.4142FT)
-			break;
-			
-		case 3: 
-			//drive(6.8333FT)
-			//turn(56deg to left)
-			//drive(4.7982FT)
-			//turn(56deg to right)
-			//drive(2.6500FT)
-			//turn(60deg to right)
-			//drive(1.4142FT)
-			break;
-			
-		case 4:
-			//drive(6.8333FT)
-			//turn(56deg to right)
-			//drive(4.7982FT)
-			//turn(56deg to left)
-			//drive(5.484FT)
-			//turn(60deg to left)
-			break;
-			
-		case 5:
-			//drive(14.9673FT)
-			//turn(60deg to right)
-			break;
-		}
-		
+		return path;
 	}
+	
+	/** Gets the appropriate command for the defense the robot is facing */
 	private void findSuitableCommand() 
 	{
 		switch(defense)
@@ -95,5 +57,96 @@ public class AutoSelector
 		case COLLECT:
 			command = new AutoCollect(position);
 		}
+	}
+	
+	/** Creates a path for the robot to follow to the tower based on its position */
+	public void setPath()
+	{
+		switch(position)
+		{
+		case 1:
+			path = new Path() {
+				protected void initialize() {
+					//drive(6.8333FT)
+					//turn(56deg to right)
+					//drive(4.7982FT)
+					//turn(56deg to left)
+					//drive(2.6500FT)
+					//turn(60deg to right)
+					//drive(1.4142FT)
+				}
+			};
+			break;
+			
+		case 2:
+			path = new Path() {
+				protected void initialize() {
+					//drive(12.1333FT)
+					//turn(60deg to right)
+					//drive(1.4142FT)
+				}
+			};
+			break;
+			
+		case 3: 
+			path = new Path() {
+				protected void initialize() {
+					//drive(6.8333FT)
+					//turn(56deg to left)
+					//drive(4.7982FT)
+					//turn(56deg to right)
+					//drive(2.6500FT)
+					//turn(60deg to right)
+					//drive(1.4142FT)
+				}
+			};
+			break;
+			
+		case 4:
+			path = new Path() {
+				protected void initialize() {
+					//drive(6.8333FT)
+					//turn(56deg to right)
+					//drive(4.7982FT)
+					//turn(56deg to left)
+					//drive(5.484FT)
+					//turn(60deg to left)
+				}
+			};
+			break;
+			
+		case 5:
+			path = new Path() {
+				protected void initialize() {
+					//drive(14.9673FT)
+					//turn(60deg to right)
+				}
+			};
+			break;
+		}	
+	}
+	
+	private abstract class Path extends Command
+	{
+		public Path() {
+	        requires(Robot.drivetrain);
+	    }
+		
+	    protected void initialize() {
+	    	// This is what we overwrite with the path instructions
+	    }
+
+	    protected void execute() {
+	    }
+
+	    protected boolean isFinished() {
+	        return true;
+	    }
+
+	    protected void end() {
+	    }
+
+	    protected void interrupted() {
+	    }
 	}
 }
