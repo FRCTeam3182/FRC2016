@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3182.robot;
 
+import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
@@ -38,7 +39,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
+        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
+        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
+        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
         SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putData(Scheduler.getInstance());
     }

@@ -2,7 +2,7 @@ package org.usfirst.frc.team3182.robot;
 
 import org.usfirst.frc.team3182.robot.commands.AutoCheval;
 import org.usfirst.frc.team3182.robot.commands.AutoCollect;
-import org.usfirst.frc.team3182.robot.commands.AutoDrive;
+import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 import org.usfirst.frc.team3182.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team3182.robot.commands.DefaultAuto;
 
@@ -87,7 +87,7 @@ public class AutoSelector
 		switch(defense)
 		{
 		case AUTODRIVE:
-			command = new AutoDrive(position);
+			command = new DriveToDistance(position);
 		case PORTCULLIS:
 			command = new AutoPortcullis(position);
 		case CHEVAL:

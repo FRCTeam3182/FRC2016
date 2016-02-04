@@ -56,21 +56,31 @@ public class Drivetrain extends Subsystem {
 		
 		controlledPositionR = new PIDWrapper();
 		positionControllerR = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(rightEncoder), controlledPositionR);
-		//positionControllerR.startLiveWindowMode();
+		positionControllerR.startLiveWindowMode();
+		positionControllerR.enable();
+		LiveWindow.addSensor("Drivetrain", "PosConR", positionControllerR);
 		
 		controlledPositionL = new PIDWrapper();
 		positionControllerL = new PIDController(0.1, 0.001, 0, new PIDDistanceEncoder(leftEncoder), controlledPositionL);		
-		//positionControllerL.startLiveWindowMode();
+		positionControllerL.startLiveWindowMode();
+		positionControllerL.enable();
+		positionControllerL.enable();
+		LiveWindow.addSensor("Drivetrain", "PosConL", positionControllerL);
+		
 		
 		stabilizedDriftR = new PIDWrapper();
-		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftR);
-		//driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
-		//driftStabilizerR.startLiveWindowMode();
+		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftR);
+		//driftStabilizerR.setSetpoint(controlledPositionL.pidGet());
+		driftStabilizerR.startLiveWindowMode();
+		driftStabilizerR.enable();
+		LiveWindow.addSensor("Drivetrain", "DriftStabR", driftStabilizerR);
 		
 		stabilizedDriftL = new PIDWrapper();
-		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftL);
-		//driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
-		//driftStabilizerL.startLiveWindowMode();
+		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftL);
+		//driftStabilizerL.setSetpoint(controlledPositionR.pidGet());
+		driftStabilizerL.startLiveWindowMode();
+		driftStabilizerL.enable();
+		LiveWindow.addSensor("Drivetrain", "DriftStabL", driftStabilizerL);
 		
 		velocityStabilizerR = new PIDController(.1, 0.001, 0, new PIDRateEncoder(rightEncoder), rightWheel);
 		velocityStabilizerR.startLiveWindowMode();
@@ -121,13 +131,15 @@ public class Drivetrain extends Subsystem {
 	
 	
 	public void drive(double speed) { //some might need to be reversed
-		for (Talon w : wheels) {
-			w.set(speed);
-		}
+		drive(speed, speed);
 //		SmartDashboard.putNumber("Drive Speed", speed);
 //		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getDistance());
 //		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getDistance());
 
+	}
+	public void driveRaw(double speedL, double speedR) {
+		rightWheel.set(speedR);
+		leftWheel.set(speedL);
 	}
 	
 	public void stop() {
@@ -136,14 +148,34 @@ public class Drivetrain extends Subsystem {
 		
 	public void drive(double speedL, double speedR) { //Needs to be called constantly (in a loop)
 		   //velocityStabilizerL.setPID(velocityStabilizerL.getP(), velocityStabilizerL.getI(), velocityStabilizerL.getD(), speedL);
-		   velocityStabilizerL.setSetpoint(speedL);
+		   speedR *= 10;
+		   speedL *= 10;
+		
+			velocityStabilizerL.setSetpoint(speedL);
 
-		   velocityStabilizerR.setSetpoint(speedR);
+		   velocityStabilizerR.setSetpoint(speedR); //setpoint is in FPS, joystick isn't
 
 			SmartDashboard.putNumber("Drive Speed L", speedL);
 			SmartDashboard.putNumber("Drive Speed R", speedR);
 			SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
 			SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
+	}
+	
+	public void driveToDistance(double feet) {
+		positionControllerL.setSetpoint(feet);
+		positionControllerR.setSetpoint(feet);
+	}
+	
+	public void updatePID() {
+		driftStabilizerR.setSetpoint(controlledPositionL.pidGet());
+		driftStabilizerL.setSetpoint(controlledPositionR.pidGet());
+		velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
+		velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
+	}
+	
+	public void driveFPS(double speedL, double speedR) {
+		velocityStabilizerL.setSetpoint(speedL);
+		velocityStabilizerR.setSetpoint(speedR);
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {

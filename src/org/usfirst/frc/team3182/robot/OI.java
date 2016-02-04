@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
-import org.usfirst.frc.team3182.robot.commands.AutoDrive;
+import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -25,8 +25,8 @@ public class OI {
 	
 	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
 	
-	double speedMult = 1.0;
-	double turnMult = 0.3;
+	double speedMult = .4;
+	double turnMult = 0.2;
 	
 	public OI() {
 		
@@ -55,11 +55,11 @@ public class OI {
 			}
 		});
 		
-		buttonTestAuto1.toggleWhenPressed(new AutoDrive(0)); // TODO Set appropriate AutoDrive position [perden]  
+		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(5)); // TODO Set appropriate AutoDrive position [perden]  
 		System.out.println("OI init");
 
 		
-		SmartDashboard.putData("AutoDriveForward", new AutoDrive(0)); // TODO Set appropriate AutoDrive position [perden]
+		SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5)); // TODO Set appropriate AutoDrive position [perden]
 		SmartDashboard.putData(Robot.drivetrain);
 	}
 	
