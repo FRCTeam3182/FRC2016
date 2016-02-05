@@ -33,6 +33,7 @@ public class DriveToDistance extends Command {
 
 	@Override
 	protected void end() {
+		Robot.drivetrain.disablePID();
 		Robot.drivetrain.stop();
 	}
 
