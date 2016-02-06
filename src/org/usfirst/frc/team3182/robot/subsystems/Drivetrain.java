@@ -291,7 +291,7 @@ class TrapezoidalMotionProfile {
 			int timeToAcc =(int)(maxV / acc);
 			if(t > timeToAcc)
 				isAcc = false;
-			if(t > (distance / maxV + 2 *timeToAcc) ) //really need to check math
+			if(t > (distance / maxV + 2 * maxV / acc) ) //really need to check math (it might be negative)
 				isDec = true;
 			if(distance < acc * timeToAcc * timeToAcc) //if it never reaches maxV
 				if(t > Math.sqrt(2 * distance / acc)) //halfway point of triangle
