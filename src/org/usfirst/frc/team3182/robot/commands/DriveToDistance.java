@@ -16,6 +16,7 @@ public class DriveToDistance extends Command {
 	@Override
 	protected void initialize() {
 		Robot.drivetrain.reset();
+		Robot.drivetrain.enablePID();
 		Robot.drivetrain.driveToDistance(distance);
 	}
 
