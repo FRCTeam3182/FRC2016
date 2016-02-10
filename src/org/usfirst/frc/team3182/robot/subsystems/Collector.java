@@ -14,33 +14,28 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Collector extends Subsystem {
 
 	Talon collectorMotor = new Talon(RobotMap.collectorMotor);
-	DigitalInput limitSwitch = new DigitalInput(RobotMap.collectorLimitSwitch);
-	Counter counter = new Counter(limitSwitch);
+	DigitalInput irBallSensor = new DigitalInput(RobotMap.irBallSensor);
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
 		setDefaultCommand(new CollectorControl());
 	}
 	
-//	public void collect(double speed) {
-//		collectorMotor.set(speed);
-//	}
-//	
-//	public void initializeCounter() {
-//		counter.reset();
-//	}
-//	
-//	public boolean isSwitchSet() {
-//        return counter.get() > 0;
-//	}
-//	
-//	public void expel(double speed) {
-//		collectorMotor.set(-speed);
-//	}
-//	
-//	public void stop() {
-//		collectorMotor.set(0);		
-//	}
-//	
+	public void collect(double speed) {
+		collectorMotor.set(speed);
+	}
+	
+	public boolean isInRange() {
+        return irBallSensor.get();
+	}
+	
+	public void expel(double speed) {
+		collectorMotor.set(-speed);
+	}
+	
+	public void stop() {
+		collectorMotor.set(0);		
+	}
+	
 
 }

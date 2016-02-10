@@ -5,6 +5,8 @@ import org.usfirst.frc.team3182.robot.commands.ArmControl;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.PIDController;
 /**
  * Complete but needs tuning and testing
  * 
@@ -13,28 +15,27 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
-	//Encoder encoder = new Encoder(RobotMap.armEncoder_A, RobotMap.armEncoder_B);
+	AnalogPotentiometer pmeter = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	double initAngle;
+	PIDController armControl;
 	
 	public Arm() {
-		//encoder.reset();
 		System.out.println("Arm init");
+		armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
 	}
 	public void initDefaultCommand() {
 		this.setDefaultCommand(new ArmControl());
     }
 	
-	public void raise() {
-//		setSpeed(0.3);
+	public void raise() { //values need tuning
+		setToAngle(60);
 	}
 	public void lower() {
-//		setSpeed(-0.3);
-	}
-	public void setSpeed(double speed) {
-//		armMotor.set(speed);
+		setToAngle(0);
 	}
 	
-	public void setToAngle(double theta) {
+	
+	public void setToAngle(double theta) { //vestigial method
 		double currTheta = this.getAngle();
 		while(currTheta != theta) {
 			if(theta < currTheta) lower();
@@ -44,13 +45,16 @@ public class Arm extends Subsystem {
 		stop();
 	}
 	
+	public void set(double theta) {
+		armControl.setSetpoint(theta);
+	}
+	
 	public double getAngle() {
-		//return encoder.getDistance(); //TODO some scalar to get this to a useful angle
-		return 1;
+		return pmeter.get();
 	}
 	
 	public void stop() {
-		this.setSpeed(0);
+		armMotor.set(0);
 	}
 
 }

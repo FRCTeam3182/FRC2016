@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -287,6 +290,7 @@ class TrapezoidalMotionProfile {
 		double curV = 0;
 		boolean isAcc = true;
 		boolean isDec = false;
+		double dtSecs = dt / 1000;
 		while (pos != distance) {
 			int timeToAcc =(int)(maxV / acc);
 			if(t > timeToAcc)
@@ -298,15 +302,15 @@ class TrapezoidalMotionProfile {
 					isDec = true;
 			
 			if(isDec) { //last leg of trapezoid
-				pos += curV * dt - .5 * acc * dt;
+				pos += dtSecs * (curV - .5 * acc * dtSecs);
 				curV -= acc;
 			}
 			else if(isAcc) { //first leg of trapezoid
-				pos += curV * dt + .5 * acc * dt;
+				pos += dtSecs * (curV + .5 * acc * dtSecs);
 				curV += acc;
 			}
 			else //middle leg of trapezoid
-				pos += curV;			
+				pos += curV * dtSecs;			
 			if(pos > distance) {
 				pos = distance;
 			}
@@ -322,5 +326,16 @@ class TrapezoidalMotionProfile {
 	}
 	public double velAtTime(int t) {
 		return timeVel.get(t);
+	}
+	public void exportProfile() throws IOException {
+		FileWriter out = new FileWriter(new File("TrapProfile_" + distance + ".csv"));
+		for(int k : timePos.keySet()) {
+			out.write(String.format("%d, %f.5, %f.5 %n", k, timePos.get(k), timeVel.get(k)));
+		}
+		out.close();
+	}
+	public static void main(String... args) throws IOException {
+		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(15, 1.5, 5.00, 20);
+		tmp.exportProfile();
 	}
 }
