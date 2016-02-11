@@ -21,7 +21,7 @@ public class DriveControl extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() { //TODO check out low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
     	
     	double driveX = -Robot.oi.getY() + Robot.oi.getLeft();
     	if(driveX > 1.00) driveX = 1.00;

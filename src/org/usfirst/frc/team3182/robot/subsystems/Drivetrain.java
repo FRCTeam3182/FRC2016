@@ -56,7 +56,7 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
 		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
 
-		rightEncoder.setDistancePerPulse(.002909); //TODO change for big wheels
+		rightEncoder.setDistancePerPulse(.002909); //TODO change for big wheels to .06981317
 		leftEncoder.setDistancePerPulse(.002909);
 
 
@@ -190,9 +190,9 @@ public class Drivetrain extends Subsystem {
 		
 		driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
 		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
-		velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
-		velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
-		//drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
+		//velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
+		//velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
+		drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
 		//drive(stabilizedDriftL.pidGet(), stabilizedDriftR.pidGet());
 
 
@@ -215,6 +215,10 @@ public class Drivetrain extends Subsystem {
 	public void driveFPS(double speedL, double speedR) {
 		velocityStabilizerL.setSetpoint(speedL);
 		velocityStabilizerR.setSetpoint(speedR);
+	}
+	
+	public static void main(String... args) throws IOException {
+		TrapezoidalMotionProfile.test(20);
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {
@@ -281,8 +285,8 @@ class TrapezoidalMotionProfile {
 	Map<Integer, Double> timePos = new HashMap<Integer, Double>();
 	Map<Integer, Double> timeVel = new HashMap<Integer, Double>();
 	public TrapezoidalMotionProfile(double maxV, double acc, double distance, int dt) {
-		this.maxV = maxV;
-		this.acc = acc;
+		this.maxV = maxV /1000;
+		this.acc = acc / 1000;
 		this.distance = distance;
 		this.dt = dt;
 		generateProfile();
@@ -293,34 +297,38 @@ class TrapezoidalMotionProfile {
 		double curV = 0;
 		boolean isAcc = true;
 		boolean isDec = false;
-		double dtSecs = dt / 1000;
+		double dtSecs = dt / 1000.00;
 		while (pos != distance) {
-			int timeToAcc =(int)(maxV / acc);
-			if(t > timeToAcc)
+			double tSecs = t / 1000.00;
+			if(curV >= maxV)
 				isAcc = false;
-			if(t > (distance / maxV + 2 * maxV / acc) ) //really need to check math (it might be negative)
+			if(pos > (distance - (maxV * maxV / 2 / acc)))
 				isDec = true;
-			if(distance < acc * timeToAcc * timeToAcc) //if it never reaches maxV
-				if(t > Math.sqrt(2 * distance / acc)) //halfway point of triangle
+			if(distance <= maxV * maxV / acc) //if it never reaches maxV
+				if(tSecs > maxV / acc) //halfway point of triangle
 					isDec = true;
 			
 			if(isDec) { //last leg of trapezoid
-				pos += dtSecs * (curV - .5 * acc * dtSecs);
+				pos += dt * (curV - .5 * acc * dt);
 				curV -= acc;
 			}
 			else if(isAcc) { //first leg of trapezoid
-				pos += dtSecs * (curV + .5 * acc * dtSecs);
+				pos += dt * (curV + .5 * acc * dt);
 				curV += acc;
 			}
 			else //middle leg of trapezoid
-				pos += curV * dtSecs;			
-			if(pos > distance) {
+				pos += curV * dt;		
+			if (curV < -1) {
+				System.out.println("we broke");
+				break;
+			}
+			if(pos >= distance) {
 				pos = distance;
 			}
 			t += dt;
 			timePos.put(t, pos);
 			timeVel.put(t, curV);
-
+			System.out.println("Entry: " + t + " " + curV + " " + pos);
 		}
 
 	}
@@ -331,14 +339,15 @@ class TrapezoidalMotionProfile {
 		return timeVel.get(t);
 	}
 	public void exportProfile() throws IOException {
-		FileWriter out = new FileWriter(new File("TrapProfile_" + distance + ".csv"));
+		FileWriter out = new FileWriter(new File("C:\\Users\\AW\\FRC2016\\3182 FRC 2016\\TrapProfile_" + distance + ".csv"));
 		for(int k : timePos.keySet()) {
 			out.write(String.format("%d, %f.5, %f.5 %n", k, timePos.get(k), timeVel.get(k)));
+//			System.out.println("loop" + k);
 		}
 		out.close();
 	}
 	public static void test(double dist) throws IOException {
-		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(15, 1.5, dist, 20);
+		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 1, dist, 100);
 		tmp.exportProfile();
 	}
 }
