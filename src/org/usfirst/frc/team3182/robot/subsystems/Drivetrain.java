@@ -218,7 +218,7 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public static void main(String... args) throws IOException {
-		TrapezoidalMotionProfile.test(20);
+		TrapezoidalMotionProfile.test(100);
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {
@@ -278,57 +278,83 @@ class PIDDistanceEncoder implements PIDSource {
 
 }
 class TrapezoidalMotionProfile {
-	double maxV;
-	double acc;
-	double distance;
-	int dt;
+	double maxV;      // ft/ms
+	double acc;       // ft/ms^2
+	double distance;  // ft
+	int dt;           // ms 
 	Map<Integer, Double> timePos = new HashMap<Integer, Double>();
 	Map<Integer, Double> timeVel = new HashMap<Integer, Double>();
 	public TrapezoidalMotionProfile(double maxV, double acc, double distance, int dt) {
-		this.maxV = maxV /1000;
-		this.acc = acc / 1000;
+		this.maxV     = maxV / 1000;
+		this.acc      = acc / 1000000; //from ft/s^2 to ft/ms^2
 		this.distance = distance;
-		this.dt = dt;
+		this.dt       = dt;
 		generateProfile();
 	}
 	public void generateProfile() {
-		int t = 0;
-		double pos = 0;
-		double curV = 0;
+		int t = 0;              // ms
+		double pos = 0;         // ft
+		double curV = 0;        // ft/ms
 		boolean isAcc = true;
 		boolean isDec = false;
-		double dtSecs = dt / 1000.00;
 		while (pos != distance) {
-			double tSecs = t / 1000.00;
-			if(curV >= maxV)
-				isAcc = false;
-			if(pos > (distance - (maxV * maxV / 2 / acc)))
-				isDec = true;
-			if(distance <= maxV * maxV / acc) //if it never reaches maxV
-				if(tSecs > maxV / acc) //halfway point of triangle
-					isDec = true;
 			
-			if(isDec) { //last leg of trapezoid
-				pos += dt * (curV - .5 * acc * dt);
-				curV -= acc;
-			}
-			else if(isAcc) { //first leg of trapezoid
-				pos += dt * (curV + .5 * acc * dt);
-				curV += acc;
-			}
-			else //middle leg of trapezoid
-				pos += curV * dt;		
-			if (curV < -1) {
-				System.out.println("we broke");
-				break;
-			}
-			if(pos >= distance) {
-				pos = distance;
-			}
-			t += dt;
+//			// if the current velo is over the maximum request velo
+//			if(pos > maxV * maxV / acc / 2) {
+//				isAcc = false;
+//			}
+//			
+//			// if the pos is over the total distance minus the distance require to decel
+//			if(pos > (distance - (Math.pow(maxV, 2.0) / (2.0 * acc))))
+//				isDec = true;
+//			
+//			if(distance <= maxV * maxV / acc) //if curV can never reach maxV with room to decelerate
+//				if(t > maxV / acc) { //halfway point of triangle
+////					isDec = true;
+//				}
+//			
+//			if(isDec) { //last leg of trapezoid
+//				pos += dt * curV - .5 * acc * dt * dt;
+//				curV -= acc;
+//			}
+//			else if(isAcc) { //first leg of trapezoid
+//				pos += dt * (curV + .5 * acc * dt);
+//				curV += acc;
+//			}
+//			else //middle leg of trapezoid
+//				pos += curV * dt;		
+//			if (curV < 0) {
+//				System.out.println("we broke");
+//				break;
+//			}
+//			if(pos >= distance) {
+//				pos = distance;
+//			}
+//			t += dt;
+			
+		double t1 = maxV / acc; // stops accelerating
+		double t2 = (distance / maxV); //fun math to get this number, stops decelerating
+		double t3 = t2 + t1; //stops
+		if(t < t1) {
+			pos = .5 * acc * t * t;
+			curV = acc * t;
+		}
+		else if(t < t2) {
+			pos = .5 * acc * t1 * t1 + maxV * (t-t1);
+			curV = maxV;
+		}
+		else if(t < t3) {
+			pos = maxV * (t - t2) - .5 * acc * (t - t2) * (t - t2) + maxV * (t2 - t1) + .5 * acc * t1 * t1; 
+		}
+		else{
+			pos = distance;
+			curV = 0;
+		}
+			
+			
 			timePos.put(t, pos);
 			timeVel.put(t, curV);
-			System.out.println("Entry: " + t + " " + curV + " " + pos);
+			System.out.println("Entry: " + t + " " + curV + " " + pos + " calc: " + (distance - (Math.pow(maxV, 2.0) / (2.0 * acc))));
 		}
 
 	}
@@ -342,12 +368,12 @@ class TrapezoidalMotionProfile {
 		FileWriter out = new FileWriter(new File("C:\\Users\\AW\\FRC2016\\3182 FRC 2016\\TrapProfile_" + distance + ".csv"));
 		for(int k : timePos.keySet()) {
 			out.write(String.format("%d, %f.5, %f.5 %n", k, timePos.get(k), timeVel.get(k)));
-//			System.out.println("loop" + k);
+
 		}
 		out.close();
 	}
 	public static void test(double dist) throws IOException {
-		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 1, dist, 100);
+		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, dist, 200);
 		tmp.exportProfile();
 	}
 }
