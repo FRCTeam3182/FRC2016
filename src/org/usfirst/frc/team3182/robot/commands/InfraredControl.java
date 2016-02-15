@@ -11,14 +11,14 @@ public class InfraredControl extends Command {
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		requires(Robot.infrared);
+		requires(Robot.collector);
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		double i1Voltage = Robot.infrared.getIr1().getVoltage();
-		double i2Voltage = Robot.infrared.getIr2().getVoltage();
+		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
+		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
 		
 		estDis1 = 57.653*(Math.pow(i1Voltage, -0.9891));
 		estDis2 = 57.653*(Math.pow(i2Voltage, -0.9891));
