@@ -21,8 +21,8 @@ public class Collector extends Subsystem {
 	Talon collectorMotor = new Talon(RobotMap.collectorMotor);
 	AnalogInput irBallSensor = new AnalogInput(RobotMap.irBallSensor);
 	
-	AnalogInput ir1 = new AnalogInput(RobotMap.triangleIR1); // Check channel input
-	AnalogInput ir2 = new AnalogInput(RobotMap.triangleIR2);
+	AnalogInput ir1 = new AnalogInput(RobotMap.leftTriangleIR); // Check channel input
+	AnalogInput ir2 = new AnalogInput(RobotMap.rightTriangleIR);
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.

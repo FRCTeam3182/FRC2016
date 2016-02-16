@@ -6,8 +6,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class InfraredControl extends Command {
 
-	double estDis1 = 0;
-	double estDis2 = 0;
+	double leftDis = 0;
+	double rightDis = 0;
+
+	boolean finished = false;
+
+	final int IR_RANGE = 20; // inches
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
@@ -19,16 +23,22 @@ public class InfraredControl extends Command {
 		// TODO Auto-generated method stub
 		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
 		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
+
+		leftDis = voltageToIn(i1Voltage);
+		rightDis = voltageToIn(i2Voltage);
+
+		if (leftDis >= IR_RANGE && rightDis >= IR_RANGE){
+			return;
+		}
+
 		
-		estDis1 = voltageToIn(i1Voltage);
-		estDis2 = voltageToIn(i2Voltage);
 	}
 
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return finished;
 	}
 
 	@Override
@@ -44,11 +54,11 @@ public class InfraredControl extends Command {
 	}
 
 	public static double inToVoltage(double inches){
-		return 57.653*(Math.pow(inches, -0.9891));
+		return 57.653*(Math.pow(2.54 * inches, -0.9891));
 	}
 
 	public static double voltageToIn(double voltage){
-		return (60.2874 / (Math.pow(voltage, 1.011020119300374)));
+		return (60.2874 / (Math.pow(voltage, 1.011020119300374)) * 0.393701);
 	}
 
 }
