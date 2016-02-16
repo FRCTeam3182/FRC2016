@@ -34,7 +34,7 @@ public class Collector extends Subsystem {
 	}
 	
 	public boolean isInCollector() {
-		return irBallSensor.getVoltage() < InfraredControl.inToVoltage(20.75);
+		return irBallSensor.getVoltage() < InfraredControl.inToVoltage(5); // TODO Check length to end of frame
 	}
 	
 	public void expel(double speed) {

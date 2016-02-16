@@ -11,18 +11,24 @@ public class InfraredControl extends Command {
 
 	boolean finished = false;
 
-	final int IR_RANGE = 20; // inches
+	final double IR_DIST = 13.76; // inches
+	final int IR_RANGE = 20;
+	final double ANGLE_THRESHOLD = 5;
+
+	double angleAB;
+	double angleAC;
+	double angleBC;
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		requires(Robot.collector);
+		requires(Robot.drivetrain);
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
-		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
+
+		double i1Voltage = getVoltage()[0];
+		double i2Voltage = getVoltage()[1];
 
 		leftDis = voltageToIn(i1Voltage);
 		rightDis = voltageToIn(i2Voltage);
@@ -31,6 +37,40 @@ public class InfraredControl extends Command {
 			return;
 		}
 
+		calculateAngles();
+
+		while(Math.abs(angleAC - angleBC) < ANGLE_THRESHOLD){
+			if (angleAC > angleBC){
+				Robot.drivetrain.driveToAngle(-5); // Move left by increments of 5 degrees left and keep checking
+				calculateAngles();
+			}
+			else if (angleBC > angleAC){
+				Robot.drivetrain.driveToAngle(5); // Move left by increments of 5 degrees right and keep checking
+				calculateAngles();
+			}
+		}
+
+	}
+
+	private double[] getVoltage(){
+		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
+		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
+		return new double[]{i1Voltage, i2Voltage};
+	}
+
+	private void calculateAngles(){
+		double i1Voltage = getVoltage()[0];
+		double i2Voltage = getVoltage()[1];
+
+		double a = voltageToIn(i1Voltage); // Left
+		double b = voltageToIn(i2Voltage); // Right
+		double c = IR_DIST;
+
+
+		// Law of Cosines, needs to be tested a bunch
+		angleAB = Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / 2*(a*b)); // This angle should stay the same as the robot moves
+		angleAC = Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / 2*(a*c));
+		angleBC = Math.acos((Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / 2*(b*c));
 
 	}
 
