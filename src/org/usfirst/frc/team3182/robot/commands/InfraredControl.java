@@ -34,6 +34,7 @@ public class InfraredControl extends Command {
 		rightDis = voltageToIn(i2Voltage);
 
 		if (leftDis >= IR_RANGE && rightDis >= IR_RANGE){
+			finished = true;
 			return;
 		}
 
@@ -49,6 +50,7 @@ public class InfraredControl extends Command {
 				calculateAngles();
 			}
 		}
+		finished = true;
 
 	}
 

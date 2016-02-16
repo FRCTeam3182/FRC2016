@@ -2,7 +2,6 @@
 package org.usfirst.frc.team3182.robot;
 
 import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
-import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;

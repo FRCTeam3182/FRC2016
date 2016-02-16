@@ -1,13 +1,8 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team3182.robot.RobotMap;
-import org.usfirst.frc.team3182.robot.commands.CollectorControl;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3182.robot.commands.InfraredControl;
@@ -26,7 +21,7 @@ public class Collector extends Subsystem {
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-		setDefaultCommand(new CollectorControl());
+		//setDefaultCommand(new CollectorControl());
 	}
 	
 	public void collect(double speed) {
