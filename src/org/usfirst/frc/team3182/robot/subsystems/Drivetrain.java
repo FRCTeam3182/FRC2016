@@ -3,8 +3,7 @@ package org.usfirst.frc.team3182.robot.subsystems;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.RobotMap;
@@ -169,6 +168,11 @@ public class Drivetrain extends Subsystem {
 		positionControllerL.setSetpoint(leftEncoder.getDistance() + feet);
 		positionControllerR.setSetpoint(rightEncoder.getDistance() + feet);
 	}
+	
+	public void driveToAngle(double theta) {
+		
+		
+	}
 
 	public void enablePID() {
 
@@ -218,7 +222,7 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public static void main(String... args) throws IOException {
-		TrapezoidalMotionProfile.test(100);
+		TrapezoidalMotionProfile.test(20);
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {
@@ -282,8 +286,8 @@ class TrapezoidalMotionProfile {
 	double acc;       // ft/ms^2
 	double distance;  // ft
 	int dt;           // ms 
-	Map<Integer, Double> timePos = new HashMap<Integer, Double>();
-	Map<Integer, Double> timeVel = new HashMap<Integer, Double>();
+	ArrayList<Double> timePos = new ArrayList<Double>();
+	ArrayList<Double> timeVel = new ArrayList<Double>();
 	public TrapezoidalMotionProfile(double maxV, double acc, double distance, int dt) {
 		this.maxV     = maxV / 1000;
 		this.acc      = acc / 1000000; //from ft/s^2 to ft/ms^2
@@ -295,45 +299,15 @@ class TrapezoidalMotionProfile {
 		int t = 0;              // ms
 		double pos = 0;         // ft
 		double curV = 0;        // ft/ms
-		boolean isAcc = true;
-		boolean isDec = false;
 		while (pos != distance) {
-			
-//			// if the current velo is over the maximum request velo
-//			if(pos > maxV * maxV / acc / 2) {
-//				isAcc = false;
-//			}
-//			
-//			// if the pos is over the total distance minus the distance require to decel
-//			if(pos > (distance - (Math.pow(maxV, 2.0) / (2.0 * acc))))
-//				isDec = true;
-//			
-//			if(distance <= maxV * maxV / acc) //if curV can never reach maxV with room to decelerate
-//				if(t > maxV / acc) { //halfway point of triangle
-////					isDec = true;
-//				}
-//			
-//			if(isDec) { //last leg of trapezoid
-//				pos += dt * curV - .5 * acc * dt * dt;
-//				curV -= acc;
-//			}
-//			else if(isAcc) { //first leg of trapezoid
-//				pos += dt * (curV + .5 * acc * dt);
-//				curV += acc;
-//			}
-//			else //middle leg of trapezoid
-//				pos += curV * dt;		
-//			if (curV < 0) {
-//				System.out.println("we broke");
-//				break;
-//			}
-//			if(pos >= distance) {
-//				pos = distance;
-//			}
-//			t += dt;
 			
 		double t1 = maxV / acc; // stops accelerating
 		double t2 = (distance / maxV); //fun math to get this number, stops decelerating
+		if(distance <= maxV * maxV / acc) {
+			System.out.println("Triangle "+maxV * maxV / acc);
+			t1 = maxV / acc;
+			t2 = maxV / acc;
+		}
 		double t3 = t2 + t1; //stops
 		if(t < t1) {
 			pos = .5 * acc * t * t;
@@ -345,35 +319,36 @@ class TrapezoidalMotionProfile {
 		}
 		else if(t < t3) {
 			pos = maxV * (t - t2) - .5 * acc * (t - t2) * (t - t2) + maxV * (t2 - t1) + .5 * acc * t1 * t1; 
+			curV = maxV - acc * (t - t2);
 		}
 		else{
 			pos = distance;
 			curV = 0;
 		}
 			
-			
-			timePos.put(t, pos);
-			timeVel.put(t, curV);
-			System.out.println("Entry: " + t + " " + curV + " " + pos + " calc: " + (distance - (Math.pow(maxV, 2.0) / (2.0 * acc))));
+		t += dt;
+			timePos.add(pos);
+			timeVel.add(curV);
+			System.out.println("Entry: " + t + " " + curV + " " + pos);
 		}
 
 	}
 	public double posAtTime(int t) {
-		return timePos.get(t);
+		return timePos.get(t/dt);
 	}
 	public double velAtTime(int t) {
-		return timeVel.get(t);
+		return timeVel.get(t/dt);
 	}
 	public void exportProfile() throws IOException {
 		FileWriter out = new FileWriter(new File("C:\\Users\\AW\\FRC2016\\3182 FRC 2016\\TrapProfile_" + distance + ".csv"));
-		for(int k : timePos.keySet()) {
-			out.write(String.format("%d, %f.5, %f.5 %n", k, timePos.get(k), timeVel.get(k)));
+		for(int i = 0; i < timePos.size(); i++) {
+			out.write(String.format("%d, %f.5, %f.5 %n", i * dt, timePos.get(i), timeVel.get(i)));
 
 		}
 		out.close();
 	}
 	public static void test(double dist) throws IOException {
-		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, dist, 200);
+		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, 20, 20); //TODO change maxV and acc
 		tmp.exportProfile();
 	}
 }

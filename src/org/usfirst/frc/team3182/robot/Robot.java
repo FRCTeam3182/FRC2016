@@ -6,7 +6,6 @@ import org.usfirst.frc.team3182.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team3182.robot.subsystems.Infrared;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +27,6 @@ public class Robot extends IterativeRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Arm arm = new Arm();
     public static final Collector collector = new Collector();
-    public static final Infrared infrared = new Infrared();
 	
 
     Command autonomousCommand;
