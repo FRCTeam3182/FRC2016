@@ -20,10 +20,8 @@ public class InfraredControl extends Command {
 		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
 		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
 		
-		estDis1 = 57.653*(Math.pow(i1Voltage, -0.9891));
-		estDis2 = 57.653*(Math.pow(i2Voltage, -0.9891));
-
-
+		estDis1 = voltageToIn(i1Voltage);
+		estDis2 = voltageToIn(i2Voltage);
 	}
 
 
@@ -43,6 +41,14 @@ public class InfraredControl extends Command {
 	protected void interrupted() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static double inToVoltage(double inches){
+		return 57.653*(Math.pow(inches, -0.9891));
+	}
+
+	public static double voltageToIn(double voltage){
+		return (60.2874 / (Math.pow(voltage, 1.011020119300374)));
 	}
 
 }

@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team3182.robot.commands.InfraredControl;
+
 /**
  * Complete but needs testing
  */
@@ -17,10 +19,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Collector extends Subsystem {
 
 	Talon collectorMotor = new Talon(RobotMap.collectorMotor);
-	DigitalInput irBallSensor = new DigitalInput(RobotMap.irBallSensor);
+	AnalogInput irBallSensor = new AnalogInput(RobotMap.irBallSensor);
 	
-	AnalogInput ir1 = new AnalogInput(5); // Check channel input
-	AnalogInput ir2 = new AnalogInput(6);
+	AnalogInput ir1 = new AnalogInput(RobotMap.triangleIR1); // Check channel input
+	AnalogInput ir2 = new AnalogInput(RobotMap.triangleIR2);
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -31,8 +33,8 @@ public class Collector extends Subsystem {
 		collectorMotor.set(speed);
 	}
 	
-	public boolean isInRange() {
-        return irBallSensor.get();
+	public boolean isInCollector() {
+		return irBallSensor.getVoltage() < InfraredControl.inToVoltage(20.75);
 	}
 	
 	public void expel(double speed) {
