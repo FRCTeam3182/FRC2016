@@ -41,8 +41,8 @@ public class RobotMap {
 	public static final int collectorLimitSwitch = 9;
 	
 	public static final int irBallSensor = 10;
-	public static final int leftTriangleIR = 5;
-	public static final int rightTriangleIR = 6;
+	public static final int leftTriangleIR = 6;
+	public static final int rightTriangleIR = 5;
 	
 	//Arm sensors
 	public static final int armEncoder_A = -1;

@@ -31,7 +31,7 @@ public class InfraredControl extends Command {
 			return;
 		}
 
-		
+
 	}
 
 
@@ -58,7 +58,7 @@ public class InfraredControl extends Command {
 	}
 
 	public static double voltageToIn(double voltage){
-		return (60.2874 / (Math.pow(voltage, 1.011020119300374)) * 0.393701);
+		return ((60.2874 / (Math.pow(voltage, 1.011020119300374))) * 0.393701);
 	}
 
 }
