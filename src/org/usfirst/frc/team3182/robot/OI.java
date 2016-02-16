@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3182.robot.commands.InfraredControl;
 
 /**
  * Operator Interface
@@ -30,30 +31,32 @@ public class OI {
 	
 	public OI() {
 		
-		button1.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {				
-				incSpeed();
-			}
-		});
-		button2.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				incTurn();
-			}
-		});
-		button3.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				decSpeed();
-			}
-		});
-		button4.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				decTurn();
-			}
-		});
+//		button1.whenPressed(new ChangeMultipliers() {
+//			@Override
+//			protected void end() {
+//				incSpeed();
+//			}
+//		});
+//		button2.whenPressed(new ChangeMultipliers() {
+//			@Override
+//			protected void end() {
+//				incTurn();
+//			}
+//		});
+//		button3.whenPressed(new ChangeMultipliers() {
+//			@Override
+//			protected void end() {
+//				decSpeed();
+//			}
+//		});
+//		button4.whenPressed(new ChangeMultipliers() {
+//			@Override
+//			protected void end() {
+//				decTurn();
+//			}
+//		});
+
+		button1.whenPressed(new InfraredControl());
 		
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
