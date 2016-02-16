@@ -38,10 +38,13 @@ public class Drivetrain extends Subsystem {
 	driftStabilizerL;
 
 	double speedR, speedL;
+	final double maxVelocity = 8.0, maxAcceleration = 1.5; //TODO: come up with useful values
 	private PIDWrapper controlledPositionR,
 	controlledPositionL,
 	stabilizedDriftR,
 	stabilizedDriftL;	
+	
+	TrapezoidalMotionProfile tmp;
 
 	public Drivetrain() {
 		leftWheel = new Talon(RobotMap.leftWheel);
@@ -164,9 +167,13 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
 	}
 
-	public void driveToDistance(double feet) {
-		positionControllerL.setSetpoint(leftEncoder.getDistance() + feet);
-		positionControllerR.setSetpoint(rightEncoder.getDistance() + feet);
+	public void initD2D(double distance) {
+		tmp = new TrapezoidalMotionProfile(maxVelocity, maxAcceleration, distance, 20);
+	}
+	public void updateD2D(int t) {
+		
+		positionControllerL.setSetpoint(tmp.posAtTime(t));
+		positionControllerR.setSetpoint(tmp.posAtTime(t));
 	}
 	
 	public void driveToAngle(double theta) {
@@ -214,11 +221,6 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("stabDriftL", driftStabilizerL.get());
 		SmartDashboard.putNumber("VelStabR", velocityStabilizerR.getSetpoint());
 		SmartDashboard.putNumber("VelStabL", velocityStabilizerL.getSetpoint());
-	}
-
-	public void driveFPS(double speedL, double speedR) {
-		velocityStabilizerL.setSetpoint(speedL);
-		velocityStabilizerR.setSetpoint(speedR);
 	}
 	
 	public static void main(String... args) throws IOException {
@@ -305,8 +307,8 @@ class TrapezoidalMotionProfile {
 		double t2 = (distance / maxV); //fun math to get this number, stops decelerating
 		if(distance <= maxV * maxV / acc) {
 			System.out.println("Triangle "+maxV * maxV / acc);
-			t1 = maxV / acc;
-			t2 = maxV / acc;
+			t1 = Math.sqrt(distance / acc); //tbh not sure why it's not 2 times this but this works
+			t2 = t1;
 		}
 		double t3 = t2 + t1; //stops
 		if(t < t1) {
@@ -342,13 +344,13 @@ class TrapezoidalMotionProfile {
 	public void exportProfile() throws IOException {
 		FileWriter out = new FileWriter(new File("C:\\Users\\AW\\FRC2016\\3182 FRC 2016\\TrapProfile_" + distance + ".csv"));
 		for(int i = 0; i < timePos.size(); i++) {
-			out.write(String.format("%d, %f.5, %f.5 %n", i * dt, timePos.get(i), timeVel.get(i)));
+			out.write(String.format("%d, %f, %f %n", i * dt, timePos.get(i), timeVel.get(i)));
 
 		}
 		out.close();
 	}
 	public static void test(double dist) throws IOException {
-		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, 20, 20); //TODO change maxV and acc
+		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, 5, 20); //TODO change maxV and acc
 		tmp.exportProfile();
 	}
 }

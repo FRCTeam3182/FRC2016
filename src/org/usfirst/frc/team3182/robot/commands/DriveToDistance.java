@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class DriveToDistance extends Command {
 	private double distance;
+	private long timeStart;
+	private int t;
 	
 	public DriveToDistance(double distance) {
 		requires(Robot.drivetrain);
@@ -17,12 +19,17 @@ public class DriveToDistance extends Command {
 	protected void initialize() {
 		Robot.drivetrain.reset();
 		Robot.drivetrain.enablePID();
-		Robot.drivetrain.driveToDistance(distance);
+		Robot.drivetrain.initD2D(distance);
+		timeStart = System.currentTimeMillis()
+
 	}
 
 	@Override
 	protected void execute() {
+		t = (int)(System.currentTimeMillis()-timeStart);
+		Robot.drivetrain.updateD2D(t);
 		Robot.drivetrain.updatePID();
+		
 	}
 
 	@Override
