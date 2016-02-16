@@ -11,11 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 @SuppressWarnings("unused")
 public class AutoCollect extends Command {
 
-	Ultrasonic u1 = new Ultrasonic(RobotMap.ultraSonic1_ping, RobotMap.ultraSonic1_receive);
-	Ultrasonic u2 = new Ultrasonic(RobotMap.ultraSonic2_ping, RobotMap.ultraSonic2_receive);
-	
-//	Collector collector = Robot.collector;
-//	Drivetrain drivetrain = Robot.drivetrain;
+
 	
 	long startTime;
 	
