@@ -11,6 +11,7 @@ public class InfraredControl extends Command {
 
 	boolean finished = false;
 
+	// TODO: MORE COMMENTS EXPLAINING THIS PLEASEEE
 	final double IR_DIST = 13.76; // inches
 	final int IR_RANGE = 20;
 	final double ANGLE_THRESHOLD = 5;
@@ -78,9 +79,9 @@ public class InfraredControl extends Command {
 
 
 		// Law of Cosines, needs to be tested a bunch
-		angleAB = Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / 2*(a*b)); // This angle should stay the same as the robot moves
-		angleAC = Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / 2*(a*c));
-		angleBC = Math.acos((Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / 2*(b*c));
+		angleAB = Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2*(a*b)) ); // This angle should stay the same as the robot moves
+		angleAC = Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2*(a*c)) );
+		angleBC = Math.acos((Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / (2*(b*c)) );
 
 	}
 
