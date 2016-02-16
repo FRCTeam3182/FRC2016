@@ -169,7 +169,7 @@ public class Drivetrain extends Subsystem {
 		positionControllerR.setSetpoint(rightEncoder.getDistance() + feet);
 	}
 	
-	public void driveToAngle(double theta) {
+	public void driveToAngleAndForward(double theta, double inches) {
 		
 		
 	}

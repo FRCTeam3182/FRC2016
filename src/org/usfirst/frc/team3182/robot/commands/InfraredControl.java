@@ -33,6 +33,14 @@ public class InfraredControl extends Command {
 		leftDis = voltageToIn(i1Voltage);
 		rightDis = voltageToIn(i2Voltage);
 
+		if (leftDis < IR_RANGE && rightDis>= IR_RANGE){
+			Robot.drivetrain.driveToAngleAndForward(-5, 12);
+			return;
+		}
+		else if (rightDis < IR_RANGE && leftDis >= IR_RANGE){
+			Robot.drivetrain.driveToAngleAndForward(5, 12);
+			return;
+		}
 		if (leftDis >= IR_RANGE && rightDis >= IR_RANGE){
 			finished = true;
 			return;
@@ -42,11 +50,11 @@ public class InfraredControl extends Command {
 
 		while(Math.abs(angleAC - angleBC) < ANGLE_THRESHOLD){
 			if (angleAC > angleBC){
-				Robot.drivetrain.driveToAngle(-5); // Move left by increments of 5 degrees left and keep checking
+				Robot.drivetrain.driveToAngleAndForward(-5, 12); // Move left by increments of 5 degrees left and keep checking
 				calculateAngles();
 			}
 			else if (angleBC > angleAC){
-				Robot.drivetrain.driveToAngle(5); // Move left by increments of 5 degrees right and keep checking
+				Robot.drivetrain.driveToAngleAndForward(5, 12); // Move left by increments of 5 degrees right and keep checking
 				calculateAngles();
 			}
 		}
@@ -55,8 +63,8 @@ public class InfraredControl extends Command {
 	}
 
 	private double[] getVoltage(){
-		double i1Voltage = Robot.collector.getExternalIRArray()[0].getVoltage();
-		double i2Voltage = Robot.collector.getExternalIRArray()[1].getVoltage();
+		double i1Voltage = Robot.collector.getExternalIRArray()[0].getAverageVoltage();
+		double i2Voltage = Robot.collector.getExternalIRArray()[1].getAverageVoltage();
 		return new double[]{i1Voltage, i2Voltage};
 	}
 
