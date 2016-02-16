@@ -4,12 +4,13 @@ import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 
 public class AutoCollect extends Command {
 
-
+	
 	
     public AutoCollect() {
         // Use requires() here to declare subsystem dependencies

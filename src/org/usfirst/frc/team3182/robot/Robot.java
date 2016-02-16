@@ -23,9 +23,9 @@ public class Robot extends IterativeRobot {
 
 	
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Arm arm = new Arm();
-    public static final Collector collector = new Collector();
+	public static Drivetrain drivetrain;
+	public static Arm arm;
+    public static Collector collector;
 	
 
     Command autonomousCommand;
@@ -36,13 +36,16 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	drivetrain = new Drivetrain();
+    	arm = new Arm();
+    	collector = new Collector();
 		oi = new OI();
-        chooser = new SendableChooser();
-        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
-        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
-        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
-        SmartDashboard.putData("Auto mode", chooser);
-        SmartDashboard.putData(Scheduler.getInstance());
+//        chooser = new SendableChooser();
+//        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
+//        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
+//        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
+//        SmartDashboard.putData("Auto mode", chooser);
+//        SmartDashboard.putData(Scheduler.getInstance());
     }
 	
 	/**

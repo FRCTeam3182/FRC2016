@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.PIDController;
 
 public class Arm extends Subsystem {
 	
-//	Talon armMotor = new Talon(RobotMap.armMotor);
+	Talon armMotor = new Talon(RobotMap.armMotor);
 //	AnalogPotentiometer pmeter = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	double initAngle;
 //	PIDController armControl;
@@ -24,7 +24,7 @@ public class Arm extends Subsystem {
 //		armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
 	}
 	public void initDefaultCommand() {
-		this.setDefaultCommand(new ArmControl());
+		//this.setDefaultCommand(new ArmControl());
     }
 	
 	public void raise() { //values need tuning

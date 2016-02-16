@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
+import org.usfirst.frc.team3182.robot.commands.ArmControl;
+import org.usfirst.frc.team3182.robot.commands.AutoCollect;
 import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,8 +19,8 @@ public class OI {
 
      	
 	Joystick stick = new Joystick(RobotMap.joystick);
-	JoystickButton button1 = new JoystickButton(stick, 2);
-	JoystickButton button2 = new JoystickButton(stick, 4);
+	JoystickButton button1 = new JoystickButton(stick, 1);
+	JoystickButton button2 = new JoystickButton(stick, 2);
 	JoystickButton button3 = new JoystickButton(stick, 3);
 	JoystickButton button4 = new JoystickButton(stick, 1);
 	
@@ -37,12 +39,7 @@ public class OI {
 //				incSpeed();
 //			}
 //		});
-//		button2.whenPressed(new ChangeMultipliers() {
-//			@Override
-//			protected void end() {
-//				incTurn();
-//			}
-//		});
+		button2.whileHeld(new AutoCollect());
 //		button3.whenPressed(new ChangeMultipliers() {
 //			@Override
 //			protected void end() {
@@ -58,7 +55,7 @@ public class OI {
 
 		button1.whenPressed(new InfraredControl());
 		
-		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
+		//buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 
 		

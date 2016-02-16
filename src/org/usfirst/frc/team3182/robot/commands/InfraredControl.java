@@ -19,10 +19,14 @@ public class InfraredControl extends Command {
 	double angleAB;
 	double angleAC;
 	double angleBC;
-	@Override
-	protected void initialize() {
+	
+	public InfraredControl(){
 		requires(Robot.collector);
 		requires(Robot.drivetrain);
+	}
+	@Override
+	protected void initialize() {
+		
 	}
 
 	@Override

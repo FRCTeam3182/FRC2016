@@ -20,7 +20,7 @@ public class DriveToDistance extends Command {
 		Robot.drivetrain.reset();
 		Robot.drivetrain.enablePID();
 		Robot.drivetrain.initD2D(distance);
-		timeStart = System.currentTimeMillis()
+		timeStart = System.currentTimeMillis();
 
 	}
 

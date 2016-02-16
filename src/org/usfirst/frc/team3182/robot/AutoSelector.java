@@ -55,7 +55,7 @@ public class AutoSelector
 		case CHEVAL:
 			command = new AutoCheval(position);
 		case COLLECT:
-			command = new AutoCollect(position);
+			command = new AutoCollect();
 		}
 	}
 	
