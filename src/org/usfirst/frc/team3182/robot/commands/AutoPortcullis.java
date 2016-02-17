@@ -17,7 +17,7 @@ public class AutoPortcullis extends Command {
 	}
 	@Override
 	protected void initialize() {
-		Robot.arm.setToAngle(-10); //10 degrees down (hopefully)  TODO set this angle
+		Robot.arm.set(-10); //10 degrees down (hopefully)  TODO set this angle
 		Robot.drivetrain.stop();
 		Robot.drivetrain.reset();
 
@@ -31,7 +31,7 @@ public class AutoPortcullis extends Command {
 				Robot.arm.raise();
 			}
 		}
-		else Robot.arm.setToAngle(-10);
+		else Robot.arm.set(-10);
 
 	}
 
@@ -44,7 +44,7 @@ public class AutoPortcullis extends Command {
 	@Override
 	protected void end() {
 		Robot.drivetrain.stop();
-		Robot.arm.setToAngle(0);
+		Robot.arm.set(0);
 
 	}
 

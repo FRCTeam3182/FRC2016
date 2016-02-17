@@ -13,7 +13,7 @@ public class AutoCheval extends Command {
 	@Override
 	protected void initialize() {
 		Robot.drivetrain.reset();
-		Robot.arm.setToAngle(30);
+		Robot.arm.set(30);
 	}
 
 	@Override
@@ -21,13 +21,13 @@ public class AutoCheval extends Command {
 		if(Robot.arm.getAngle() <= 30) {
 			Robot.drivetrain.drive(.5);
 			if(Robot.drivetrain.getDistance() > 1) {
-				Robot.arm.setToAngle(-5);
+				Robot.arm.set(-5);
 				if(Robot.arm.getAngle() < 0) {
 					Robot.drivetrain.drive(.2);
 				}
 			}
 		}
-		else Robot.arm.setToAngle(30);
+		else Robot.arm.set(30);
 
 	}
 

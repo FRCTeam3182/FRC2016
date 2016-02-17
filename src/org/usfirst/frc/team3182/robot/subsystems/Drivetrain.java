@@ -149,6 +149,8 @@ public class Drivetrain extends Subsystem {
 
 	public void stop() {
 		drive(0);
+		setPIDFF(velocityStabilizerL, 0);
+		setPIDFF(velocityStabilizerR, 0);
 		velocityStabilizerL.disable();
 		velocityStabilizerR.disable();
 	}
@@ -171,9 +173,16 @@ public class Drivetrain extends Subsystem {
 		tmp = new TrapezoidalMotionProfile(maxVelocity, maxAcceleration, distance, 20);
 	}
 	public void updateD2D(int t) {
-		
 		positionControllerL.setSetpoint(tmp.posAtTime(t));
 		positionControllerR.setSetpoint(tmp.posAtTime(t));
+		
+		setPIDFF(velocityStabilizerL, tmp.velAtTime(t));
+		setPIDFF(velocityStabilizerR, tmp.velAtTime(t));
+		
+	}
+	
+	public void setPIDFF(PIDController pid, double ff) {
+		pid.setPID(pid.getP(), pid.getI(), pid.getD(), ff);
 	}
 	
 	public void driveToAngleAndForward(double theta, double inches) {
@@ -203,8 +212,8 @@ public class Drivetrain extends Subsystem {
 		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
 		//velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
 		//velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
-		drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
-		//drive(stabilizedDriftL.pidGet(), stabilizedDriftR.pidGet());
+		//drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
+		drive(stabilizedDriftL.pidGet(), stabilizedDriftR.pidGet());
 
 
 		SmartDashboard.putNumber("PosConR", positionControllerR.getSetpoint());
@@ -331,7 +340,7 @@ class TrapezoidalMotionProfile {
 		t += dt;
 			timePos.add(pos);
 			timeVel.add(curV);
-			System.out.println("Entry: " + t + " " + curV + " " + pos);
+			//System.out.println("Entry: " + t + " " + curV + " " + pos);
 		}
 
 	}
@@ -339,7 +348,7 @@ class TrapezoidalMotionProfile {
 		return timePos.get(t/dt);
 	}
 	public double velAtTime(int t) {
-		return timeVel.get(t/dt);
+		return timeVel.get(t/dt) * 1000; //back to ft/sec
 	}
 	public void exportProfile() throws IOException {
 		FileWriter out = new FileWriter(new File("C:\\Users\\AW\\FRC2016\\3182 FRC 2016\\TrapProfile_" + distance + ".csv"));

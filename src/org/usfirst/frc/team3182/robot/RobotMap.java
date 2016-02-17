@@ -14,7 +14,7 @@ public class RobotMap {
 
 	//Controller(s)
 	public static final int joystick = 0;
-	public static final int powerGlove = -1;
+	public static final int powerGlove = 1;
 	
 	//Drivetrain
 	public static final int rightWheel = 0;

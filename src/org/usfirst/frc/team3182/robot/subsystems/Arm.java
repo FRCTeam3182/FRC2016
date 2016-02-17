@@ -28,21 +28,10 @@ public class Arm extends Subsystem {
     }
 	
 	public void raise() { //values need tuning
-		setToAngle(60);
+		set(60);
 	}
 	public void lower() {
-		setToAngle(0);
-	}
-	
-	
-	public void setToAngle(double theta) { //vestigial method
-		double currTheta = this.getAngle();
-		while(currTheta != theta) {
-			if(theta < currTheta) lower();
-			if(theta > currTheta) raise();
-			if(Math.abs(theta - currTheta) < 0.05) break;
-		}
-		stop();
+		set(0);
 	}
 	
 	public void set(double theta) {

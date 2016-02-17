@@ -27,35 +27,44 @@ public class OI {
 	JoystickButton buttonTestAuto1 = new JoystickButton(stick, 10);
 	
 	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
+	JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
+	JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
+	
 	
 	double speedMult = .4;
 	double turnMult = 0.2;
 	
 	public OI() {
 		
-//		button1.whenPressed(new ChangeMultipliers() {
-//			@Override
-//			protected void end() {
-//				incSpeed();
-//			}
-//		});
-		button2.whileHeld(new AutoCollect());
-//		button3.whenPressed(new ChangeMultipliers() {
-//			@Override
-//			protected void end() {
-//				decSpeed();
-//			}
-//		});
-//		button4.whenPressed(new ChangeMultipliers() {
-//			@Override
-//			protected void end() {
-//				decTurn();
-//			}
-//		});
+		button1.whenPressed(new ChangeMultipliers() {
+			@Override
+			protected void end() {
+				incSpeed();
+			}
+		});
+		button2.whenPressed(new ChangeMultipliers() {
+			@Override
+			protected void end() {
+				incTurn();
+			}
+		});
+		button3.whenPressed(new ChangeMultipliers() {
+			@Override
+			protected void end() {
+				decSpeed();
+			}
+		});
+		button4.whenPressed(new ChangeMultipliers() {
+			@Override
+			protected void end() {
+				decTurn();
+			}
+		});
 
-		button1.whenPressed(new InfraredControl());
+		pgButton1.whileHeld(new AutoCollect());
+		pgButton2.whenPressed(new InfraredControl());
 		
-		//buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
+		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 
 		
