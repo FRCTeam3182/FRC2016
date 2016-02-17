@@ -55,13 +55,19 @@ public class InfraredControl extends Command {
 
 		while(Math.abs(angleAC - angleBC) < ANGLE_THRESHOLD){
 			if (angleAC > angleBC){
-				Robot.drivetrain.driveToAngleAndForward(-5, 12); // Move left by increments of 5 degrees left and keep checking
+				Robot.drivetrain.driveToAngleAndForward(-5, 2); // Move left by increments of 5 degrees left and keep checking
 				calculateAngles();
 			}
 			else if (angleBC > angleAC){
-				Robot.drivetrain.driveToAngleAndForward(5, 12); // Move left by increments of 5 degrees right and keep checking
+				Robot.drivetrain.driveToAngleAndForward(5, 2); // Move left by increments of 5 degrees right and keep checking
 				calculateAngles();
 			}
+		}
+
+		double distToBall = (IR_DIST / 2) * Math.tan(angleAC);  // Not used atm
+
+		while(!Robot.collector.isInCollector()){
+			Robot.drivetrain.drive(0.5);
 		}
 		finished = true;
 
