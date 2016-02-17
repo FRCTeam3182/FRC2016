@@ -62,13 +62,13 @@ public class OI {
 		});
 
 		pgButton1.whileHeld(new AutoCollect());
-		pgButton2.whenPressed(new InfraredControl());
+		//pgButton2.whenPressed(new InfraredControl());
 		
-		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
+		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3, 0));
 		System.out.println("OI init");
 
 		
-		SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5)); 
+		SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5, 0)); 
 		SmartDashboard.putData(Robot.drivetrain);
 	}
 	

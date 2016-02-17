@@ -10,7 +10,7 @@ public class DriveToDistance extends Command {
 	private long timeStart;
 	private int t;
 	
-	public DriveToDistance(double distance) {
+	public DriveToDistance(double distance, double theta) {
 		requires(Robot.drivetrain);
 		this.distance = distance;
 	}

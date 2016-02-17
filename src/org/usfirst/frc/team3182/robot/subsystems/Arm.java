@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
-//	AnalogPotentiometer pmeter = new AnalogPotentiometer(RobotMap.armPotentiometer);
+	AnalogPotentiometer pmeter = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	double initAngle;
-//	PIDController armControl;
+	PIDController armControl;
 	
 	public Arm() {
 		System.out.println("Arm init");
-//		armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
+		armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
 	}
 	public void initDefaultCommand() {
 		//this.setDefaultCommand(new ArmControl());
@@ -32,6 +32,10 @@ public class Arm extends Subsystem {
 	}
 	public void lower() {
 		set(0);
+	}
+	
+	public void runRaw(double speed) {
+		armMotor.set(speed);
 	}
 	
 	public void set(double theta) {
