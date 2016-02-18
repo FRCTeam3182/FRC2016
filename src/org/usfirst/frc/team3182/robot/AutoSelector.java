@@ -49,7 +49,7 @@ public class AutoSelector
 		switch(defense)
 		{
 		case AUTODRIVE:
-			command = new DriveToDistance(position, 0);
+			command = new DriveToDistance(position);
 		case PORTCULLIS:
 			command = new AutoPortcullis(position);
 		case CHEVAL:

@@ -41,9 +41,9 @@ public class Robot extends IterativeRobot {
     	collector = new Collector();
     	oi = new OI();
         chooser = new SendableChooser();
-        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0, 0));
-        chooser.addObject("DriveForward 3", new DriveToDistance(3.0, 0));
-        chooser.addObject("DriveForward 1", new DriveToDistance(1.0, 0));
+        chooser.addDefault("DriveForward 5", new DriveToDistance(0));
+        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
+        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
         SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putData(Scheduler.getInstance());
     }
