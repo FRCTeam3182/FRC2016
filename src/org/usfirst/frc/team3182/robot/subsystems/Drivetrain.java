@@ -39,12 +39,14 @@ public class Drivetrain extends Subsystem {
 
 	double speedR, speedL;
 	final double maxVelocity = 8.0, maxAcceleration = 1.5; //TODO: come up with useful values
+	final double maxTurnVelocity = 5.0, maxTurnAcceleration = .75;
 	private PIDWrapper controlledPositionR,
 	controlledPositionL,
 	stabilizedDriftR,
 	stabilizedDriftL;	
 	
 	TrapezoidalMotionProfile tmp;
+	TMPTurn tmpturn;
 
 	public Drivetrain() {
 		leftWheel = new Talon(RobotMap.leftWheel);
@@ -52,7 +54,7 @@ public class Drivetrain extends Subsystem {
 		wheels = new Talon[2];
 		wheels[0] = leftWheel;
 		wheels[1] = rightWheel;
-
+		
 		leftWheel.setInverted(true);
 
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
@@ -185,8 +187,15 @@ public class Drivetrain extends Subsystem {
 		pid.setPID(pid.getP(), pid.getI(), pid.getD(), ff);
 	}
 	
-	public void driveToAngleAndForward(double theta, double inches) {
+	public void initD2A(double theta) { //theta is bearing
+		tmpturn = new TMPTurn(maxTurnVelocity, maxTurnAcceleration, theta, 20);
+	}
+	public void updateD2A(int t) {
+		positionControllerL.setSetpoint(tmpturn.posAtTimeL(t));
+		positionControllerR.setSetpoint(tmpturn.posAtTimeR(t));
 		
+		setPIDFF(velocityStabilizerL, tmpturn.velAtTimeL(t));
+		setPIDFF(velocityStabilizerR, tmpturn.velAtTimeR(t));
 		
 	}
 
@@ -361,5 +370,28 @@ class TrapezoidalMotionProfile {
 	public static void test(double dist) throws IOException {
 		TrapezoidalMotionProfile tmp = new TrapezoidalMotionProfile(10, 5, 5, 20); //TODO change maxV and acc
 		tmp.exportProfile();
+	}
+}
+class TMPTurn extends TrapezoidalMotionProfile {
+	static final double radius = 12.125; // inches
+	
+	/**
+	 * theta is bearing - degrees from the forward direction going right (negative should work)
+	 */
+	public TMPTurn(double maxV, double acc, double theta, int dt) {
+		super(maxV, acc, theta * Math.PI / 180 * radius, dt); //convert to radians and divide by radius
+	}
+	
+	public double posAtTimeR(int t) {
+		return posAtTime(t);
+	}
+	public double posAtTimeL(int t) {
+		return -posAtTime(t);
+	}
+	public double velAtTimeR(int t) {
+		return velAtTime(t);
+	}
+	public double velAtTimeL(int t) {
+		return -velAtTime(t);
 	}
 }

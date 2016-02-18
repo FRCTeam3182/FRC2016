@@ -39,11 +39,11 @@ public class InfraredControl extends Command {
 		rightDis = voltageToIn(i2Voltage);
 
 		if (leftDis < IR_RANGE && rightDis>= IR_RANGE){
-			Robot.drivetrain.driveToAngleAndForward(-5, 12);
+//			Robot.drivetrain.driveToAngleAndForward(-5, 12);
 			return;
 		}
 		else if (rightDis < IR_RANGE && leftDis >= IR_RANGE){
-			Robot.drivetrain.driveToAngleAndForward(5, 12);
+//			Robot.drivetrain.driveToAngleAndForward(5, 12);
 			return;
 		}
 		if (leftDis >= IR_RANGE && rightDis >= IR_RANGE){
@@ -55,11 +55,11 @@ public class InfraredControl extends Command {
 
 		while(Math.abs(angleAC - angleBC) < ANGLE_THRESHOLD){
 			if (angleAC > angleBC){
-				Robot.drivetrain.driveToAngleAndForward(-5, 2); // Move left by increments of 5 degrees left and keep checking
+				//Robot.drivetrain.driveToAngleAndForward(-5, 2); // Move left by increments of 5 degrees left and keep checking
 				calculateAngles();
 			}
 			else if (angleBC > angleAC){
-				Robot.drivetrain.driveToAngleAndForward(5, 2); // Move left by increments of 5 degrees right and keep checking
+				//Robot.drivetrain.driveToAngleAndForward(5, 2); // Move left by increments of 5 degrees right and keep checking
 				calculateAngles();
 			}
 		}

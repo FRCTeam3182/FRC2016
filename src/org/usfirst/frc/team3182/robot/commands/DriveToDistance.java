@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class DriveToDistance extends Command {
 	private double distance;
-	private long timeStart;
-	private int t;
+	protected long timeStart;
+	public int t;
 	
-	public DriveToDistance(double distance, double theta) {
+	public DriveToDistance(double distance) {
 		requires(Robot.drivetrain);
 		this.distance = distance;
 	}
