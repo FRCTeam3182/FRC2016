@@ -30,9 +30,9 @@ public class RobotMap {
 	public static final int leftEncoder_B = 12;
 
 	//Collector sensors
-	public static final int irBallSensor = -1;
-	public static final int leftTriangleIR = -1;
-	public static final int rightTriangleIR = -1;
+	public static final int irBallSensor = 7;
+	public static final int leftTriangleIR = 6;
+	public static final int rightTriangleIR = 5;
 	
 	//Arm sensors
 	public static final int armPotentiometer = 2;

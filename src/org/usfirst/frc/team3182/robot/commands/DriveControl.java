@@ -4,6 +4,7 @@ package org.usfirst.frc.team3182.robot.commands;
 import org.usfirst.frc.team3182.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Complete and tested with demo-bot
@@ -37,7 +38,10 @@ public class DriveControl extends Command {
     	driveX_old = driveX;
     	driveY_old = driveY;
     	
-    	Robot.drivetrain.drive(driveX, driveY);
+    	Robot.drivetrain.driveRaw(driveX * 0.1, driveY * 0.1);
+    	SmartDashboard.putNumber("teleopDriveX", driveX);
+
+    	SmartDashboard.putNumber("teleopDriveY", driveY);
     }
 
 

@@ -151,6 +151,7 @@ public class Drivetrain extends Subsystem {
 
 	public void stop() {
 		drive(0);
+		driveRaw(0, 0);
 		setPIDFF(velocityStabilizerL, 0);
 		setPIDFF(velocityStabilizerR, 0);
 		velocityStabilizerL.disable();
