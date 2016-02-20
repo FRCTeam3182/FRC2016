@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
 import org.usfirst.frc.team3182.robot.RobotMap;
+import org.usfirst.frc.team3182.robot.commands.ArmControl;
 import org.usfirst.frc.team3182.robot.commands.RaiseArm;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -16,16 +17,20 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
+	AnalogPotentiometer potentiometer = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	AnalogInput pmeter = new AnalogInput(RobotMap.armPotentiometer);
 	double initAngle;
 	PIDController armControl;
+	public static final double potentiometerLowerLim = 0.596;
+	public static final double potentiometerUpperLim = 1.733;
+	
 	
 	public Arm() {
 		System.out.println("Arm init");
-		//armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
+		//armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
 	}
 	public void initDefaultCommand() {
-		//this.setDefaultCommand(new ArmControl());
+		this.setDefaultCommand(new ArmControl());
     }
 	
 	public AnalogInput getPmeter(){
@@ -42,8 +47,7 @@ public class Arm extends Subsystem {
 	}
 	
 	public double getAngle() {
-//		return pmeter.get(); TODO change this back
-		return 0;
+		return potentiometer.get(); 
 	}
 	
 	public void stop() {

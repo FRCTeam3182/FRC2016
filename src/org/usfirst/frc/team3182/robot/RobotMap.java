@@ -36,7 +36,5 @@ public class RobotMap {
 	
 	//Arm sensors
 	public static final int armPotentiometer = 2;
-	public static final double potentiometerLowerLim = 0.596;
-	public static final double potentiometerUpperLim = 1.733;
 	
 }

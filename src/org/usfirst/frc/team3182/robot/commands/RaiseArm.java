@@ -2,7 +2,7 @@
 package org.usfirst.frc.team3182.robot.commands;
 
 import org.usfirst.frc.team3182.robot.Robot;
-import org.usfirst.frc.team3182.robot.RobotMap;
+import org.usfirst.frc.team3182.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -31,7 +31,7 @@ public class RaiseArm extends Command {
     	if (System.currentTimeMillis() - startTime >= 200){
     		double angle = Robot.arm.getPmeter().getVoltage();
     		System.out.println(angle);
-    		if (angle >= RobotMap.potentiometerUpperLim){
+    		if (angle >= Arm.potentiometerUpperLim){
     			Robot.arm.runRaw(0);
     			isFinished = true;
     			return;

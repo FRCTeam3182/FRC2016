@@ -109,9 +109,6 @@ public class OI {
 	}
 	
 	public double getPowerGloveTilt() {
-		return powerGlove.getX();
-	}
-	public double getPowerGloveClench() {
 		return powerGlove.getY();
 	}
 	
