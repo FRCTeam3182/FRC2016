@@ -26,6 +26,7 @@ public class OI {
 	JoystickButton button4 = new JoystickButton(stick, 1);
 	JoystickButton button5 = new JoystickButton(stick, 5);
 	JoystickButton button6 = new JoystickButton(stick, 6);
+	JoystickButton button7 = new JoystickButton(stick, 7);
 	
 	JoystickButton buttonTestAuto1 = new JoystickButton(stick, 10);
 	
@@ -64,7 +65,7 @@ public class OI {
 			}
 		});
 
-		pgButton1.whileHeld(new AutoCollect());
+		button7.whileHeld(new AutoCollect());
 		//pgButton2.whenPressed(new InfraredControl());
 		
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));

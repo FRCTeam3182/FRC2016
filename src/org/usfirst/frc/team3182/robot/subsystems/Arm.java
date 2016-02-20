@@ -5,6 +5,7 @@ import org.usfirst.frc.team3182.robot.commands.RaiseArm;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.PIDController;
 /**
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
-	AnalogPotentiometer pmeter = new AnalogPotentiometer(RobotMap.armPotentiometer);
+	AnalogInput pmeter = new AnalogInput(RobotMap.armPotentiometer);
 	double initAngle;
 	PIDController armControl;
 	
@@ -27,15 +28,8 @@ public class Arm extends Subsystem {
 		//this.setDefaultCommand(new ArmControl());
     }
 	
-	public void raise() { 
-		while (pmeter.get() <= RobotMap.potentiometerUpperLim){
-			armMotor.set(-0.3);
-		}
-	}
-	public void lower() {
-		while (pmeter.get() <= RobotMap.potentiometerLowerLim){
-			armMotor.set(0.3);
-		}
+	public AnalogInput getPmeter(){
+		return pmeter;
 	}
 	
 	public void runRaw(double speed) {

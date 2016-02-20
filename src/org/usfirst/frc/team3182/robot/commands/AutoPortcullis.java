@@ -28,7 +28,7 @@ public class AutoPortcullis extends Command {
 		if(Robot.arm.getAngle() < -5) {
 			Robot.drivetrain.drive(0.5);
 			if(Robot.drivetrain.getDistance() > 1.5) {
-				Robot.arm.raise();
+				//Robot.arm.raise();
 			}
 		}
 		else Robot.arm.set(-10);

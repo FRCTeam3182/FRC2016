@@ -9,29 +9,28 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *	Complete, needs tuning and testing
  */
-public class RaiseArm extends Command {
+public class LowerArm extends Command {
 
 	boolean isFinished = false;
-	
 	private long startTime;
-    public RaiseArm() {
+    public LowerArm() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	startTime = System.currentTimeMillis();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Executed RaiseArm");
-    	Robot.arm.runRaw(-0.24);
+    	System.out.println("Executed LowerArm");
+    	Robot.arm.runRaw(0.24);
     	if (System.currentTimeMillis() - startTime >= 200){
     		double angle = Robot.arm.getPmeter().getVoltage();
     		System.out.println(angle);
-    		if (angle >= RobotMap.potentiometerUpperLim){
+    		if (angle <= RobotMap.potentiometerLowerLim){
     			Robot.arm.runRaw(0);
     			isFinished = true;
     			return;
