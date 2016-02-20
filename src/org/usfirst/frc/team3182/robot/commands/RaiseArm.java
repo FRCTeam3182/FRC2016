@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *	Complete, needs tuning and testing
  */
-public class ArmControl extends Command {
+public class RaiseArm extends Command {
 
 	boolean isFinished = false;
-    public ArmControl() {
+    public RaiseArm() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
     }

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
 import org.usfirst.frc.team3182.robot.RobotMap;
-import org.usfirst.frc.team3182.robot.commands.ArmControl;
+import org.usfirst.frc.team3182.robot.commands.RaiseArm;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,17 +21,21 @@ public class Arm extends Subsystem {
 	
 	public Arm() {
 		System.out.println("Arm init");
-		armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
+		//armControl = new PIDController(.1, 0, 0, pmeter, armMotor); //PID needs tuning
 	}
 	public void initDefaultCommand() {
 		//this.setDefaultCommand(new ArmControl());
     }
 	
-	public void raise() { //values need tuning
-		set(60);
+	public void raise() { 
+		while (pmeter.get() <= RobotMap.potentiometerUpperLim){
+			armMotor.set(-0.3);
+		}
 	}
 	public void lower() {
-		set(0);
+		while (pmeter.get() <= RobotMap.potentiometerLowerLim){
+			armMotor.set(0.3);
+		}
 	}
 	
 	public void runRaw(double speed) {
@@ -40,6 +44,7 @@ public class Arm extends Subsystem {
 	
 	public void set(double theta) {
 //		armControl.setSetpoint(theta);
+		
 	}
 	
 	public double getAngle() {
@@ -48,7 +53,7 @@ public class Arm extends Subsystem {
 	}
 	
 	public void stop() {
-//		armMotor.set(0);
+		armMotor.set(0);
 	}
 
 }
