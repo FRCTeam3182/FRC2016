@@ -18,7 +18,7 @@ public class RobotMap {
 	public static final int leftWheel = 1;
 	
 	//Collector
-	public static final int collectorMotor = 2; 
+	public static final int collectorMotor = 4; 
 	
 	//Arm
 	public static final int armMotor = 3;

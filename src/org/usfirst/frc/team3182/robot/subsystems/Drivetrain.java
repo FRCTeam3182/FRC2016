@@ -33,22 +33,23 @@ public class Drivetrain extends Subsystem {
 	PIDController positionControllerR,
 	positionControllerL, 
 	velocityStabilizerR, 
-	velocityStabilizerL, 
-	driftStabilizerR, 
-	driftStabilizerL;
+	velocityStabilizerL;
+//	driftStabilizerR, 
+//	driftStabilizerL;
 
 	double speedR, speedL;
 	final double maxVelocity = 8.0, maxAcceleration = 1.5; //TODO: come up with useful values
 	final double maxTurnVelocity = 5.0, maxTurnAcceleration = .75;
 	private PIDWrapper controlledPositionR,
-	controlledPositionL,
-	stabilizedDriftR,
-	stabilizedDriftL;	
+	controlledPositionL;
+//	stabilizedDriftR,
+//	stabilizedDriftL;	
 	
 	TrapezoidalMotionProfile tmp;
 	TMPTurn tmpturn;
 
 	public Drivetrain() {
+		
 		leftWheel = new Talon(RobotMap.leftWheel);
 		rightWheel = new Talon(RobotMap.rightWheel);
 		wheels = new Talon[2];
@@ -60,9 +61,13 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
 		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
 
-		rightEncoder.setDistancePerPulse(.002909); //TODO change for big wheels to .06981317
-		leftEncoder.setDistancePerPulse(.002909);
+		rightEncoder.setDistancePerPulse(.006981317); //old value .002909
+		leftEncoder.setDistancePerPulse(.006981317);
 
+		LiveWindow.addSensor(getName(), "Right Encoder", rightEncoder);
+		LiveWindow.addSensor(getName(), "Left Encoder", leftEncoder);
+		LiveWindow.addActuator(getName(), "Right Wheels", rightWheel);
+		LiveWindow.addActuator(getName(), "Left Wheels", leftWheel);
 
 
 		controlledPositionR = new PIDWrapper();
@@ -70,37 +75,25 @@ public class Drivetrain extends Subsystem {
 		positionControllerR.startLiveWindowMode();
 		positionControllerR.setAbsoluteTolerance(0.1);
 		//positionControllerR.enable();
-		LiveWindow.addSensor("Drivetrain", "PosConR", positionControllerR);
+		//LiveWindow.addSensor("Drivetrain", "PosConR", positionControllerR);
 
 		controlledPositionL = new PIDWrapper();
 		positionControllerL = new PIDController(0.1, 0.000, 0.001, new PIDDistanceEncoder(leftEncoder), controlledPositionL);		
 		positionControllerL.startLiveWindowMode();
 		positionControllerL.setAbsoluteTolerance(0.1);
 		//positionControllerL.enable();
-		LiveWindow.addSensor("Drivetrain", "PosConL", positionControllerL);
+		//LiveWindow.addSensor("Drivetrain", "PosConL", positionControllerL);
 
-
-		stabilizedDriftR = new PIDWrapper();
-		driftStabilizerR = new PIDController(0.1, 0.001, 0, controlledPositionL, stabilizedDriftR);
-		driftStabilizerR.startLiveWindowMode();
-		//driftStabilizerR.enable();
-		LiveWindow.addSensor("Drivetrain2", "DriftStabR", driftStabilizerR);
-
-		stabilizedDriftL = new PIDWrapper();
-		driftStabilizerL = new PIDController(0.1, 0.001, 0, controlledPositionR, stabilizedDriftL);
-		driftStabilizerL.startLiveWindowMode();
-		//driftStabilizerL.enable();
-		LiveWindow.addSensor("Drivetrain2", "DriftStabL", driftStabilizerL);
 
 		velocityStabilizerR = new PIDController(.05, 0.01, 0.00000, new PIDRateEncoder(rightEncoder), rightWheel);
 		velocityStabilizerR.startLiveWindowMode();
 		velocityStabilizerR.enable();
-		LiveWindow.addSensor("Drivetrain3", "VelStabR", velocityStabilizerR);
+		//LiveWindow.addSensor("Drivetrain2", "VelStabR", velocityStabilizerR);
 
 		velocityStabilizerL = new PIDController(.05, 0.01, 0.00000, new PIDRateEncoder(leftEncoder), leftWheel);
 		velocityStabilizerL.startLiveWindowMode();
 		velocityStabilizerL.enable();
-		LiveWindow.addSensor("Drivetrain3", "VelStabL", velocityStabilizerL);
+		//LiveWindow.addSensor("Drivetrain2", "VelStabL", velocityStabilizerL);
 
 		System.out.println("Drivetrain init");
 
@@ -131,6 +124,10 @@ public class Drivetrain extends Subsystem {
 	public double getRateL() {
 		return leftEncoder.getRate();
 	}
+	
+	public String getName() {
+		return "Drivetrain";
+	}
 
 
 
@@ -147,6 +144,9 @@ public class Drivetrain extends Subsystem {
 	public void driveRaw(double speedL, double speedR) {
 		rightWheel.set(speedR);
 		leftWheel.set(speedL);
+
+		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
+		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
 	}
 
 	public void stop() {
@@ -168,10 +168,12 @@ public class Drivetrain extends Subsystem {
 
 		SmartDashboard.putNumber("Drive Speed L", speedL);
 		SmartDashboard.putNumber("Drive Speed R", speedR);
-		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
-		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
 	}
 
+	public void driveToDistancePID(double distance) {
+		positionControllerL.setSetpoint(distance);
+		positionControllerR.setSetpoint(distance);
+	}
 	public void initD2D(double distance) {
 		tmp = new TrapezoidalMotionProfile(maxVelocity, maxAcceleration, distance, 20);
 	}
@@ -204,13 +206,13 @@ public class Drivetrain extends Subsystem {
 
 		positionControllerR.enable();
 		positionControllerL.enable();
-		driftStabilizerR.enable();
-		driftStabilizerL.enable();
+//		driftStabilizerR.enable();
+//		driftStabilizerL.enable();
 	}
 
 	public void disablePID() {
-		driftStabilizerR.disable();
-		driftStabilizerL.disable();
+//		driftStabilizerR.disable();
+//		driftStabilizerL.disable();
 		positionControllerR.disable();
 		positionControllerL.disable();
 	}
@@ -218,13 +220,10 @@ public class Drivetrain extends Subsystem {
 	public void updatePID() {
 		enablePID();
 		
-		driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
-		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
-		//velocityStabilizerL.setSetpoint(stabilizedDriftL.pidGet());
-		//velocityStabilizerR.setSetpoint(stabilizedDriftR.pidGet());
-		//drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
-		drive(stabilizedDriftL.pidGet(), stabilizedDriftR.pidGet());
-
+//		driftStabilizerR.setSetpoint(controlledPositionR.pidGet());
+//		driftStabilizerL.setSetpoint(controlledPositionL.pidGet());
+		drive(controlledPositionL.pidGet(), controlledPositionR.pidGet());
+		
 
 		SmartDashboard.putNumber("PosConR", positionControllerR.getSetpoint());
 		SmartDashboard.putNumber("PosConL", positionControllerL.getSetpoint());
@@ -234,10 +233,6 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("PosConL.O", positionControllerL.get());
 		SmartDashboard.putNumber("ConPosR", controlledPositionR.pidGet());
 		SmartDashboard.putNumber("ConPosL", controlledPositionL.pidGet());
-		SmartDashboard.putNumber("driftStabR", driftStabilizerR.getSetpoint());
-		SmartDashboard.putNumber("driftStabL", driftStabilizerL.getSetpoint());
-		SmartDashboard.putNumber("stabDriftR", driftStabilizerR.get());
-		SmartDashboard.putNumber("stabDriftL", driftStabilizerL.get());
 		SmartDashboard.putNumber("VelStabR", velocityStabilizerR.getSetpoint());
 		SmartDashboard.putNumber("VelStabL", velocityStabilizerL.getSetpoint());
 	}

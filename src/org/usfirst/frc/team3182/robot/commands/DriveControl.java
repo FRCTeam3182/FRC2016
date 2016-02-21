@@ -10,38 +10,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Complete and tested with demo-bot
  */
 public class DriveControl extends Command {
-	double driveX_old = 0, driveY_old = 0;
+	double driveL_old = 0, driveR_old = 0;
     public DriveControl() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	driveL_old = 0;
+    	driveR_old = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() { //TODO check out low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
+    protected void execute() { //low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
     	
-    	double driveX_new = -Robot.oi.getY() + Robot.oi.getLeft();
-    	if(driveX_new > 1.00) driveX_new = 1.00;
-    	else if(driveX_new < -1.0) driveX_new = -1.0;
+    	double driveL_new = Robot.oi.getL();
+    	if(driveL_new > 1.00) driveL_new = 1.00;
+    	else if(driveL_new < -1.0) driveL_new = -1.0;
     	
-    	double driveY_new = -Robot.oi.getY() + Robot.oi.getRight();
-    	if(driveY_new > 1.0) driveY_new = 1.0;
-    	else if(driveY_new < -1.0) driveY_new = -1.0;
+    	double driveR_new = Robot.oi.getR();
+    	if(driveR_new > 1.0) driveR_new = 1.0;
+    	else if(driveR_new < -1.0) driveR_new = -1.0;
     	
-    	double driveX = (driveX_new - driveX_old) * 0.1 + driveX_old;
-    	double driveY = (driveY_new - driveY_old) * 0.1 + driveY_old;
+    	double driveL = (driveL_new - driveL_old) * 0.1 + driveL_old;
+    	double driveR = (driveR_new - driveR_old) * 0.1 + driveR_old;
     	
-    	driveX_old = driveX;
-    	driveY_old = driveY;
+    	driveL_old = driveL;
+    	driveR_old = driveR;
     	
-    	Robot.drivetrain.driveRaw(driveX * 0.1, driveY * 0.1);
-    	SmartDashboard.putNumber("teleopDriveX", driveX);
-
-    	SmartDashboard.putNumber("teleopDriveY", driveY);
+    	Robot.drivetrain.driveRaw(driveL, driveR);
+    	
+    	SmartDashboard.putNumber("teleopDriveX", driveL);
+    	SmartDashboard.putNumber("teleopDriveY", driveR);
     }
 
 
@@ -52,8 +52,8 @@ public class DriveControl extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	driveX_old = 0;
-    	driveY_old = 0;
+    	driveL_old = 0;
+    	driveR_old = 0;
     	Robot.drivetrain.stop();
     }
 

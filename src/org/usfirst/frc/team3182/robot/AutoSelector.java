@@ -5,10 +5,13 @@ import org.usfirst.frc.team3182.robot.commands.AutoCollect;
 import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 import org.usfirst.frc.team3182.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team3182.robot.commands.DefaultAuto;
+import org.usfirst.frc.team3182.robot.commands.DriveToAngle;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-public class AutoSelector 
+public class AutoSelector// extends SendableChooser
 {
 	
 	// Positions are from 0 - 4, inclusive
@@ -49,7 +52,7 @@ public class AutoSelector
 		switch(defense)
 		{
 		case AUTODRIVE:
-			command = new DriveToDistance(position);
+			command = new DriveToDistance(5);
 		case PORTCULLIS:
 			command = new AutoPortcullis(position);
 		case CHEVAL:
@@ -66,9 +69,9 @@ public class AutoSelector
 		{
 		case 1:
 			path = new Path() {
-				protected void initialize() {
-					//drive(6.8333FT)
-					//turn(56deg to right)
+				void addCommands() {
+					addSequential(new DriveToDistance(6.8333));
+					addSequential(new DriveToAngle(56));
 					//drive(4.7982FT)
 					//turn(56deg to left)
 					//drive(2.6500FT)
@@ -80,7 +83,7 @@ public class AutoSelector
 			
 		case 2:
 			path = new Path() {
-				protected void initialize() {
+				void addCommands() {
 					//drive(12.1333FT)
 					//turn(60deg to right)
 					//drive(1.4142FT)
@@ -90,7 +93,7 @@ public class AutoSelector
 			
 		case 3: 
 			path = new Path() {
-				protected void initialize() {
+				void addCommands() {
 					//drive(6.8333FT)
 					//turn(56deg to left)
 					//drive(4.7982FT)
@@ -104,7 +107,7 @@ public class AutoSelector
 			
 		case 4:
 			path = new Path() {
-				protected void initialize() {
+				void addCommands() {
 					//drive(6.8333FT)
 					//turn(56deg to right)
 					//drive(4.7982FT)
@@ -117,7 +120,7 @@ public class AutoSelector
 			
 		case 5:
 			path = new Path() {
-				protected void initialize() {
+				void addCommands() {
 					//drive(14.9673FT)
 					//turn(60deg to right)
 				}
@@ -126,27 +129,12 @@ public class AutoSelector
 		}	
 	}
 	
-	private abstract class Path extends Command
+	private abstract class Path extends CommandGroup
 	{
 		public Path() {
 	        requires(Robot.drivetrain);
-	    }
-		
-	    protected void initialize() {
-	    	// This is what we overwrite with the path instructions
-	    }
-
-	    protected void execute() {
-	    }
-
-	    protected boolean isFinished() {
-	        return true;
-	    }
-
-	    protected void end() {
-	    }
-
-	    protected void interrupted() {
-	    }
+	        addCommands();
+		}
+		abstract void addCommands();
 	}
 }

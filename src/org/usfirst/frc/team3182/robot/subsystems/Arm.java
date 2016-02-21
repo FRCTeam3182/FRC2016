@@ -6,6 +6,8 @@ import org.usfirst.frc.team3182.robot.commands.RaiseArm;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,17 +19,21 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
-	AnalogPotentiometer potentiometer = new AnalogPotentiometer(RobotMap.armPotentiometer);
+	//AnalogPotentiometer potentiometer = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	AnalogInput pmeter = new AnalogInput(RobotMap.armPotentiometer);
 	double initAngle;
 	PIDController armControl;
-	public static final double potentiometerLowerLim = 0.596;
-	public static final double potentiometerUpperLim = 1.733;
+	public static final double potentiometerLowerLim = 0.856;
+	public static final double potentiometerUpperLim = 2;
 	
 	
 	public Arm() {
 		System.out.println("Arm init");
 		//armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
+		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
+		//LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
+		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);
+		SmartDashboard.putNumber("ArmPot", pmeter.getVoltage());
 	}
 	public void initDefaultCommand() {
 		this.setDefaultCommand(new ArmControl());
@@ -47,7 +53,8 @@ public class Arm extends Subsystem {
 	}
 	
 	public double getAngle() {
-		return potentiometer.get(); 
+		//return potentiometer.get(); 
+		return 0;
 	}
 	
 	public void stop() {

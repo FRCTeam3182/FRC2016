@@ -34,7 +34,7 @@ public class DriveToDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.drivetrain.getDistance() - distance < 0.05;
+		return Robot.drivetrain.getDistance() - distance < 0.5;
 	}
 
 	@Override
