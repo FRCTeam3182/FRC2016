@@ -20,22 +20,22 @@ import org.usfirst.frc.team3182.robot.commands.LowerArm;
 public class OI {
 
      	
-	Joystick stick = new Joystick(RobotMap.joystick);
-	JoystickButton button1 = new JoystickButton(stick, 2);
-	JoystickButton button2 = new JoystickButton(stick, 1);
-	JoystickButton button3 = new JoystickButton(stick, 3);
-	JoystickButton button4 = new JoystickButton(stick, 4);
-	JoystickButton button5 = new JoystickButton(stick, 5);
-	JoystickButton button6 = new JoystickButton(stick, 6);
-	JoystickButton button7 = new JoystickButton(stick, 7);
+	Joystick driveStickR = new Joystick(RobotMap.driveStick1);
+	JoystickButton button1 = new JoystickButton(driveStickR, 2);
+	JoystickButton button2 = new JoystickButton(driveStickR, 1);
+	JoystickButton button3 = new JoystickButton(driveStickR, 3);
+	JoystickButton button4 = new JoystickButton(driveStickR, 4);
+	JoystickButton button5 = new JoystickButton(driveStickR, 5);
+	JoystickButton button6 = new JoystickButton(driveStickR, 6);
+	JoystickButton button7 = new JoystickButton(driveStickR, 7);
 	
-	JoystickButton buttonTestAuto1 = new JoystickButton(stick, 10);
+	JoystickButton buttonTestAuto1 = new JoystickButton(driveStickR, 10);
 	
-	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
-	JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
-	JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
-	JoystickButton pgButton4 = new JoystickButton(powerGlove, 4);
-	JoystickButton pgButton5 = new JoystickButton(powerGlove, 5);
+	Joystick driveStickL = new Joystick(RobotMap.driveStickL);
+	JoystickButton pgButton1 = new JoystickButton(driveStickL, 1);
+	JoystickButton pgButton2 = new JoystickButton(driveStickL, 2);
+	JoystickButton pgButton4 = new JoystickButton(driveStickL, 4);
+	JoystickButton pgButton5 = new JoystickButton(driveStickL, 5);
 	
 	
 	double speedMult = .4;
@@ -100,14 +100,26 @@ public class OI {
 	}
 	
 	public double getL() {
-		return stick.getY();// * speedMult;
+		return driveStickL.getY();
 	}
 	
+
 	public double getR() {
-		return 0;//stick.getRawAxis(2) * speedMult;
+		return driveStickR.getY();
 	}
+
+	public double getLExp() { //"ramps up" so 1/2 = 1/4, 3/4 = 9/16 (just over 1/2), 1 = 1 (just squares the value)
+		if(getL() > 0) return getL() * getL();
+		else return getL() * -getL();
+	}
+	
+	public double getRExp() { 
+		if(getR() > 0) return getR() * getR();
+		else return getR() * -getR();
+	}
+	
 	public double getPowerGloveTilt() {
-		return powerGlove.getY();
+		return driveStickL.getY();
 	}
 	
 	public boolean getArmButton() {

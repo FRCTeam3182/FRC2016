@@ -25,7 +25,7 @@ public class Collector extends Subsystem {
 	}
 	
 	public void collect(double speed) {
-		collectorMotor.set(speed);
+		collectorMotor.set(-.5);
 	}
 	
 	public boolean isInCollector() {

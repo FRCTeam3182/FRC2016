@@ -61,8 +61,8 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
 		leftEncoder = new Encoder(RobotMap.leftEncoder_A, RobotMap.leftEncoder_B, true);
 
-		rightEncoder.setDistancePerPulse(.006981317); //old value .002909
-		leftEncoder.setDistancePerPulse(.006981317);
+		rightEncoder.setDistancePerPulse(.00581776417); //old value .002909
+		leftEncoder.setDistancePerPulse(.00581776417);
 
 		LiveWindow.addSensor(getName(), "Right Encoder", rightEncoder);
 		LiveWindow.addSensor(getName(), "Left Encoder", leftEncoder);
@@ -174,6 +174,11 @@ public class Drivetrain extends Subsystem {
 		positionControllerL.setSetpoint(distance);
 		positionControllerR.setSetpoint(distance);
 	}
+	public void driveToAnglePID(double theta) {
+		positionControllerL.setSetpoint(theta);
+		positionControllerR.setSetpoint(-theta);
+	}
+	
 	public void initD2D(double distance) {
 		tmp = new TrapezoidalMotionProfile(maxVelocity, maxAcceleration, distance, 20);
 	}

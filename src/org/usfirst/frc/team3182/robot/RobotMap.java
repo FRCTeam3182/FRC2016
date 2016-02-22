@@ -10,8 +10,8 @@ package org.usfirst.frc.team3182.robot;
 public class RobotMap {
 
 	//Controller(s)
-	public static final int joystick = 0;
-	public static final int powerGlove = 1;
+	public static final int driveStick1 = 0;
+	public static final int driveStickL = 1;
 	
 	//Drivetrain
 	public static final int rightWheel = 0;
