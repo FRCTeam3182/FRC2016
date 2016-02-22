@@ -41,11 +41,18 @@ public class Robot extends IterativeRobot {
     	collector = new Collector();
     	oi = new OI();
     	drivetrain.stop();
+    	
+
+    	int position = (int)SmartDashboard.getNumber("Position");
+    	int defense = (int)SmartDashboard.getNumber("Defense");
+    	
         chooser = new SendableChooser();
         chooser.addObject("DriveToDistance 8", new DriveToDistance(8.0));
         chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
         chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
         chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
+        chooser.addDefault("AutoSelecter", new AutoSelector(position, defense));
+        chooser.addObject("Null", null);
         SmartDashboard.putData("Auto mode", chooser);
         //SmartDashboard.putData(Scheduler.getInstance());
         System.out.println(Scheduler.getInstance().getName());
@@ -58,6 +65,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
+    	oi = new OI();
 
     }
 	
@@ -76,19 +84,6 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-//        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
@@ -100,14 +95,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-        
-        
-        
+        if (autonomousCommand != null) autonomousCommand.cancel();       
     }
 
     /**
