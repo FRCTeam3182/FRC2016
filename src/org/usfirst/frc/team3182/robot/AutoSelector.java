@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-public class AutoSelector// extends SendableChooser
+public class AutoSelector extends CommandGroup
 {
-	
 	// Positions are from 0 - 4, inclusive
+	
 	public static final int AUTODRIVE = 0;
 	public static final int PORTCULLIS = 1;
 	public static final int CHEVAL = 2;
@@ -25,15 +25,20 @@ public class AutoSelector// extends SendableChooser
 	private Command command;
 	private Command path;
 	
-	public AutoSelector(int position, int defense) 
+	public AutoSelector(int position, int defense)
 	{
 		this.position = position;
 		this.defense = defense;
+		
 		command = new DefaultAuto();
 		path = null;
 		
 		setPath();
 		findSuitableCommand();
+		
+		addSequential(command);
+		addSequential(path);
+		
 	}
 	
 	public Command getCommand() 
@@ -72,11 +77,11 @@ public class AutoSelector// extends SendableChooser
 				void addCommands() {
 					addSequential(new DriveToDistance(6.8333));
 					addSequential(new DriveToAngle(56));
-					//drive(4.7982FT)
-					//turn(56deg to left)
-					//drive(2.6500FT)
-					//turn(60deg to right)
-					//drive(1.4142FT)
+					addSequential(new DriveToDistance(4.7982));
+					addSequential(new DriveToAngle(-56));
+					addSequential(new DriveToDistance(2.65));
+					addSequential(new DriveToAngle(60));
+					addSequential(new DriveToDistance(1.4142));
 				}
 			};
 			break;
@@ -84,9 +89,9 @@ public class AutoSelector// extends SendableChooser
 		case 2:
 			path = new Path() {
 				void addCommands() {
-					//drive(12.1333FT)
-					//turn(60deg to right)
-					//drive(1.4142FT)
+					addSequential(new DriveToDistance(12.1333));
+					addSequential(new DriveToAngle(60));
+					addSequential(new DriveToDistance(1.4142));
 				}
 			};
 			break;
@@ -94,13 +99,13 @@ public class AutoSelector// extends SendableChooser
 		case 3: 
 			path = new Path() {
 				void addCommands() {
-					//drive(6.8333FT)
-					//turn(56deg to left)
-					//drive(4.7982FT)
-					//turn(56deg to right)
-					//drive(2.6500FT)
-					//turn(60deg to right)
-					//drive(1.4142FT)
+					addSequential(new DriveToDistance(6.8333));
+					addSequential(new DriveToAngle(-56));
+					addSequential(new DriveToDistance(4.7982));
+					addSequential(new DriveToAngle(56));
+					addSequential(new DriveToDistance(2.65));
+					addSequential(new DriveToAngle(60));
+					addSequential(new DriveToDistance(1.4142));
 				}
 			};
 			break;
@@ -108,12 +113,12 @@ public class AutoSelector// extends SendableChooser
 		case 4:
 			path = new Path() {
 				void addCommands() {
-					//drive(6.8333FT)
-					//turn(56deg to right)
-					//drive(4.7982FT)
-					//turn(56deg to left)
-					//drive(5.484FT)
-					//turn(60deg to left)
+					addSequential(new DriveToDistance(6.8333));
+					addSequential(new DriveToAngle(56));
+					addSequential(new DriveToDistance(4.7982));
+					addSequential(new DriveToAngle(-56));
+					addSequential(new DriveToDistance(5.484));
+					addSequential(new DriveToAngle(60));
 				}
 			};
 			break;
@@ -121,8 +126,8 @@ public class AutoSelector// extends SendableChooser
 		case 5:
 			path = new Path() {
 				void addCommands() {
-					//drive(14.9673FT)
-					//turn(60deg to right)
+					addSequential(new DriveToDistance(14.9673));
+					addSequential(new DriveToAngle(60));
 				}
 			};
 			break;
