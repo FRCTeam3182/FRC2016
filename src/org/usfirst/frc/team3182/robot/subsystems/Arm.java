@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm extends Subsystem {
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
-	//AnalogPotentiometer potentiometer = new AnalogPotentiometer(RobotMap.armPotentiometer);
 	AnalogInput pmeter = new AnalogInput(RobotMap.armPotentiometer);
+	AnalogPotentiometer potentiometer = new AnalogPotentiometer(pmeter, 737.7, 164.06);
 	double initAngle;
 	PIDController armControl;
 	public static final double potentiometerLowerLim = 0.856;
@@ -31,9 +31,10 @@ public class Arm extends Subsystem {
 		System.out.println("Arm init");
 		//armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
 		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
-		//LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
+		LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
 		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);
 		SmartDashboard.putNumber("ArmPot", pmeter.getVoltage());
+		SmartDashboard.putNumber("ArmPotentiometer", potentiometer.get());
 	}
 	public void initDefaultCommand() {
 		this.setDefaultCommand(new ArmControl());

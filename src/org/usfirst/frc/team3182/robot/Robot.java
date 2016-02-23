@@ -43,8 +43,8 @@ public class Robot extends IterativeRobot {
     	drivetrain.stop();
     	
 
-    	int position = (int)SmartDashboard.getNumber("Position");
-    	int defense = (int)SmartDashboard.getNumber("Defense");
+    	int position = 1;//(int)SmartDashboard.getNumber("Position");
+    	int defense = 1;//(int)SmartDashboard.getNumber("Defense");
     	
         chooser = new SendableChooser();
         chooser.addObject("DriveToDistance 8", new DriveToDistance(8.0));

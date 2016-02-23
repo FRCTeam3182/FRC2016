@@ -20,7 +20,7 @@ import org.usfirst.frc.team3182.robot.commands.LowerArm;
 public class OI {
 
      	
-	Joystick driveStickR = new Joystick(RobotMap.driveStick1);
+	Joystick driveStickR = new Joystick(RobotMap.driveStickR);
 	JoystickButton button1 = new JoystickButton(driveStickR, 2);
 	JoystickButton button2 = new JoystickButton(driveStickR, 1);
 	JoystickButton button3 = new JoystickButton(driveStickR, 3);

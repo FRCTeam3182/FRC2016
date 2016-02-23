@@ -22,10 +22,10 @@ public class ArmControl extends Command {
 		
 			while(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
 			  Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
-			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt() * 0.4);
+			//Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt() * 0.4);
 			
-			Robot.arm.runRaw(0);
-		
+			//Robot.arm.runRaw(0);
+				;
 	}
 
 	@Override
