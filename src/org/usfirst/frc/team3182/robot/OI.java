@@ -32,14 +32,18 @@ public class OI {
 	JoystickButton buttonTestAuto1 = new JoystickButton(driveStickR, 10);
 	
 	Joystick driveStickL = new Joystick(RobotMap.driveStickL);
-	JoystickButton pgButton1 = new JoystickButton(driveStickL, 1);
-	JoystickButton pgButton2 = new JoystickButton(driveStickL, 2);
-	JoystickButton pgButton4 = new JoystickButton(driveStickL, 4);
-	JoystickButton pgButton5 = new JoystickButton(driveStickL, 5);
+	
+	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
+	JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
+	JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
+	JoystickButton pgButton4 = new JoystickButton(powerGlove, 4);
+	JoystickButton pgButton5 = new JoystickButton(powerGlove, 5);
 	
 	
 	double speedMult = .4;
 	double turnMult = 0.3;
+	
+
 	
 	public OI() {
 		
@@ -81,8 +85,11 @@ public class OI {
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 		
-		pgButton1.toggleWhenActive(new CollectorControl(-.5));
-		pgButton2.toggleWhenActive(new CollectorControl(1));
+		pgButton1.toggleWhenPressed(new CollectorControl(-1));
+		pgButton1.whenInactive(new CollectorControl(0));
+		
+		pgButton2.toggleWhenPressed(new CollectorControl(1));
+		pgButton2.whenInactive(new CollectorControl(0));
 		
 //		pgButton4.whenPressed(new RaiseArm());
 //		pgButton5.whenPressed(new LowerArm());
@@ -119,12 +126,9 @@ public class OI {
 	}
 	
 	public double getPowerGloveTilt() {
-		return driveStickL.getY();
+		return powerGlove.getY();
 	}
 	
-	public boolean getArmButton() {
-		return pgButton1.get();
-	}
 	
 	abstract class ChangeMultipliers extends Command {
 

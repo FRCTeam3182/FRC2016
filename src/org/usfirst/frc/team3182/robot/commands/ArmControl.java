@@ -6,6 +6,8 @@ import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmControl extends Command {
+	
+	boolean hasPowerGlove = false;
 
 	public ArmControl() {
 		requires(Robot.arm);
@@ -20,10 +22,12 @@ public class ArmControl extends Command {
 	protected void execute() {
 		
 		
-			while(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
+			if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
 			  Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
-			//Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt() * 0.4);
-			
+			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt() * 0.4);
+			else if(Robot.arm.getPmeter().getVoltage() > Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.2);
+			else if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerLowerLim) Robot.arm.runRaw(0.2);
+			else Robot.arm.runRaw(0);
 			//Robot.arm.runRaw(0);
 				;
 	}

@@ -5,6 +5,9 @@ import org.usfirst.frc.team3182.robot.RobotMap;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team3182.robot.commands.InfraredControl;
 
 /**
@@ -19,13 +22,19 @@ public class Collector extends Subsystem {
 	AnalogInput ir1 = new AnalogInput(RobotMap.leftTriangleIR); // Check channel input
 	AnalogInput ir2 = new AnalogInput(RobotMap.rightTriangleIR);
 	
+	public Collector() {
+		LiveWindow.addActuator("Collector", "Collector Motor", collectorMotor);
+		SmartDashboard.putNumber("Collector Speed", collectorMotor.getSpeed());
+		collectorMotor.setSafetyEnabled(false);
+	}
+	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
 		//setDefaultCommand(new CollectorControl());
 	}
 	
 	public void collect(double speed) {
-		collectorMotor.set(-.5);
+		collectorMotor.set(speed);
 	}
 	
 	public boolean isInCollector() {

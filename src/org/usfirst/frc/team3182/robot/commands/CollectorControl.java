@@ -8,8 +8,7 @@ public class CollectorControl extends Command {
 
 	
 	private double power = 0;
-    public CollectorControl(double power) {
-        // Use requires() here to declare subsystem dependencies
+	public CollectorControl(double power) {
         requires(Robot.collector);
        // if(power<0 && power>-1)this.power-=.05;
         this.power = power;
@@ -27,7 +26,7 @@ public class CollectorControl extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.collector.isInCollector();
+    	return false;
     }
 
     // Called once after isFinished returns true

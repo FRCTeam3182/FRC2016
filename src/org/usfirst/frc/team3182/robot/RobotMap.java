@@ -13,6 +13,7 @@ public class RobotMap {
 
 	public static final int driveStickL = 0;
 	public static final int driveStickR = 1;
+	public static final int powerGlove = 2;
 	
 	//Drivetrain
 	public static final int rightWheel = 0;

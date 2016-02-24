@@ -23,8 +23,8 @@ public class Arm extends Subsystem {
 	AnalogPotentiometer potentiometer = new AnalogPotentiometer(pmeter, 737.7, 164.06);
 	double initAngle;
 	PIDController armControl;
-	public static final double potentiometerLowerLim = 0.856;
-	public static final double potentiometerUpperLim = 2;
+	public static final double potentiometerLowerLim = 0.856; //TODO change this to be lower
+	public static final double potentiometerUpperLim = 2; 
 	
 	
 	public Arm() {
