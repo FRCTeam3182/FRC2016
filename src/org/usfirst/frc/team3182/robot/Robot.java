@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 	public static Arm arm;
     public static Collector collector;
 	
+    static boolean usesPowerGlove = true;
 
     Command autonomousCommand;
     SendableChooser chooser;

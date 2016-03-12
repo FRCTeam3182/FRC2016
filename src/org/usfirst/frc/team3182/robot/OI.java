@@ -36,6 +36,7 @@ public class OI {
 	Joystick powerGlove = new Joystick(RobotMap.powerGlove);
 	JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
 	JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
+	JoystickButton pgButton3 = new JoystickButton(powerGlove, 3);
 	JoystickButton pgButton4 = new JoystickButton(powerGlove, 4);
 	JoystickButton pgButton5 = new JoystickButton(powerGlove, 5);
 	
@@ -84,12 +85,18 @@ public class OI {
 		
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
+		if(Robot.usesPowerGlove){
+			
+		}
+		else {
+			pgButton1.toggleWhenPressed(new CollectorControl(-1));
+			pgButton1.whenInactive(new CollectorControl(0));
+			pgButton2.toggleWhenPressed(new CollectorControl(1));
+			pgButton2.whenInactive(new CollectorControl(0));
+		}
 		
-		pgButton1.toggleWhenPressed(new CollectorControl(-1));
-		pgButton1.whenInactive(new CollectorControl(0));
 		
-		pgButton2.toggleWhenPressed(new CollectorControl(1));
-		pgButton2.whenInactive(new CollectorControl(0));
+		
 		
 //		pgButton4.whenPressed(new RaiseArm());
 //		pgButton5.whenPressed(new LowerArm());
@@ -145,6 +152,12 @@ public class OI {
 		@Override
 		protected void interrupted() {}
 		
+	}
+	public int getCollectValue() {
+		if(pgButton4.get()) 
+			return 0;
+		else 
+			return pgButton3.get() ? 1 : -1; //TODO tune these values
 	}
 }
 

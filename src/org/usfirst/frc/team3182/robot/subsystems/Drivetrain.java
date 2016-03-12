@@ -254,7 +254,6 @@ class PIDWrapper implements PIDOutput, PIDSource {
 	}
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {}
-	@Override
 	public PIDSourceType getPIDSourceType() {
 		return null;
 	}
