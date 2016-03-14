@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
+
+import org.usfirst.frc.team3182.robot.commands.LightsControl;
+
 import java.awt.Color;
 import java.io.*;
 import java.util.Scanner;
@@ -12,7 +15,7 @@ public class Lights extends Subsystem {
 	Color[][] lights;
 	@Override
 	protected void initDefaultCommand() {
-		
+		this.setDefaultCommand(new LightsControl());
 	}
 	
 	public void startAnimation(Animation animation) {

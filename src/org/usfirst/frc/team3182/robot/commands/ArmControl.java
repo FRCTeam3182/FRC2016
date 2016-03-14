@@ -6,8 +6,6 @@ import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmControl extends Command {
-	
-	boolean hasPowerGlove = false;
 
 	public ArmControl() {
 		requires(Robot.arm);
