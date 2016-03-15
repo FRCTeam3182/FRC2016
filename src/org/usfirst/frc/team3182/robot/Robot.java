@@ -5,6 +5,7 @@ import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3182.robot.subsystems.Lights;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,9 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Arm arm;
     public static Collector collector;
-	
+    public static Lights lights;
+
+    static boolean usesPowerGlove = true;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -40,7 +43,8 @@ public class Robot extends IterativeRobot {
     	arm = new Arm();
     	collector = new Collector();
     	oi = new OI();
-    	drivetrain.stop();
+        lights = new Lights();
+        drivetrain.stop();
     	
 
     	int position = 1;//(int)SmartDashboard.getNumber("Position");

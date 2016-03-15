@@ -8,11 +8,18 @@ public class CollectorControl extends Command {
 
 	
 	private double power = 0;
+	private boolean constant;
 	public CollectorControl(double power) {
         requires(Robot.collector);
        // if(power<0 && power>-1)this.power-=.05;
         this.power = power;
+        constant = true;
     }
+	
+	public CollectorControl() {
+		power = Robot.oi.getCollectValue();
+		constant = false;
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -20,6 +27,9 @@ public class CollectorControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		if(!constant) {
+    			this.power = Robot.oi.getCollectValue();
+    		}
             Robot.collector.collect(power);
             
     }

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team3182.robot.commands.CollectorControl;
 import org.usfirst.frc.team3182.robot.commands.InfraredControl;
 
 /**
@@ -29,8 +30,7 @@ public class Collector extends Subsystem {
 	}
 	
 	public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-		//setDefaultCommand(new CollectorControl());
+        setDefaultCommand(new CollectorControl());
 	}
 	
 	public void collect(double speed) {
