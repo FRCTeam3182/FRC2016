@@ -17,6 +17,7 @@ public class CollectorControl extends Command {
     }
 	
 	public CollectorControl() {
+		requires(Robot.collector);
 		power = Robot.oi.getCollectValue();
 		constant = false;
 	}

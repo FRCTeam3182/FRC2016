@@ -2,25 +2,37 @@ package org.usfirst.frc.team3182.robot.subsystems;
 
 
 import org.usfirst.frc.team3182.robot.commands.LightsControl;
+import edu.wpi.first.wpilibj.SPI;
 
 import java.awt.Color;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Lights extends Subsystem {
+	
+	SPI spi;
 	Animation currentAnimation;
 	int currentFrame;
 	Color[][] lights;
+	byte[] buffer;
+	int pixelindex;
 	@Override
 	protected void initDefaultCommand() {
 		this.setDefaultCommand(new LightsControl());
 	}
 	
+	public Lights() {
+		spi = new SPI(SPI.Port.kOnboardCS0); //TODO check port
+	}
+	
 	public void startAnimation(Animation animation) {
 		currentAnimation = animation;
 		currentFrame = 0;
+		buffer = new byte[animation.numPix() * 3];
+		pixelindex = 0;
 	}
 	
 	public void display() {
@@ -28,6 +40,7 @@ public class Lights extends Subsystem {
 		for(int i = 0; i < lights.length; i++) {
 			for(int j = 0; j < lights[i].length; j++){
 				lights[i][j] = currentAnimation.get(i, j, currentFrame);
+				
 				//or somehow set the light color idk FIXME
 			}
 		}
@@ -40,6 +53,14 @@ public class Lights extends Subsystem {
 	public void update() {
 		display();
 		currentFrame++;
+	}
+	public void sendColor(Color c) {
+		buffer[pixelindex++] = (byte)c.getRed();
+
+		buffer[pixelindex++] = (byte)c.getGreen();
+
+		buffer[pixelindex++] = (byte)c.getBlue();
+		spi.write(buffer, 3);
 	}
 
 }
@@ -104,6 +125,10 @@ enum Animation {
 	public Color get(int x, int y, int currentFrame) {
 		return lights[currentFrame][x][y];
 	}
+	public int numPix() {
+		return width * length;
+	}
+
 }
 
 

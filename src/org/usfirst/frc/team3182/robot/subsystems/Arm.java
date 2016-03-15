@@ -22,19 +22,22 @@ public class Arm extends Subsystem {
 	AnalogInput pmeter = new AnalogInput(RobotMap.armPotentiometer);
 	AnalogPotentiometer potentiometer = new AnalogPotentiometer(pmeter, 737.7, 164.06);
 	double initAngle;
-	PIDController armControl;
+	PIDController armControl;	
 	public static final double potentiometerLowerLim = 0.750; //TODO change this to be lower
 	public static final double potentiometerUpperLim = 2; 
 	
 	
 	public Arm() {
 		System.out.println("Arm init");
-		//armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
+		armControl = new PIDController(.1, .001, 0, potentiometer, armMotor); //PID needs tuning
 		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
 		LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
 		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);
 		SmartDashboard.putNumber("ArmPot", pmeter.getVoltage());
 		SmartDashboard.putNumber("ArmPotentiometer", potentiometer.get());
+		armControl.setContinuous(false);
+		
+	
 	}
 	public void initDefaultCommand() {
 		this.setDefaultCommand(new ArmControl());
@@ -49,13 +52,13 @@ public class Arm extends Subsystem {
 	}
 	
 	public void set(double theta) {
-//		armControl.setSetpoint(theta);
+		armControl.setSetpoint(theta);
 		
 	}
 	
 	public double getAngle() {
-		//return potentiometer.get(); 
-		return 0;
+		return potentiometer.get(); 
+		//return 0;
 	}
 	
 	public void stop() {

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class LightsControl extends Command {
 
     public LightsControl() {
-        requires(Robot.lights);
+ //       requires(Robot.lights);
     }
 
 

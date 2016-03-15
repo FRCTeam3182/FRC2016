@@ -19,7 +19,7 @@ public class ArmControl extends Command {
 	@Override
 	protected void execute() {
 		
-		
+		if(!Robot.usesPowerGlove) {
 			if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
 			  Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
 			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt());
@@ -27,7 +27,10 @@ public class ArmControl extends Command {
 			else if(Robot.arm.getPmeter().getVoltage() <= Arm.potentiometerLowerLim) Robot.arm.runRaw(0.3);
 			else Robot.arm.runRaw(0);
 			//Robot.arm.runRaw(0);
-				;
+		}
+		else {
+			Robot.arm.set(Robot.oi.getPowerGloveTilt() + 1); //roughly moves it from -.25-.8 to .75-2
+		}
 	}
 
 	@Override

@@ -27,9 +27,9 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Arm arm;
     public static Collector collector;
-    public static Lights lights;
+    //public static Lights lights;
 
-    static boolean usesPowerGlove = true;
+    public static boolean usesPowerGlove = true;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
     	arm = new Arm();
     	collector = new Collector();
     	oi = new OI();
-        lights = new Lights();
+        //lights = new Lights();
         drivetrain.stop();
     	
 
