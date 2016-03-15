@@ -24,9 +24,9 @@ public class ArmControl extends Command {
 		
 			if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
 			  Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
-			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt() * 0.4);
-			else if(Robot.arm.getPmeter().getVoltage() > Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.2);
-			else if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerLowerLim) Robot.arm.runRaw(0.2);
+			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt());
+			else if(Robot.arm.getPmeter().getVoltage() >= Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.2);
+			else if(Robot.arm.getPmeter().getVoltage() <= Arm.potentiometerLowerLim) Robot.arm.runRaw(0.3);
 			else Robot.arm.runRaw(0);
 			//Robot.arm.runRaw(0);
 				;
