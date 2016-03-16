@@ -86,13 +86,16 @@ public class OI {
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 		if(Robot.usesPowerGlove){
-			
+			//pgButton1.whenInactive(new CollectorControl(0)); //I'm pretty sure this is for when the joystick becomes disabled
+			pgButton1.whenPressed(new CollectorControl(0)); //Button 1, neutral
+			pgButton2.whenPressed(new CollectorControl(-1)); //Button 2, expel
+			pgButton3.whenPressed(new CollectorControl(1)); //Button 3, intake
 		}
 		else {
-			pgButton1.toggleWhenPressed(new CollectorControl(-1));
-			pgButton1.whenInactive(new CollectorControl(0));
-			pgButton2.toggleWhenPressed(new CollectorControl(1));
-			pgButton2.whenInactive(new CollectorControl(0));
+			//FIXME: Change back to working with joystick
+			pgButton1.whenPressed(new CollectorControl(0)); //Button 1, neutral
+			pgButton2.whenPressed(new CollectorControl(-1)); //Button 2, expel
+			pgButton3.whenPressed(new CollectorControl(1)); //Button 3, intake
 		}
 		
 		
