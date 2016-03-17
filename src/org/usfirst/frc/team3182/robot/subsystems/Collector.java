@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
+import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -30,7 +31,10 @@ public class Collector extends Subsystem {
 	}
 	
 	public void initDefaultCommand() {
-        setDefaultCommand(new CollectorControl());
+		if(Robot.usesPowerGlove)
+			setDefaultCommand(new CollectorControl());
+		else
+			setDefaultCommand(new CollectorControl(0));
 	}
 	
 	public void collect(double speed) {

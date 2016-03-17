@@ -48,61 +48,19 @@ public class OI {
 	
 	public OI() {
 		
-		button1.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				incSpeed(0.1);
-			}
-		});
-		button2.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				incSpeed(0.25);
-			}
-		});
-		button3.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				incSpeed(-0.1);
-			}
-		});
-		button4.whenPressed(new ChangeMultipliers() {
-			@Override
-			protected void end() {
-				incSpeed(-0.25);
-			}
-		});
-		button5.whenPressed(new ChangeMultipliers() {
-			protected void end() {
-				incSpeed(-.15);
-			}
-		});
-		button6.whenPressed(new ChangeMultipliers() {
-			protected void end() {
-				incSpeed(.15);
-			}
-		});
 		
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 		if(Robot.usesPowerGlove){
-			//pgButton1.whenInactive(new CollectorControl(0)); //I'm pretty sure this is for when the joystick becomes disabled
-			pgButton1.whenPressed(new CollectorControl(0)); //Button 1, neutral
-			pgButton2.whenPressed(new CollectorControl(-1)); //Button 2, expel
-			pgButton3.whenPressed(new CollectorControl(1)); //Button 3, intake
-		}
+			System.out.println("Using PowerGlove");
+					}
 		else {
-			//FIXME: Change back to working with joystick
-			pgButton1.whenPressed(new CollectorControl(0)); //Button 1, neutral
-			pgButton2.whenPressed(new CollectorControl(-1)); //Button 2, expel
-			pgButton3.whenPressed(new CollectorControl(1)); //Button 3, intake
+			
+			System.out.println("Not Using PowerGlove");
+			pgButton1.whenPressed(new CollectorControl(-1)); //Button 1, expel
+			pgButton2.whenPressed(new CollectorControl(1)); //Button 2, intake
+			pgButton3.whenPressed(new CollectorControl(0)); //Button 3, turn off (just in case, shouldn't be necessesary)
 		}
-		
-		
-		
-		
-//		pgButton4.whenPressed(new RaiseArm());
-//		pgButton5.whenPressed(new LowerArm());
 		
 		
 		SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5)); 
@@ -111,9 +69,11 @@ public class OI {
 		
 	}
 	
-	
-	public void incSpeed(double inc) {
-		speedMult += inc;
+	public int getCollectValue() {
+		if(!pgButton4.get()) 
+			return 0;
+		else 
+			return pgButton3.get() ? -1 : 1; //TODO tune these values
 	}
 	
 	public double getL() {
@@ -139,28 +99,6 @@ public class OI {
 		return powerGlove.getY();
 	}
 	
-	
-	abstract class ChangeMultipliers extends Command {
-
-		@Override
-		protected void initialize() {}
-		@Override
-		protected void execute() {}
-		@Override
-		protected boolean isFinished() {
-			return true;
-		}
-		@Override
-		protected abstract void end();
-		@Override
-		protected void interrupted() {}
-		
-	}
-	public int getCollectValue() {
-		if(pgButton4.get()) 
-			return 0;
-		else 
-			return pgButton3.get() ? 1 : -1; //TODO tune these values
-	}
 }
 
+	

@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
     public static Collector collector;
     //public static Lights lights;
 
-    public static boolean usesPowerGlove = true;
+    public static boolean usesPowerGlove = true, hasPot = true;
 
     Command autonomousCommand;
     SendableChooser chooser;

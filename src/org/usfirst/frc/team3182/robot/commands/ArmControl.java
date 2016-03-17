@@ -14,24 +14,30 @@ public class ArmControl extends Command {
 
 	@Override
 	protected void initialize() {
+		System.out.println("Has Potentiometer: "+Robot.hasPot);
 	}
 
 	@Override
 	protected void execute() {
-		
+		if(Robot.hasPot) {
 		if(!Robot.usesPowerGlove) {
+			
 			if(Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim && 
 			  Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
 			Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt());
 			else if(Robot.arm.getPmeter().getVoltage() >= Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.2);
 			else if(Robot.arm.getPmeter().getVoltage() <= Arm.potentiometerLowerLim) Robot.arm.runRaw(0.3);
 			else Robot.arm.runRaw(0);
-			//Robot.arm.runRaw(0);
-		}
+			}
 		else {
-			Robot.arm.set(Robot.oi.getPowerGloveTilt() + 1); //roughly moves it from -.25-.8 to .75-2
+			Robot.arm.set(Robot.oi.getPowerGloveTilt() + 1); //roughly moves it from -.25-.8 to .75-2, FIXME this hack
+		}	
 		}
+			else
+				Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt());
 	}
+		
+	
 
 	@Override
 	protected boolean isFinished() {

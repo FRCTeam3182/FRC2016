@@ -15,13 +15,15 @@ public class CollectorControl extends Command {
        // if(power<0 && power>-1)this.power-=.05;
         this.power = power;
         constant = true;
+        execute();
+        System.out.println("begin collect "+power);
     }
 	
 	public CollectorControl() {
 		requires(Robot.collector);
 		power = Robot.oi.getCollectValue();
 		constant = false;
-		
+		execute();
 	}
 
     // Called just before this Command runs the first time
@@ -44,6 +46,7 @@ public class CollectorControl extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("End collect");
         Robot.collector.stop();
     }
 
