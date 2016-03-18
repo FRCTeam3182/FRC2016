@@ -3,6 +3,7 @@ package org.usfirst.frc.team3182.robot.commands;
 import org.usfirst.frc.team3182.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3182.robot.subsystems.Arm;
 
 /**
  * To get through the portcullis in teleop or autonomous
@@ -17,7 +18,7 @@ public class AutoPortcullis extends Command {
 	}
 	@Override
 	protected void initialize() {
-		Robot.arm.set(-10); //10 degrees down (hopefully)  TODO set this angle
+		Robot.arm.set(Arm.potentiometerLowerLim); //set to lower limit
 		Robot.drivetrain.stop();
 		Robot.drivetrain.reset();
 
@@ -25,32 +26,27 @@ public class AutoPortcullis extends Command {
 
 	@Override
 	protected void execute() {
-		if(Robot.arm.getAngle() < -5) {
-			Robot.drivetrain.drive(0.5);
-			if(Robot.drivetrain.getDistance() > 1.5) {
-				//Robot.arm.raise();
-			}
-		}
-		else Robot.arm.set(-10);
+		Robot.drivetrain.drive(0.5);
+		while(Robot.drivetrain.getDistance() < 4) {}  //FIXME Tuuuneeee distance
+
+		Robot.arm.set(Arm.potentiometerMid);
+		Robot.drivetrain.drive(0.3);
 
 	}
 
 	@Override
-	//TODO:  Encoder stuff
 	protected boolean isFinished() {
-		return Robot.drivetrain.getDistance() > 3; //Hopefully less than 3 meters.
+		return Robot.drivetrain.getDistance() > 15; //FIXME distance value
 	}
 
 	@Override
 	protected void end() {
 		Robot.drivetrain.stop();
 		Robot.arm.set(0);
-
 	}
 
 	@Override
 	protected void interrupted() {
 
 	}
-
 }

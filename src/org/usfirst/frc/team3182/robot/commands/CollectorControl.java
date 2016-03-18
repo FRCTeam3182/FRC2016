@@ -1,28 +1,34 @@
 package org.usfirst.frc.team3182.robot.commands;
 
-import org.usfirst.frc.team3182.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3182.robot.Robot;
+import org.usfirst.frc.team3182.robot.util.Animation;
 
 
 public class CollectorControl extends Command {
 
-	
-	private double power = 0;
+    private double lastPower = 0;
+    private double power = 0;
 	private boolean constant;
+
 	public CollectorControl(double power) {
         requires(Robot.collector);
        // if(power<0 && power>-1)this.power-=.05;
         this.power = power;
         constant = true;
+        System.out.println("Begin collect "+power);
+        if(power>0)new LightsControl(Animation.COLLECT);
+        else if(power<0)new LightsControl(Animation.EXPEL);
+
         execute();
-        System.out.println("begin collect "+power);
     }
 	
 	public CollectorControl() {
+        // Constructor for power glove
 		requires(Robot.collector);
 		power = Robot.oi.getCollectValue();
 		constant = false;
+
 		execute();
 	}
 
@@ -34,6 +40,11 @@ public class CollectorControl extends Command {
     protected void execute() {
     		if(!constant) {
     			this.power = Robot.oi.getCollectValue();
+                if(lastPower != power){ //detect if the power changed
+                    if (power<1) new LightsControl(Animation.EXPEL);
+                    else if (power>1) new LightsControl(Animation.COLLECT);
+                    else new LightsControl(Animation.DEFAULT);
+                }
     		}
             Robot.collector.collect(power);
             
@@ -48,6 +59,7 @@ public class CollectorControl extends Command {
     protected void end() {
     	System.out.println("End collect");
         Robot.collector.stop();
+        new LightsControl(Animation.DEFAULT);
     }
 
     // Called when another command which requires one or more of the same
