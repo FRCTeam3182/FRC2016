@@ -23,6 +23,20 @@ public class LightsControl extends Command {
 
     @Override
     protected void execute() {
+        switch (animation){
+            case CELEBRATE:
+
+                break;
+            case COLLECT:
+
+                break;
+            case EXPEL:
+
+                break;
+            default:
+
+                break;
+        }
 
     }
 
@@ -38,7 +52,7 @@ public class LightsControl extends Command {
 
     @Override
     protected void interrupted() {
-        isKill = false;
+        isKill = true;
     }
 
 }

@@ -5,6 +5,9 @@ TrapezoidalMotionProfile tmp;
 
 //Inside DriveTrain Subsystem
 //===========================
+final double maxVelocity = 8.0, maxAcceleration = 1.5; //TODO: come up with useful values
+final double maxTurnVelocity = 5.0, maxTurnAcceleration = .75;
+
 public void initD2D(double distance) {
         tmp = new TrapezoidalMotionProfile(maxVelocity, maxAcceleration, distance, 20);
         }

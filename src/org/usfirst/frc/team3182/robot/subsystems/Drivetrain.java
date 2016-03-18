@@ -1,6 +1,12 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-import edu.wpi.first.wpilibj.*;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,15 +33,7 @@ public class Drivetrain extends Subsystem {
 
 	private PIDWrapper controlledPositionR, controlledPositionL;
 
-//	driftStabilizerR, 
-//	driftStabilizerL;
 	double speedR, speedL;
-	final double maxVelocity = 8.0, maxAcceleration = 1.5; //TODO: come up with useful values
-	final double maxTurnVelocity = 5.0, maxTurnAcceleration = .75;
-//	stabilizedDriftR,
-//	stabilizedDriftL;	
-	
-
 
 	public Drivetrain() {
 		

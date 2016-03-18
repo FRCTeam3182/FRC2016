@@ -11,8 +11,12 @@ import java.awt.*;
 
 public class Lights extends Subsystem {
 	
-	SPI spi;
-	Color[] pixels;
+	private SPI spi;
+
+	// Collector is the front of the robot
+	// rightStrip[0] and leftStrip[0] are the two front strips
+	Color[] rightStrip; // Stage right
+	Color[] leftStrip;
 
 	@Override
 	protected void initDefaultCommand() {
@@ -21,29 +25,42 @@ public class Lights extends Subsystem {
 	
 	public Lights() {
 		spi = new SPI(SPI.Port.kMXP);
-		spi.setMSBFirst(); // Transfers each bit backwards
+		spi.setMSBFirst(); // Transfers each byte backwards
+
 	}
 
 	public void displayStrip() {
 		// Send pixles array to strip
-		for(int i = 0; i < pixels.length; i++) {
+		for(int i = leftStrip.length-1; i > 0; i--) {
 			byte[] buffer = {0,0,0};
-			buffer[0] = (byte)pixels[i].getRed(); //FIXME change order
-			buffer[1] = (byte)pixels[i].getGreen();
-			buffer[2] = (byte)pixels[i].getRed();
+			buffer[0] = (byte)leftStrip[i].getRed(); //FIXME change order
+			buffer[1] = (byte)leftStrip[i].getGreen();
+			buffer[2] = (byte)leftStrip[i].getBlue();
+			spi.write(buffer, 3);
+		}
+		for(int i = 0; i < leftStrip.length; i++) {
+			byte[] buffer = {0,0,0};
+			buffer[0] = (byte)leftStrip[i].getRed(); //FIXME change order
+			buffer[1] = (byte)leftStrip[i].getGreen();
+			buffer[2] = (byte)leftStrip[i].getBlue();
 			spi.write(buffer, 3);
 		}
 		Timer.delay(.001); // Marks next frame
 	}
 
-	public void setColor(int index , Color c) {
+	public void setBothStrips(Color[] c) {
 		// Sets color of pixel without sending it to the strip
-		pixels[index] = c;
+		for(int i=0; i<c.length; i++){
+			rightStrip[i]= c[i];
+			leftStrip[i]= c[i];
+		}
 	}
-	public void setColor(int index , int r, int g, int b) {
-		// Sets color of pixel without sending it to the strip
-		// Colors must be 0-255
-		pixels[index] = new Color(r,g,b);
+
+	public Color[] getLeftStrip() {
+		return leftStrip;
+	}
+	public Color[] getRightStrip() {
+		return rightStrip;
 	}
 }
 

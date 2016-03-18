@@ -40,6 +40,8 @@ public class CollectorControl extends Command {
     protected void execute() {
     		if(!constant) {
     			this.power = Robot.oi.getCollectValue();
+
+                // Lights stuff
                 if(lastPower != power){ //detect if the power changed
                     if (power<1) new LightsControl(Animation.EXPEL);
                     else if (power>1) new LightsControl(Animation.COLLECT);
@@ -47,7 +49,6 @@ public class CollectorControl extends Command {
                 }
     		}
             Robot.collector.collect(power);
-            
     }
 
     // Make this return true when this Command no longer needs to run execute()
