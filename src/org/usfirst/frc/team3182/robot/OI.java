@@ -31,19 +31,18 @@ public class OI {
         buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 
         System.out.println("OI init");
-        if (powerGlove.getName().equals("Pro Micro")) { //TODO: Test this
-            pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
-            Robot.usesPowerGlove = true;
-            System.out.println("Using PowerGlove");
-        } else {
-            Robot.usesPowerGlove = false;
+        if (powerGlove.getName().equals("Logitech Extreme 3D")) { //TODO: Test this
+        	Robot.usesPowerGlove = false;
             System.out.println("Not Using PowerGlove");
             pgButton1.whenPressed(new CollectorControl(-1)); //Button 1, expel
             pgButton2.whenPressed(new CollectorControl(1)); //Button 2, intake
             pgButton3.whenPressed(new CollectorControl(0)); //Button 3, turn off (just in case, shouldn't be necessesary)
             pgButton4.whenPressed(new LightsControl(Animation.CELEBRATE));
+        } else {        	
+             Robot.usesPowerGlove = true;
+             System.out.println("Using PowerGlove");
+             pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
         }
-
         SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5));
         SmartDashboard.putData(Robot.drivetrain);
 
@@ -66,6 +65,7 @@ public class OI {
     }
 
     public double getLExp() { //"ramps up" so 1/2 = 1/4, 3/4 = 9/16 (just over 1/2), 1 = 1 (just squares the value)
+    	if(Math.abs(getL())<.1)return 0; // Deadzone
         if (getL() > 0) return getL() * getL();
         else return getL() * -getL();
     }
