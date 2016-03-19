@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Arm arm;
     public static Collector collector;
-    //public static Lights lights;
+    public static Lights lights;
 
     public static boolean usesPowerGlove = true, hasPot = true;
 
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
     	arm = new Arm();
     	collector = new Collector();
     	oi = new OI();
-        //lights = new Lights();
+        lights = new Lights();
         drivetrain.stop();
     	
 
@@ -99,7 +99,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        if (autonomousCommand != null) autonomousCommand.cancel();       
+        if (autonomousCommand != null) autonomousCommand.cancel();
+
     }
 
     /**
@@ -107,6 +108,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
     }
     
     /**

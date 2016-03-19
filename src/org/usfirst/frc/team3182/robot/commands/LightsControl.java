@@ -1,14 +1,19 @@
 package org.usfirst.frc.team3182.robot.commands;
 
+import org.usfirst.frc.team3182.robot.util.Animation;
 import org.usfirst.frc.team3182.robot.Robot;
-import org.usfirst.frc.team3182.robot.subsystems.Lights;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LightsControl extends Command {
 
-    public LightsControl() {
- //       requires(Robot.lights);
+    private boolean isKill = false; //set to true to kill the current animation
+    private Animation animation;
+
+    public LightsControl(Animation a) {
+        requires(Robot.lights);
+        animation = a;
+        execute();
     }
 
 
@@ -33,7 +38,7 @@ public class LightsControl extends Command {
 
     @Override
     protected void interrupted() {
-        //FIXME: shouldn't be interrupted
+        isKill = false;
     }
 
 }

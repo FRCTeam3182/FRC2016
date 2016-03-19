@@ -1,16 +1,14 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-import org.usfirst.frc.team3182.robot.RobotMap;
-import org.usfirst.frc.team3182.robot.commands.ArmControl;
-import org.usfirst.frc.team3182.robot.commands.RaiseArm;
-
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.PIDController;
+import org.usfirst.frc.team3182.robot.RobotMap;
+import org.usfirst.frc.team3182.robot.commands.ArmControl;
 /**
  * Complete but needs tuning and testing
  * 
@@ -41,9 +39,11 @@ public class Arm extends Subsystem {
 	double initAngle;
 	PIDController armControl;	
 	public static final double potentiometerLowerLim = 0.600; //TODO change this to be lower
-	public static final double potentiometerUpperLim = 2; 
-	
-	
+	public static final double potentiometerUpperLim = 2;
+	public static final double potentiometerMid = 1.3;
+
+
+
 	public Arm() {
 		System.out.println("Arm init");
 		armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
@@ -67,6 +67,7 @@ public class Arm extends Subsystem {
 	public void runRaw(double speed) {
 		armMotor.set(speed);
 	}
+
 	//don't be dumb and set this too low or high
 	public void set(double theta) {
 		System.out.println("Setting: "+theta + " "+armControl.get());
