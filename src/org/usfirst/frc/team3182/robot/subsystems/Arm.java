@@ -25,11 +25,14 @@ public class Arm extends Subsystem {
 	 * if this doesn't work copy and paste everything relevant from drivetrain
 	 * if this doesn't work write your own feedback loop (it's not hard to write out a shitty PI controller,
 	 * 		you don't need a D for this application
-	 * if that doesn't work tell me and i'll write my own feedback loop
+	 * if that doesn't work tell me and i'll write my own feedback loop cause you did it wrong
 	 * if that doesn't work we'll go back to normal joystick control but with the powerglove
+	 * if that doesn't work we'll go back to normal joystick control with a normal joystick
+	 * if that doesn't work we'll ram through the portcullis
 	 * 
 	 * also maybe test the motor
 	 * and possibly check armControl.getSetpoint() but i don't think that's the issue
+	 * 
 	 */
 	
 	Talon armMotor = new Talon(RobotMap.armMotor);
