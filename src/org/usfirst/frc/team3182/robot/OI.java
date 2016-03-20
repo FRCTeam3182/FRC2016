@@ -65,8 +65,8 @@ public class OI {
 
     public double getLExp() { //"ramps up"
     	if(Math.abs(getL())<.1)return 0; // Deadzone
-    	if (getR() > 0) return Math.pow(getL()*.8, 2);
-        else return -Math.abs(Math.pow(getL()*.8, 2));
+    	if (getR() > 0) return Math.pow(getL(), 2.5);
+        else return -Math.abs(Math.pow(getL(), 2.5));
     }
 
     public double getRExp() {
