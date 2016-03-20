@@ -47,9 +47,9 @@ public class Arm extends Subsystem {
 	public Arm() {
 		System.out.println("Arm init");
 		armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
-		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
-		LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
-		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);
+//		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
+//		LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
+//		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);
 		SmartDashboard.putNumber("ArmPot", pmeter.getVoltage());
 		SmartDashboard.putNumber("ArmPotentiometer", potentiometer.get());
 		armControl.setContinuous(false);
@@ -70,7 +70,7 @@ public class Arm extends Subsystem {
 
 	//don't be dumb and set this too low or high
 	public void set(double theta) {
-		System.out.println("Setting: "+theta + " "+armControl.get());
+		//System.out.println("Setting: "+theta + " "+armControl.get());
 		armControl.enable();
 		armControl.setSetpoint(theta);
 		

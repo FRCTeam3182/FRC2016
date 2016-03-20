@@ -35,7 +35,7 @@ public class OI {
         	Robot.usesPowerGlove = false;
             System.out.println("Not Using PowerGlove");
             pgButton1.whenPressed(new CollectorControl(-1)); //Button 1, expel
-            pgButton2.whenPressed(new CollectorControl(1)); //Button 2, intake
+            pgButton2.whenPressed(new CollectorControl(.5)); //Button 2, intake
             pgButton3.whenPressed(new CollectorControl(0)); //Button 3, turn off (just in case, shouldn't be necessesary)
             pgButton4.whenPressed(new LightsControl(Animation.CELEBRATE));
         } else {        	
@@ -43,16 +43,15 @@ public class OI {
              System.out.println("Using PowerGlove");
              pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
         }
-        SmartDashboard.putData("AutoDriveForward", new DriveToDistance(5));
         SmartDashboard.putData(Robot.drivetrain);
 
     }
 
-    public int getCollectValue() {
+    public double getCollectValue() {
         if (!pgButton4.get())
             return 0;
         else
-            return pgButton3.get() ? -1 : 1;
+            return pgButton3.get() ? -.65 : 1;
     }
 
     public double getL() {
@@ -64,15 +63,16 @@ public class OI {
         return driveStickR.getY();
     }
 
-    public double getLExp() { //"ramps up" so 1/2 = 1/4, 3/4 = 9/16 (just over 1/2), 1 = 1 (just squares the value)
+    public double getLExp() { //"ramps up"
     	if(Math.abs(getL())<.1)return 0; // Deadzone
-        if (getL() > 0) return getL() * getL();
-        else return getL() * -getL();
+    	if (getR() > 0) return Math.pow(getL()*.8, 2);
+        else return -Math.abs(Math.pow(getL()*.8, 2));
     }
 
     public double getRExp() {
-        if (getR() > 0) return getR() * getR();
-        else return getR() * -getR();
+    	if(Math.abs(getR())<.1) return 0; // Deadzone
+        if (getR() > 0) return Math.pow(getR(), 1.5);
+        else return -Math.abs(Math.pow(getR(), 1.5));
     }
 
     public double getPowerGloveTilt() {

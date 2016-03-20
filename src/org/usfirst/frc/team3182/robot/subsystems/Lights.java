@@ -20,6 +20,7 @@ public class Lights extends Subsystem {
 	}
 	
 	public Lights() {
+		System.out.println("Lights Init");
 		spi = new SPI(SPI.Port.kMXP);
 		spi.setMSBFirst(); // Transfers each bit backwards
 	}
