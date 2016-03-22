@@ -1,19 +1,18 @@
 
 package org.usfirst.frc.team3182.robot;
 
-import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
-import org.usfirst.frc.team3182.robot.commands.TimedDrive;
-import org.usfirst.frc.team3182.robot.subsystems.Arm;
-import org.usfirst.frc.team3182.robot.subsystems.Collector;
-import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team3182.robot.subsystems.Lights;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3182.robot.commands.TimedDrive;
+import org.usfirst.frc.team3182.robot.subsystems.Arm;
+import org.usfirst.frc.team3182.robot.subsystems.Collector;
+import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3182.robot.subsystems.Lights;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -35,6 +34,9 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     SendableChooser chooser;
 
+    DriverStation ds;
+    private double warningTime=0;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -46,35 +48,35 @@ public class Robot extends IterativeRobot {
     	collector = new Collector();
     	oi = new OI();
         drivetrain.stop();
-    	
 
-//    	long ms = (long)SmartDashboard.getNumber("MilliSeconds");
-//    	double speed = (double)SmartDashboard.getNumber("Speed");
-    	
+        warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
+
         chooser = new SendableChooser();
 //        chooser.addObject(".5 Second Fast", new TimedDrive(500, .8));
-        chooser.addObject("2 Second Slow", new TimedDrive(2000, .5));
-        chooser.addObject("2 Second Slow Back", new TimedDrive(2000, -.5));
-        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .8));
-        chooser.addObject("3.5 Second Slow", new TimedDrive(3500, .5));
-        chooser.addObject("3.5 Second Back Slow", new TimedDrive(3500, -.5));
-        chooser.addObject("3 Second Medium", new TimedDrive(3000, .7));
-        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .9));
-        chooser.addObject("4 Second Fast", new TimedDrive(4000, .8));
-        chooser.addObject("4 Second Slow", new TimedDrive(4000, .5));
-        chooser.addObject("4 Second Back slow", new TimedDrive(4000, -.5));
-        chooser.addObject("4 Second Medium", new TimedDrive(4000, .7));
-        chooser.addObject("8 Second Medium", new TimedDrive(8000, .7));
-        
-        // TODO Variable auto
- //       chooser.addObject("Variable", new TimedDrive(ms, speed));
-        
-        //chooser.addDefault("AutoSelecter", new AutoSelector(position, defense));
+//        chooser.addObject("2 Second Slow", new TimedDrive(2000, .5));
+//        chooser.addObject("2 Second Slow Back", new TimedDrive(2000, -.5));
+//        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .8));
+//        chooser.addObject("3.5 Second Slow", new TimedDrive(3500, .5));
+//        chooser.addObject("3.5 Second Back Slow", new TimedDrive(3500, -.5));
+        chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
+//        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .9));
+//        chooser.addObject("4 Second Fast", new TimedDrive(4000, .8));
+//        chooser.addObject("4 Second Slow", new TimedDrive(4000, .5));
+//        chooser.addObject("4 Second Back slow", new TimedDrive(4000, -.5));
+//        chooser.addObject("4 Second Medium", new TimedDrive(4000, .7));
+//        chooser.addObject("8 Second Medium", new TimedDrive(8000, .7));
         chooser.addDefault("Null", null);
+
+        // TODO Test variable auto
+        // Variable auto speed and time
+        long seconds = (long)SmartDashboard.getNumber("Seconds");
+        double speed = SmartDashboard.getNumber("Speed");
+        chooser.addObject("Variable", new TimedDrive(seconds*1000, speed));
         SmartDashboard.putData("Auto mode", chooser);
-        //SmartDashboard.putData(Scheduler.getInstance());
+
         System.out.println(Scheduler.getInstance().getName());
-        
+
+        ds = DriverStation.getInstance();
     }
 	
 	/**
@@ -113,9 +115,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	// TODO: Add something to smartdashboard that displays warning at inputted time
         if (autonomousCommand != null) autonomousCommand.cancel();
-
     }
 
     /**
@@ -124,6 +124,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
+        // Warns Drivers at time
+        if (ds.getMatchTime()<=warningTime) SmartDashboard.putString("Match Warning", ds.getMatchTime() + " second warning!!");
     }
     
     /**
