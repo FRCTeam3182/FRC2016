@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3182.robot;
 
 import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
+import org.usfirst.frc.team3182.robot.commands.TimedDrive;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
@@ -39,24 +40,37 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	lights = new Lights();
     	drivetrain = new Drivetrain();
     	arm = new Arm();
     	collector = new Collector();
     	oi = new OI();
-        lights = new Lights();
         drivetrain.stop();
     	
 
-    	int position = 1;//(int)SmartDashboard.getNumber("Position");
-    	int defense = 1;//(int)SmartDashboard.getNumber("Defense");
+//    	long ms = (long)SmartDashboard.getNumber("MilliSeconds");
+//    	double speed = (double)SmartDashboard.getNumber("Speed");
     	
         chooser = new SendableChooser();
-        chooser.addObject("DriveToDistance 8", new DriveToDistance(8.0));
-        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
-        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
-        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
-        chooser.addDefault("AutoSelecter", new AutoSelector(position, defense));
-        chooser.addObject("Null", null);
+//        chooser.addObject(".5 Second Fast", new TimedDrive(500, .8));
+        chooser.addObject("2 Second Slow", new TimedDrive(2000, .5));
+        chooser.addObject("2 Second Slow Back", new TimedDrive(2000, -.5));
+        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .8));
+        chooser.addObject("3.5 Second Slow", new TimedDrive(3500, .5));
+        chooser.addObject("3.5 Second Back Slow", new TimedDrive(3500, -.5));
+        chooser.addObject("3 Second Medium", new TimedDrive(3000, .7));
+        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .9));
+        chooser.addObject("4 Second Fast", new TimedDrive(4000, .8));
+        chooser.addObject("4 Second Slow", new TimedDrive(4000, .5));
+        chooser.addObject("4 Second Back slow", new TimedDrive(4000, -.5));
+        chooser.addObject("4 Second Medium", new TimedDrive(4000, .7));
+        chooser.addObject("8 Second Medium", new TimedDrive(8000, .7));
+        
+        // TODO Variable auto
+ //       chooser.addObject("Variable", new TimedDrive(ms, speed));
+        
+        //chooser.addDefault("AutoSelecter", new AutoSelector(position, defense));
+        chooser.addDefault("Null", null);
         SmartDashboard.putData("Auto mode", chooser);
         //SmartDashboard.putData(Scheduler.getInstance());
         System.out.println(Scheduler.getInstance().getName());
@@ -99,6 +113,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	// TODO: Add something to smartdashboard that displays warning at inputted time
         if (autonomousCommand != null) autonomousCommand.cancel();
 
     }

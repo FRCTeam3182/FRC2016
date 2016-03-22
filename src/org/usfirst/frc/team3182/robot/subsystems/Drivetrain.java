@@ -125,7 +125,7 @@ public class Drivetrain extends Subsystem {
 
 	}
 	public void driveRaw(double speedL, double speedR) {
-		rightWheel.set(speedR);
+		rightWheel.set(speedR*.9); 
 		leftWheel.set(speedL);
 
 		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
@@ -149,8 +149,6 @@ public class Drivetrain extends Subsystem {
 		velocityStabilizerL.setSetpoint(speedL);
 		velocityStabilizerR.setSetpoint(speedR); 
 
-		SmartDashboard.putNumber("Drive Speed L", speedL);
-		SmartDashboard.putNumber("Drive Speed R", speedR);
 	}
 
 	public void driveToDistancePID(double distance) {
