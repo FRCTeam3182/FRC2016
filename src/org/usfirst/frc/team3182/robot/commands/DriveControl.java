@@ -32,8 +32,8 @@ public class DriveControl extends Command {
     	if(driveR_new > 1.0) driveR_new = 1.0;
     	else if(driveR_new < -1.0) driveR_new = -1.0;
     	
-    	double driveL = (driveL_new - driveL_old) * 0.04 + driveL_old;
-    	double driveR = (driveR_new - driveR_old) * 0.04 + driveR_old;
+    	double driveL = (driveL_new - driveL_old) * 0.05 + driveL_old;
+    	double driveR = (driveR_new - driveR_old) * 0.05 + driveR_old;
     	
     	driveL_old = driveL;
     	driveR_old = driveR;

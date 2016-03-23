@@ -10,59 +10,108 @@ import org.usfirst.frc.team3182.robot.util.Animation;
 import java.awt.*;
 
 public class Lights extends Subsystem {
-	
+
+	public final int LENGTH = 10; // Length of one strip FIXME: Change with actual size
+	private final int BRIGHTNESS = 1; // 1=full, 0=none
 	private SPI spi;
 
 	// Collector is the front of the robot
 	// rightStrip[0] and leftStrip[0] are the two front strips
-	Color[] rightStrip; // Stage right
-	Color[] leftStrip;
+	private Color[] strip; // Two parallel strips are always set to the same thing
+
+	public Lights() {
+		System.out.println("Lights Init");
+		spi = new SPI(SPI.Port.kMXP);
+		spi.setMSBFirst(); // Transfers each byte backwards
+		strip = new Color[LENGTH];
+	}
 
 	@Override
 	protected void initDefaultCommand() {
 		this.setDefaultCommand(new LightsControl(Animation.DEFAULT));
 	}
-	
-	public Lights() {
-		System.out.println("Lights Init");
-		spi = new SPI(SPI.Port.kMXP);
-		spi.setMSBFirst(); // Transfers each byte backwards
-
-	}
 
 	public void displayStrip() {
 		// Send pixles array to strip
-		for(int i = leftStrip.length-1; i > 0; i--) {
-			byte[] buffer = {0,0,0};
-			buffer[0] = (byte)leftStrip[i].getRed(); //FIXME change order
-			buffer[1] = (byte)leftStrip[i].getGreen();
-			buffer[2] = (byte)leftStrip[i].getBlue();
+		for (int i = LENGTH - 1; i > 0; i--) {
+			byte[] buffer = {0, 0, 0};
+			buffer[0] = (byte) strip[i].getRed();
+			buffer[1] = (byte) strip[i].getGreen();
+			buffer[2] = (byte) strip[i].getBlue();
 			spi.write(buffer, 3);
 		}
-		for(int i = 0; i < leftStrip.length; i++) {
-			byte[] buffer = {0,0,0};
-			buffer[0] = (byte)leftStrip[i].getRed(); //FIXME change order
-			buffer[1] = (byte)leftStrip[i].getGreen();
-			buffer[2] = (byte)leftStrip[i].getBlue();
+		for (int i = 0; i < LENGTH; i++) {
+			byte[] buffer = {0, 0, 0};
+			buffer[0] = (byte) (strip[i].getRed() * BRIGHTNESS);
+			buffer[1] = (byte) (strip[i].getGreen() * BRIGHTNESS);
+			buffer[2] = (byte) (strip[i].getBlue() * BRIGHTNESS);
 			spi.write(buffer, 3);
 		}
 		Timer.delay(.001); // Marks next frame
 	}
 
-	public void setBothStrips(Color[] c) {
+	public void setPixel(int index, Color c) {
+		// Sets a specific pixel on both strips
+		if (index >= LENGTH) {
+			System.out.println("INVALID PIXEL INDEX");
+			return;
+		}
+		strip[index] = c;
+		strip[index] = c;
+	}
+
+	public Color[] getStrip() {
+		return strip;
+	}
+
+	public void setStrip(Color[] c) {
 		// Sets color of pixel without sending it to the strip
-		for(int i=0; i<c.length; i++){
-			rightStrip[i]= c[i];
-			leftStrip[i]= c[i];
+		for (int i = 0; i < c.length; i++) {
+			strip[i] = c[i];
 		}
 	}
 
-	public Color[] getLeftStrip() {
-		return leftStrip;
+	public void clear() {
+		for (int i = 0; i < LENGTH; i++) {
+			strip[i] = Color.black;
+		}
+		displayStrip();
 	}
-	public Color[] getRightStrip() {
-		return rightStrip;
+
+	public void shiftLights(boolean isForward) {
+		if (!isForward) {
+			Color temp = strip[LENGTH - 1];
+			for (int i = LENGTH-1; i > 0; i--) {
+				strip[i] = strip[i-1];
+			}
+			strip[0] = temp;
+		} else {
+			Color temp = strip[0];
+			for (int i = 0; i < LENGTH - 1; i++) {
+				strip[i] = strip[i + 1];
+			}
+			strip[LENGTH - 1] = temp;
+		}
+	}
+
+	public void fountain() {
+		if (LENGTH % 2 == 1) {
+			Color temp1 = strip[0];
+			Color temp2 = strip[LENGTH - 1];
+
+			for (int i = 0; i < LENGTH/2-1; i++) {
+				strip[i] = strip[i+1];
+				strip[LENGTH-1-i] = strip[LENGTH-2-i];
+			}
+			strip[LENGTH/2] = temp1;
+			strip[LENGTH/2+1] = temp1;
+		}
+		else{
+
+
+		}
 	}
 }
+
 
 
