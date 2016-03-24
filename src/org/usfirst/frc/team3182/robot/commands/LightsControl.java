@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.util.Animation;
+import org.usfirst.frc.team3182.robot.util.Color;
 
-import java.awt.Color;
 
 public class LightsControl extends Command {
 

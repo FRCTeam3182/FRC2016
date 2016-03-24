@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3182.robot.commands.LightsControl;
 import org.usfirst.frc.team3182.robot.util.Animation;
-
-import java.awt.*;
+import org.usfirst.frc.team3182.robot.util.Color;
 
 public class Lights extends Subsystem {
 
@@ -23,6 +22,7 @@ public class Lights extends Subsystem {
         spi = new SPI(SPI.Port.kMXP);
         spi.setMSBFirst(); // Transfers each byte backwards
         strip = new Color[LENGTH];
+        clear();
     }
 
    @Override
@@ -70,7 +70,7 @@ public class Lights extends Subsystem {
 
     public void clear() {
         for (int i = 0; i < LENGTH; i++) {
-            strip[i] = Color.black;
+            strip[i] = new Color(0,0,0);
         }
         displayStrip();
     }
