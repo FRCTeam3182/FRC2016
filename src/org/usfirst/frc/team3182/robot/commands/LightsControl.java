@@ -21,20 +21,31 @@ public class LightsControl extends Command {
 
     @Override
     protected void initialize() {
+        switch (animation){
+            case CELEBRATE:
+                for (int i=0;i<Robot.lights.LENGTH;i++){ //set the strip to random colors
+                    Robot.lights.setPixel(i, new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
+                }
+            case COLLECT:
+
+                break;
+            case EXPEL:
+
+                break;
+            default:
+
+                break;
+        }
+
     }
 
     @Override
     protected void execute() {
         switch (animation){
             case CELEBRATE:
-                for (int i=0;i<Robot.lights.LENGTH;i++){ //set the strip to random colors
-                    Robot.lights.setPixel(i, new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
-                }
-                while(true) {
                     Robot.lights.fountain();
                     Robot.lights.displayStrip();
-                    Timer.delay(.3);
-                }
+                    delay(.3);
             case COLLECT:
 
                 break;
@@ -62,6 +73,14 @@ public class LightsControl extends Command {
     protected void interrupted() {
         end();
     }
+
+    private void delay(double sec){
+        for (int i = 0; i<sec*100;i++){
+            if(isCanceled()) return;
+            Timer.delay(.01);
+        }
+    }
+
     /*
     // FOR TESTING
     public static void main(String args[]){

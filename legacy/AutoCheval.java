@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3182.robot.commands;
-import org.usfirst.frc.team3182.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3182.robot.Robot;
 public class AutoCheval extends Command {
 	
 	public AutoCheval(int position) {

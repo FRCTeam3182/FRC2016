@@ -105,8 +105,4 @@ public class Lights extends Subsystem {
             strip[LENGTH / 2] = temp2;
         }
     }
-
 }
-
-
-
