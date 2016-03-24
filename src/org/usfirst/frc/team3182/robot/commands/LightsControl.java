@@ -3,10 +3,9 @@ package org.usfirst.frc.team3182.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3182.robot.Robot;
-import org.usfirst.frc.team3182.robot.subsystems.Lights;
 import org.usfirst.frc.team3182.robot.util.Animation;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class LightsControl extends Command {
 
@@ -14,7 +13,7 @@ public class LightsControl extends Command {
     private Animation animation;
 
     public LightsControl(Animation a) {
-        //requires(Robot.lights);
+        requires(Robot.lights);
         animation = a;
         execute();
     }
@@ -34,7 +33,7 @@ public class LightsControl extends Command {
                 while(true) {
                     Robot.lights.fountain();
                     Robot.lights.displayStrip();
-                    try{Timer.delay(.3);}catch (Exception e){}
+                    Timer.delay(.3);
                 }
             case COLLECT:
 
@@ -63,13 +62,16 @@ public class LightsControl extends Command {
     protected void interrupted() {
         end();
     }
+    /*
+    // FOR TESTING
     public static void main(String args[]){
+
         Lights l = new Lights();
-        l.setPixel(0, new Color(255, 0, 0));
+        l.setPixel(8, new Color(255, 0, 0));
         for (int i=0;i<5; i++) {
             for (Color c : l.getStrip()) System.out.print(c + " ");
             System.out.println("");
             l.fountain();
         }
-    }
+    }*/
 }

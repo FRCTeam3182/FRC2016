@@ -1,16 +1,18 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-
-//import edu.wpi.first.wpilibj.SPI;
-//import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team3182.robot.commands.LightsControl;
+import org.usfirst.frc.team3182.robot.util.Animation;
 
 import java.awt.*;
 
-public class Lights /*extends Subsystem*/ {
+public class Lights extends Subsystem {
 
     public final int LENGTH = 10; // Length of one strip FIXME: Change with actual size
     private final int BRIGHTNESS = 1; // 1=full, 0=none
-    //private SPI spi;
+    private SPI spi;
 
     // Collector is the front of the robot
     // rightStrip[0] and leftStrip[0] are the two front strips
@@ -18,19 +20,19 @@ public class Lights /*extends Subsystem*/ {
 
     public Lights() {
         System.out.println("Lights Init");
-        /*spi = new SPI(SPI.Port.kMXP);
-        spi.setMSBFirst(); // Transfers each byte backwards*/
+        spi = new SPI(SPI.Port.kMXP);
+        spi.setMSBFirst(); // Transfers each byte backwards
         strip = new Color[LENGTH];
     }
 
-   /* @Override
+   @Override
     protected void initDefaultCommand() {
         this.setDefaultCommand(new LightsControl(Animation.DEFAULT));
     }
-*/
+
     public void displayStrip() {
         // Send pixles array to strip
-        /*for (int i = LENGTH - 1; i > 0; i--) {
+        for (int i = LENGTH - 1; i > 0; i--) {
             byte[] buffer = {0, 0, 0};
             buffer[0] = (byte) strip[i].getRed();
             buffer[1] = (byte) strip[i].getGreen();
@@ -44,7 +46,7 @@ public class Lights /*extends Subsystem*/ {
             buffer[2] = (byte) (strip[i].getBlue() * BRIGHTNESS);
             spi.write(buffer, 3);
         }
-        Timer.delay(.001); // Marks next frame*/
+        Timer.delay(.001); // Marks next frame
     }
 
     public void setPixel(int index, Color c) {
@@ -97,7 +99,7 @@ public class Lights /*extends Subsystem*/ {
             strip[LENGTH / 2 ] = temp2;
         } else {
             System.arraycopy(strip, 1, strip, 0, LENGTH / 2-1 );
-            System.arraycopy(strip, LENGTH / 2 , strip, LENGTH / 2 , LENGTH / 2-1 );
+            System.arraycopy(strip, LENGTH / 2 , strip, LENGTH / 2 + 1, LENGTH / 2-1 );
 
             strip[LENGTH / 2-1] = temp1;
             strip[LENGTH / 2] = temp2;
