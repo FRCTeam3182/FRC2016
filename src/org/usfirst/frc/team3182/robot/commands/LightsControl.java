@@ -23,17 +23,23 @@ public class LightsControl extends Command {
     protected void initialize() {
         switch (animation){
             case CELEBRATE:
-                for (int i=0;i<Robot.lights.LENGTH;i++){ //set the strip to random colors
+                for (int i=0;i<Robot.lights.LENGTH;i++){ // Set the strip to random colors
                     Robot.lights.setPixel(i, new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
                 }
             case COLLECT:
-
+                for (int i=0;i<Robot.lights.LENGTH;i++) { // Set the strip to an even pattern
+                    Robot.lights.setPixel(i,i%6<3 ? (new Color(255,0,200)): new Color(0,0,0));
+                }
                 break;
             case EXPEL:
-
+                for (int i=0;i<Robot.lights.LENGTH;i++) { // Set the strip to an even pattern
+                    Robot.lights.setPixel(i,i%6<3 ? (new Color(255,0,200)): new Color(0,0,0));
+                }
                 break;
             default:
-
+                for (int i=0;i<Robot.lights.LENGTH;i++) { // Set the strip to an even pattern
+                    Robot.lights.setPixel(i,i%6<3 ? (new Color(255,0,200)): new Color(0,0,0));
+                }
                 break;
         }
 
@@ -45,15 +51,21 @@ public class LightsControl extends Command {
             case CELEBRATE:
                     Robot.lights.fountain();
                     Robot.lights.displayStrip();
-                    delay(.3);
+                    delay(.5);
             case COLLECT:
-
+                Robot.lights.shiftLightsBackwards();
+                Robot.lights.displayStrip();
+                delay(.5);
                 break;
             case EXPEL:
-
+                Robot.lights.shiftLightsForward();
+                Robot.lights.displayStrip();
+                delay(.5);
                 break;
             default:
-
+                Robot.lights.fountain();
+                Robot.lights.displayStrip();
+                delay(.5);
                 break;
         }
 
