@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3182.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3182.robot.Robot;
+
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.usfirst.frc.team3182.robot.Robot;
 
 public class TimedDrive extends Command {
 
@@ -34,7 +34,11 @@ public class TimedDrive extends Command {
 	@Override
 	protected void execute() {
 		// TODO: Gyro feedback loop
-		Robot.drivetrain.driveRaw(-speed, -speed);
+		double theta = Robot.drivetrain.getGyroAngle();
+		double omega = Robot.drivetrain.getGyroRate();
+
+		double corrector =  1+ .15 * theta + .05 * omega; //actually just a makeshift PD controller.  TODO tuning
+		Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
 		
 	}
 

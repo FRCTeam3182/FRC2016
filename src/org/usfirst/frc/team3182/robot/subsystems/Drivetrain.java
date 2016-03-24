@@ -1,13 +1,9 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3182.robot.RobotMap;
@@ -30,6 +26,7 @@ public class Drivetrain extends Subsystem {
 	positionControllerL, 
 	velocityStabilizerR, 
 	velocityStabilizerL;
+	Gyro gyro = new AnalogGyro(RobotMap.gyro);
 
 	private PIDWrapper controlledPositionR, controlledPositionL;
 
@@ -90,6 +87,7 @@ public class Drivetrain extends Subsystem {
 	public void reset() {
 		rightEncoder.reset();
 		leftEncoder.reset();
+		gyro.reset();
 
 	}
 
@@ -123,6 +121,12 @@ public class Drivetrain extends Subsystem {
 	public void drive(double speed) {
 		drive(speed, speed);
 
+	}
+	public double getGyroAngle() { //useful units would be helpful but not necessary
+		return gyro.getAngle();
+	}
+	public double getGyroRate() {
+		return gyro.getRate();
 	}
 	public void driveRaw(double speedL, double speedR) {
 		rightWheel.set(speedR*.9); 

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Complete and tested with demo-bot
  */
 public class DriveControl extends Command {
-	double driveL_old = 0, driveR_old = 0;
+	private double driveL_old = 0, driveR_old = 0;
     public DriveControl() {
     	requires(Robot.drivetrain);
     }
