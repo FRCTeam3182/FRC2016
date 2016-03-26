@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3182.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -49,34 +50,22 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
         drivetrain.stop();
 
-        warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
-
         chooser = new SendableChooser();
-//        chooser.addObject(".5 Second Fast", new TimedDrive(500, .8));
-//        chooser.addObject("2 Second Slow", new TimedDrive(2000, .5));
-//        chooser.addObject("2 Second Slow Back", new TimedDrive(2000, -.5));
-//        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .8));
-//        chooser.addObject("3.5 Second Slow", new TimedDrive(3500, .5));
-//        chooser.addObject("3.5 Second Back Slow", new TimedDrive(3500, -.5));
         chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
-//        chooser.addObject("3.5 Second Fast", new TimedDrive(3500, .9));
-//        chooser.addObject("4 Second Fast", new TimedDrive(4000, .8));
-//        chooser.addObject("4 Second Slow", new TimedDrive(4000, .5));
-//        chooser.addObject("4 Second Back slow", new TimedDrive(4000, -.5));
-//        chooser.addObject("4 Second Medium", new TimedDrive(4000, .7));
-//        chooser.addObject("8 Second Medium", new TimedDrive(8000, .7));
         chooser.addDefault("Null", null);
 
-        // TODO Test variable auto
+        // TODO Implement variable auto
         // Variable auto speed and time
-        long seconds = (long)SmartDashboard.getNumber("Seconds");
-        double speed = SmartDashboard.getNumber("Speed");
         chooser.addObject("Variable", new TimedDrive(seconds*1000, speed));
         SmartDashboard.putData("Auto mode", chooser);
 
         System.out.println(Scheduler.getInstance().getName());
 
         ds = DriverStation.getInstance();
+        
+        CameraServer server = CameraServer.getInstance();
+        server.setQuality(50);
+        server.startAutomaticCapture("cam1");
     }
 	
 	/**
@@ -105,6 +94,8 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
         if (autonomousCommand != null) autonomousCommand.start();
+        long seconds = (long)SmartDashboard.getNumber("Seconds", 0);
+        double speed = SmartDashboard.getNumber("Speed", 0);
     }
 
     /**
@@ -116,6 +107,8 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() {
         if (autonomousCommand != null) autonomousCommand.cancel();
+        
+        warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
     }
 
     /**
