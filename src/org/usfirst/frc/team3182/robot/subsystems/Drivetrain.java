@@ -1,15 +1,20 @@
 package org.usfirst.frc.team3182.robot.subsystems;
 
-
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3182.robot.RobotMap;
 import org.usfirst.frc.team3182.robot.commands.DriveControl;
-
 import java.io.IOException;
+
 /**
  * Complete except for encoder stuff
  * Tested with demo-bot
@@ -80,8 +85,6 @@ public class Drivetrain extends Subsystem {
 		//LiveWindow.addSensor("Drivetrain2", "VelStabL", velocityStabilizerL);
 
 		System.out.println("Drivetrain init");
-
-
 	}
 
 	public void reset() {

@@ -30,7 +30,7 @@ public class RobotMap {
 	public static final int rightEncoder_B = 10;
 	public static final int leftEncoder_A = 13;
 	public static final int leftEncoder_B = 12;
-	public static final int gyro = -1;
+	public static final int gyro = 4;
 
 	//Collector sensors
 	public static final int irBallSensor = 7;

@@ -25,18 +25,16 @@ public class TimedDrive extends Command {
 			public void run() {
 				end();
 				isFinished = true;
-				
 			}
-			
 		}, ms);
 	}
 
 	@Override
 	protected void execute() {
-		// TODO: Gyro feedback loop
 		double theta = Robot.drivetrain.getGyroAngle();
 		double omega = Robot.drivetrain.getGyroRate();
 
+		// This is actually pretty damn cool
 		double corrector =  1+ .15 * theta + .05 * omega; //actually just a makeshift PD controller.  TODO tuning
 		Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
 		
@@ -50,13 +48,10 @@ public class TimedDrive extends Command {
 	@Override
 	protected void end() {
 		Robot.drivetrain.stop();
-		
 	}
 
 	@Override
 	protected void interrupted() {
 		end();
 	}
-	
-
 }
