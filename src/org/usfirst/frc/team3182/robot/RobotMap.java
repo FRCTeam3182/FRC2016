@@ -10,15 +10,17 @@ package org.usfirst.frc.team3182.robot;
 public class RobotMap {
 
 	//Controller(s)
-	public static final int joystick = 0;
-	public static final int powerGlove = 1;
+
+	public static final int driveStickL = 0;
+	public static final int driveStickR = 1;
+	public static final int powerGlove = 2;
 	
 	//Drivetrain
 	public static final int rightWheel = 0;
 	public static final int leftWheel = 1;
 	
 	//Collector
-	public static final int collectorMotor = 4; 
+	public static final int collectorMotor = 2; 
 	
 	//Arm
 	public static final int armMotor = 3;
@@ -28,6 +30,7 @@ public class RobotMap {
 	public static final int rightEncoder_B = 10;
 	public static final int leftEncoder_A = 13;
 	public static final int leftEncoder_B = 12;
+	public static final int gyro = 1;
 
 	//Collector sensors
 	public static final int irBallSensor = 7;

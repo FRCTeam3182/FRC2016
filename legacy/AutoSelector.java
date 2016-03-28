@@ -9,7 +9,6 @@ import org.usfirst.frc.team3182.robot.commands.DriveToAngle;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class AutoSelector extends CommandGroup
 {

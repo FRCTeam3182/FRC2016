@@ -1,16 +1,15 @@
 
 package org.usfirst.frc.team3182.robot.commands;
 
-import org.usfirst.frc.team3182.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3182.robot.Robot;
 
 /**
  * Complete and tested with demo-bot
  */
 public class DriveControl extends Command {
-	double driveL_old = 0, driveR_old = 0;
+	private double driveL_old = 0, driveR_old = 0;
     public DriveControl() {
     	requires(Robot.drivetrain);
     }
@@ -24,16 +23,16 @@ public class DriveControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { //low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
     	
-    	double driveL_new = Robot.oi.getL();
+    	double driveL_new = Robot.oi.getLExp();
     	if(driveL_new > 1.00) driveL_new = 1.00;
     	else if(driveL_new < -1.0) driveL_new = -1.0;
     	
-    	double driveR_new = Robot.oi.getR();
+    	double driveR_new = Robot.oi.getRExp();
     	if(driveR_new > 1.0) driveR_new = 1.0;
     	else if(driveR_new < -1.0) driveR_new = -1.0;
     	
-    	double driveL = (driveL_new - driveL_old) * 0.1 + driveL_old;
-    	double driveR = (driveR_new - driveR_old) * 0.1 + driveR_old;
+    	double driveL = (driveL_new - driveL_old) * 0.7 + driveL_old; //TODO: Test coeff
+    	double driveR = (driveR_new - driveR_old) * 0.7 + driveR_old;
     	
     	driveL_old = driveL;
     	driveR_old = driveR;

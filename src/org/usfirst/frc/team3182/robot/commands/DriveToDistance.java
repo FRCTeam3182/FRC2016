@@ -15,21 +15,35 @@ public class DriveToDistance extends Command {
 		this.distance = distance;
 	}
 	
+//	@Override
+//	protected void initialize() {
+//		Robot.drivetrain.reset();
+//		Robot.drivetrain.enablePID();
+//		Robot.drivetrain.initD2D(distance);
+//		timeStart = System.currentTimeMillis();
+//
+//	}
+
+
+	
+//	@Override
+//	protected void execute() {
+//		t = (int)(System.currentTimeMillis()-timeStart);
+//		Robot.drivetrain.updateD2D(t);
+//		Robot.drivetrain.updatePID();
+//		
+//	}
+	
 	@Override
 	protected void initialize() {
 		Robot.drivetrain.reset();
 		Robot.drivetrain.enablePID();
-		Robot.drivetrain.initD2D(distance);
-		timeStart = System.currentTimeMillis();
-
+		Robot.drivetrain.driveToDistancePID(distance);
 	}
-
+	
 	@Override
 	protected void execute() {
-		t = (int)(System.currentTimeMillis()-timeStart);
-		Robot.drivetrain.updateD2D(t);
 		Robot.drivetrain.updatePID();
-		
 	}
 
 	@Override

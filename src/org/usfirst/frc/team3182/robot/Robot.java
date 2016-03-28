@@ -1,17 +1,20 @@
 
 package org.usfirst.frc.team3182.robot;
 
-import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
-import org.usfirst.frc.team3182.robot.subsystems.Arm;
-import org.usfirst.frc.team3182.robot.subsystems.Collector;
-import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
-
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3182.robot.commands.TimedDrive;
+import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
+import org.usfirst.frc.team3182.robot.subsystems.Arm;
+import org.usfirst.frc.team3182.robot.subsystems.Collector;
+import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3182.robot.subsystems.Lights;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -26,37 +29,44 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Arm arm;
     public static Collector collector;
-	
+    public static Lights lights;
+
+    public static boolean usesPowerGlove = true, hasPot = true;
 
     Command autonomousCommand;
     SendableChooser chooser;
+
+    DriverStation ds;
+    private double warningTime=0;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	lights = new Lights();
     	drivetrain = new Drivetrain();
     	arm = new Arm();
     	collector = new Collector();
     	oi = new OI();
-    	drivetrain.stop();
-    	
+        drivetrain.stop();
 
-    	int position = (int)SmartDashboard.getNumber("Position");
-    	int defense = (int)SmartDashboard.getNumber("Defense");
-    	
         chooser = new SendableChooser();
-        chooser.addObject("DriveToDistance 8", new DriveToDistance(8.0));
-        chooser.addDefault("DriveForward 5", new DriveToDistance(5.0));
-        chooser.addObject("DriveForward 3", new DriveToDistance(3.0));
-        chooser.addObject("DriveForward 1", new DriveToDistance(1.0));
-        chooser.addDefault("AutoSelecter", new AutoSelector(position, defense));
-        chooser.addObject("Null", null);
+        chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
+        chooser.addDefault("Null", null);
+
+        // TODO Implement variable auto
+        // Variable auto speed and time
+        chooser.addObject("Variable", new TimedVariableDrive(this)); //i was a good boy and made a real class for this instead of an anonymous class (don't think i didn't want to)
         SmartDashboard.putData("Auto mode", chooser);
-        //SmartDashboard.putData(Scheduler.getInstance());
+
         System.out.println(Scheduler.getInstance().getName());
+
+        ds = DriverStation.getInstance();
         
+        CameraServer server = CameraServer.getInstance();
+        server.setQuality(50);
+        server.startAutomaticCapture("cam1");
     }
 	
 	/**
@@ -85,6 +95,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
         if (autonomousCommand != null) autonomousCommand.start();
+       
     }
 
     /**
@@ -95,7 +106,9 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        if (autonomousCommand != null) autonomousCommand.cancel();       
+        if (autonomousCommand != null) autonomousCommand.cancel();
+        
+        warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
     }
 
     /**
@@ -103,13 +116,24 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
+        // Warns Drivers at time
+        if (ds.getMatchTime()<=warningTime) SmartDashboard.putString("Match Warning", ds.getMatchTime() + " second warning!!");
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	
         LiveWindow.run();
         //Scheduler.getInstance().run();
+    }
+    
+    public long getDSms() {
+    	return (long)SmartDashboard.getNumber("Seconds", 0);
+    }
+    public double getDSspeed() {
+    	return (double)SmartDashboard.getNumber("Speed", 0);
     }
 }
