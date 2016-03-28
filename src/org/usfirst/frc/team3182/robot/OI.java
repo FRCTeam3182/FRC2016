@@ -2,7 +2,7 @@ package org.usfirst.frc.team3182.robot;
 
 import org.usfirst.frc.team3182.robot.commands.RaiseArm;
 import org.usfirst.frc.team3182.robot.commands.AutoCollect;
-import org.usfirst.frc.team3182.robot.commands.CollectorControl;
+//import org.usfirst.frc.team3182.robot.commands.CollectorControl;
 import org.usfirst.frc.team3182.robot.commands.DriveToDistance;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -81,8 +81,8 @@ public class OI {
 		buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
 		System.out.println("OI init");
 		
-		pgButton1.toggleWhenActive(new CollectorControl(-.5));
-		pgButton2.toggleWhenActive(new CollectorControl(1));
+//		pgButton1.toggleWhenActive(new CollectorControl(-.5));
+//		pgButton2.toggleWhenActive(new CollectorControl(1));
 		
 //		pgButton4.whenPressed(new RaiseArm());
 //		pgButton5.whenPressed(new LowerArm());
