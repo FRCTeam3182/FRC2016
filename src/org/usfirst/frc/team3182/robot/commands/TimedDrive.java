@@ -31,13 +31,14 @@ public class TimedDrive extends Command {
 
 	@Override
 	protected void execute() {
-		double theta = Robot.drivetrain.getGyroAngle();
-		double omega = Robot.drivetrain.getGyroRate();
+		//double theta = Robot.drivetrain.getGyroAngle();
+		//double omega = Robot.drivetrain.getGyroRate();
 
 		// This is actually pretty damn cool
-		double corrector =  1+ .15 * theta + .05 * omega; //actually just a makeshift PD controller.  TODO tuning
-		Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
+		//double corrector =  1+ .15 * theta + .05 * omega; //actually just a makeshift PD controller.  TODO tuning
+		//Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
 		
+		Robot.drivetrain.driveRaw(-speed, -speed);
 	}
 
 	@Override

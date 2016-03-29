@@ -22,6 +22,7 @@ public class Lights extends Subsystem {
         spi = new SPI(SPI.Port.kMXP);
         spi.setMSBFirst(); // Transfers each byte backwards
         strip = new Color[LENGTH];
+        
         clear();
     }
 

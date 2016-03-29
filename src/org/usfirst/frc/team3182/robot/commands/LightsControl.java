@@ -89,7 +89,7 @@ public class LightsControl extends Command {
     private void delay(double sec){
         for (int i = 0; i<sec*100;i++){
             if(isCanceled()) return;
-            Timer.delay(.01);
+            //Timer.delay(.01);
         }
     }
 

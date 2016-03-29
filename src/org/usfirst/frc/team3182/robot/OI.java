@@ -55,17 +55,19 @@ public class OI {
     }
 
     public double getL() {
+    	SmartDashboard.putNumber("joyL", driveStickL.getY());
         return driveStickL.getY();
     }
 
 
     public double getR() {
+    	SmartDashboard.putNumber("joyR", driveStickR.getY());
         return driveStickR.getY();
     }
 
     public double getLExp() { //"ramps up"
     	if(Math.abs(getL())<.1)return 0; // Deadzone
-    	if (getR() > 0) return Math.pow(getL(), 2);
+    	if (getL() > 0) return Math.pow(getL(), 2);
         else return -Math.abs(Math.pow(getL(), 2));
     }
 

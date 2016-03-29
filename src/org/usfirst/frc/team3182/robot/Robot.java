@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3182.robot.commands.TimedDrive;
+//import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
 import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
@@ -50,14 +51,17 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
         drivetrain.stop();
 
+        SmartDashboard.putNumber("Auto Speed (0.0 - 1.0)", .7);
+        SmartDashboard.putNumber("Auto Time (ms)",        3000);
+        
         chooser = new SendableChooser();
-        chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
-        chooser.addDefault("Null", null);
+        //chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
+        //chooser.addDefault("Null", null);
 
         // TODO Implement variable auto
         // Variable auto speed and time
-        chooser.addObject("Variable", new TimedDrive(seconds*1000, speed));
-        SmartDashboard.putData("Auto mode", chooser);
+        //chooser.addObject("Variable", new TimedVariableDrive(this)); //i was a good boy and made a real class for this instead of an anonymous class (don't think i didn't want to)
+        //SmartDashboard.putData("Auto mode", chooser);
 
         System.out.println(Scheduler.getInstance().getName());
 
@@ -92,10 +96,15 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
-        if (autonomousCommand != null) autonomousCommand.start();
-        long seconds = (long)SmartDashboard.getNumber("Seconds", 0);
-        double speed = SmartDashboard.getNumber("Speed", 0);
+    	double autoSpeed_pct = SmartDashboard.getNumber("Auto Speed (0.0 - 1.0)", 1.0);
+        double autoTime_ms   = SmartDashboard.getNumber("Auto Time (ms)", 3000);
+        
+        TimedDrive td = new TimedDrive((long) autoTime_ms, autoSpeed_pct);
+        td.start();
+        
+        //autonomousCommand = (Command) chooser.getSelected();
+        //if (autonomousCommand != null) autonomousCommand.start();
+       
     }
 
     /**
@@ -128,5 +137,12 @@ public class Robot extends IterativeRobot {
     	
         LiveWindow.run();
         //Scheduler.getInstance().run();
+    }
+    
+    public long getDSms() {
+    	return (long)SmartDashboard.getNumber("Seconds", 0);
+    }
+    public double getDSspeed() {
+    	return (double)SmartDashboard.getNumber("Speed", 0);
     }
 }

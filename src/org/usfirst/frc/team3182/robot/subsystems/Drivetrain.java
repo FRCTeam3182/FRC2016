@@ -132,8 +132,11 @@ public class Drivetrain extends Subsystem {
 		return gyro.getRate();
 	}
 	public void driveRaw(double speedL, double speedR) {
-		rightWheel.set(speedR*.9); 
+		rightWheel.set(speedR); 
 		leftWheel.set(speedL);
+		
+		SmartDashboard.putNumber("speedL", speedL);
+		SmartDashboard.putNumber("speedR", speedR);
 
 		SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.getRate());
 		SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.getRate());
