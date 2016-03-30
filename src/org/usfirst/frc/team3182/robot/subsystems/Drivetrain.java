@@ -45,6 +45,8 @@ public class Drivetrain extends Subsystem {
 		wheels[0] = leftWheel;
 		wheels[1] = rightWheel;
 		
+		gyro.calibrate();
+		
 		leftWheel.setInverted(true);
 
 		rightEncoder = new Encoder(RobotMap.rightEncoder_A, RobotMap.rightEncoder_B);
@@ -208,10 +210,6 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("ConPosL", controlledPositionL.pidGet());
 		SmartDashboard.putNumber("VelStabR", velocityStabilizerR.getSetpoint());
 		SmartDashboard.putNumber("VelStabL", velocityStabilizerL.getSetpoint());
-	}
-	
-	public static void main(String... args) throws IOException {
-
 	}
 }
 class PIDWrapper implements PIDOutput, PIDSource {

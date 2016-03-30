@@ -11,6 +11,10 @@ public class TimedDrive extends Command {
 	long ms;
 	boolean isFinished = false;
 	double speed;
+	
+	final double kP = 0.1;
+	final double kD = 0.01;
+	
 	public TimedDrive(long ms, double speed)  {
 		requires(Robot.drivetrain);
 		this.ms = ms;
@@ -18,6 +22,7 @@ public class TimedDrive extends Command {
 	}
 	
 	protected void initialize() {
+		Robot.drivetrain.reset();
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 
@@ -31,14 +36,14 @@ public class TimedDrive extends Command {
 
 	@Override
 	protected void execute() {
-		//double theta = Robot.drivetrain.getGyroAngle();
-		//double omega = Robot.drivetrain.getGyroRate();
+		double theta = Robot.drivetrain.getGyroAngle();
+		double omega = Robot.drivetrain.getGyroRate();
 
 		// This is actually pretty damn cool
-		//double corrector =  1+ .15 * theta + .05 * omega; //actually just a makeshift PD controller.  TODO tuning
-		//Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
+		double corrector =  1 + kP * theta + kD * omega; //actually just a makeshift PD controller.  TODO tuning
+		Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
 		
-		Robot.drivetrain.driveRaw(-speed, -speed);
+		//Robot.drivetrain.driveRaw(-speed, -speed);
 	}
 
 	@Override
