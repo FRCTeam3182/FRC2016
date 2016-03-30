@@ -46,6 +46,8 @@ public class Drivetrain extends Subsystem {
 		wheels[1] = rightWheel;
 		
 		gyro.calibrate();
+		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 		
 		leftWheel.setInverted(true);
 
