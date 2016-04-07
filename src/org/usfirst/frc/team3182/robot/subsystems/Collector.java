@@ -21,7 +21,7 @@ public class Collector extends Subsystem {
 //	AnalogInput ir2 = new AnalogInput(RobotMap.rightTriangleIR);
 	
 	public Collector() {
-		LiveWindow.addActuator("Collector", "Collector Motor", collectorMotor);
+//		LiveWindow.addActuator("Collector", "Collector Motor", collectorMotor);
 		SmartDashboard.putNumber("Collector Speed", collectorMotor.getSpeed());
 		collectorMotor.setSafetyEnabled(false);
 	}

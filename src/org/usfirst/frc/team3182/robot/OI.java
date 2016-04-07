@@ -55,12 +55,14 @@ public class OI {
     }
 
     public double getL() {
+    	if(Math.abs(driveStickL.getY())<.15)return 0; // Deadzone
     	SmartDashboard.putNumber("joyL", driveStickL.getY());
         return driveStickL.getY();
     }
 
 
     public double getR() {
+    	if(Math.abs(driveStickR.getY())<.15)return 0; // Deadzone
     	SmartDashboard.putNumber("joyR", driveStickR.getY());
         return driveStickR.getY();
     }

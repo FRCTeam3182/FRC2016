@@ -5,11 +5,16 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team3182.robot.commands.CollectorControl;
+import org.usfirst.frc.team3182.robot.commands.Path;
 import org.usfirst.frc.team3182.robot.commands.TimedDrive;
+import org.usfirst.frc.team3182.robot.commands.TimedTurn;
 import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 import org.usfirst.frc.team3182.robot.subsystems.Collector;
@@ -62,9 +67,23 @@ public class Robot extends IterativeRobot {
         
         chooser = new SendableChooser();
         chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
+        chooser.addObject("3.5 second .7 speed", new TimedDrive(3500, .7));
+        chooser.addObject("6 second .7 speed", new TimedDrive(6000, .7));
         chooser.addDefault("Null", null);
 
         chooser.addObject("Variable", new TimedVariableDrive(this)); //i was a good boy and made a real class for this instead of an anonymous class (don't think i didn't want to)
+        
+        chooser.addObject("Low Bar+Low Goal", new Path() {
+
+			@Override
+			public void addCommands() {
+				this.addSequential(new TimedDrive(2500, .7));
+				this.addSequential(new TimedTurn(900, .4));
+				this.addSequential(new TimedDrive(400, .5));
+			}
+        	
+        });
+        
         SmartDashboard.putData("Auto mode", chooser);
 
         System.out.println(Scheduler.getInstance().getName());
@@ -83,7 +102,6 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	oi = new OI();
-
     }
 	
 	public void disabledPeriodic() {

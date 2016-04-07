@@ -38,15 +38,15 @@ public class Arm extends Subsystem {
 	AnalogPotentiometer potentiometer = new AnalogPotentiometer(pmeter, 737.7, 164.06);
 	double initAngle;
 	PIDController armControl;	
-	public static final double potentiometerLowerLim = 0.600; //TODO change this to be lower
-	public static final double potentiometerUpperLim = 2;
+	public static final double potentiometerLowerLim = 0.5; //TODO change this to be lower
+	public static final double potentiometerUpperLim = 1.3;
 	public static final double potentiometerMid = 1.3;
 
 
 
 	public Arm() {
 		System.out.println("Arm init");
-		armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //PID needs tuning
+		armControl = new PIDController(.1, .001, 0, pmeter, armMotor); //FIXME: PID needs tuning
 //		LiveWindow.addSensor("Arm", "Potentiometer(AI)", pmeter);
 //		LiveWindow.addSensor("Arm", "Potentiometer(AP)", potentiometer);
 //		LiveWindow.addActuator("Arm", "Arm Motor", armMotor);

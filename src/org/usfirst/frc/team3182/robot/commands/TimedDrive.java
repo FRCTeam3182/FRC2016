@@ -40,8 +40,8 @@ public class TimedDrive extends Command {
 		double omega = Robot.drivetrain.getGyroRate();
 
 		// This is actually pretty damn cool
-		double corrector =  1 + kP * theta + kD * omega; //actually just a makeshift PD controller.  TODO tuning
-		Robot.drivetrain.driveRaw(-speed * corrector, -speed / corrector);
+		//double corrector =  1 + kP * theta + kD * omega; //actually just a makeshift PD controller.  TODO tuning
+		Robot.drivetrain.driveRaw(-speed, -speed );
 		
 		//Robot.drivetrain.driveRaw(-speed, -speed);
 	}

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3182.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team3182.robot.Robot;
 import org.usfirst.frc.team3182.robot.subsystems.Arm;
 
@@ -24,12 +26,13 @@ public class ArmControl extends Command {
 			if(Math.abs(Robot.oi.getPowerGloveTilt())>.3){
 				if (Robot.arm.getPmeter().getVoltage() < Arm.potentiometerUpperLim &&
 						Robot.arm.getPmeter().getVoltage() > Arm.potentiometerLowerLim)
-					Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt());
-				else if (Robot.arm.getPmeter().getVoltage() >= Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.2);
-				else if (Robot.arm.getPmeter().getVoltage() <= Arm.potentiometerLowerLim) Robot.arm.runRaw(0.3);
+					Robot.arm.runRaw(-Robot.oi.getPowerGloveTilt()*1.1);
+				else if (Robot.arm.getPmeter().getVoltage() >= Arm.potentiometerUpperLim) Robot.arm.runRaw(-0.8);
+				else if (Robot.arm.getPmeter().getVoltage() <= Arm.potentiometerLowerLim) Robot.arm.runRaw(0.8);
 				else Robot.arm.runRaw(0);
 			}
 			else Robot.arm.runRaw(0);
+			//SmartDashboard.putNumber("Pwr Glove Tiol, value);-Robot.oi.getPowerGloveTilt()
 		}
 		//            else {
 		//                // Using Power Glove

@@ -23,11 +23,11 @@ public class DriveControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { //low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
     	
-    	double driveL_new = Robot.oi.getLExp();
+    	double driveL_new = Robot.oi.getL();
     	if(driveL_new > 1.00) driveL_new = 1.00;
     	else if(driveL_new < -1.0) driveL_new = -1.0;
     	
-    	double driveR_new = Robot.oi.getRExp();
+    	double driveR_new = Robot.oi.getR();
     	if(driveR_new > 1.0) driveR_new = 1.0;
     	else if(driveR_new < -1.0) driveR_new = -1.0;
     	

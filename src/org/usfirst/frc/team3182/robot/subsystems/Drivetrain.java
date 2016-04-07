@@ -56,11 +56,11 @@ public class Drivetrain extends Subsystem {
 
 		rightEncoder.setDistancePerPulse(.00581776417); //old value .002909
 		leftEncoder.setDistancePerPulse(.00581776417);
-
-		LiveWindow.addSensor(getName(), "Right Encoder", rightEncoder);
-		LiveWindow.addSensor(getName(), "Left Encoder", leftEncoder);
-		LiveWindow.addActuator(getName(), "Right Wheels", rightWheel);
-		LiveWindow.addActuator(getName(), "Left Wheels", leftWheel);
+//
+//		LiveWindow.addSensor(getName(), "Right Encoder", rightEncoder);
+//		LiveWindow.addSensor(getName(), "Left Encoder", leftEncoder);
+//		LiveWindow.addActuator(getName(), "Right Wheels", rightWheel);
+//		LiveWindow.addActuator(getName(), "Left Wheels", leftWheel);
 
 
 		controlledPositionR = new PIDWrapper();
