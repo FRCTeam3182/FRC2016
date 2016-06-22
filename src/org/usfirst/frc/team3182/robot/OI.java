@@ -9,28 +9,36 @@ import org.usfirst.frc.team3182.robot.commands.LightsControl;
 import org.usfirst.frc.team3182.robot.util.Animation;
 
 /**
- * Operator Interface
- *
+ * OI: Operator Interface
+ * 
+ * This class queries and returns information about the driver's controls such as the joysticks and the power glove.
  */
 public class OI {
 
-
+    // Init joystick mappings
     Joystick driveStickR = new Joystick(RobotMap.driveStickR);
+    Joystick driveStickL = new Joystick(RobotMap.driveStickL);
+    
+    // Init a test button
     JoystickButton buttonTestAuto1 = new JoystickButton(driveStickR, 10); //FIXME: Remove before competition
 
-    Joystick driveStickL = new Joystick(RobotMap.driveStickL);
-
+    // Init the power glove as a joystick and a few buttons from it as well
     Joystick powerGlove = new Joystick(RobotMap.powerGlove);
     JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
     JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
     JoystickButton pgButton3 = new JoystickButton(powerGlove, 3);
     JoystickButton pgButton4 = new JoystickButton(powerGlove, 4);
 
+    // OI class constructor
     public OI() {
 
+        // Toggles the DriveToDistance class when the joystick test button is pressed
         buttonTestAuto1.toggleWhenPressed(new DriveToDistance(3));
-
+        
+        // Print a little message to the console
         System.out.println("OI init");
+        
+        // If the "powerglove" is actually a joystick (apparently untested)
         if (powerGlove.getName().equals("Logitech Extreme 3D")) { //TODO: Test this
         	Robot.usesPowerGlove = false;
             System.out.println("Not Using PowerGlove");
@@ -38,13 +46,16 @@ public class OI {
             pgButton2.whenPressed(new CollectorControl(.5)); //Button 2, intake
             pgButton3.whenPressed(new CollectorControl(0)); //Button 3, turn off (just in case, shouldn't be necessesary)
             pgButton4.whenPressed(new LightsControl(Animation.CELEBRATE));
-        } else {        	
-             Robot.usesPowerGlove = true;
-             System.out.println("Using PowerGlove");
-             pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
+        
+        // Otherwise, if we have a power glove connected
+        } else {
+            Robot.usesPowerGlove = true;
+            System.out.println("Using PowerGlove");
+            pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
         }
+        
+        // Update the smart dashboard with some drivetrain info
         SmartDashboard.putData(Robot.drivetrain);
-
     }
 
     public double getCollectValue() {
