@@ -4,12 +4,15 @@ package org.usfirst.frc.team3182.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3182.robot.Robot;
+import org.usfirst.frc.team3182.robot.RobotMap;
 
 /**
  * Complete and tested with demo-bot
  */
 public class DriveControl extends Command {
 	private double driveL_old = 0, driveR_old = 0;
+	private double driveF_old=0;
+	private double driveSide_old=0;
     public DriveControl() {
     	requires(Robot.drivetrain);
     }
@@ -22,25 +25,39 @@ public class DriveControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { //low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
-    	
-    	double driveL_new = Robot.oi.getL();
-    	if(driveL_new > 1.00) driveL_new = 1.00;
-    	else if(driveL_new < -1.0) driveL_new = -1.0;
-    	
-    	double driveR_new = Robot.oi.getR();
-    	if(driveR_new > 1.0) driveR_new = 1.0;
-    	else if(driveR_new < -1.0) driveR_new = -1.0;
-    	
-    	double driveL = (driveL_new - driveL_old) * 0.1 + driveL_old; //TODO: Test coeff
-    	double driveR = (driveR_new - driveR_old) * 0.1 + driveR_old;
-    	
-    	driveL_old = driveL;
-    	driveR_old = driveR;
-    	
-    	Robot.drivetrain.driveRaw(driveL, driveR);
-    	
-    	SmartDashboard.putNumber("teleopDriveX", driveL);
-    	SmartDashboard.putNumber("teleopDriveY", driveR);
+    	if(!RobotMap.isArcade){
+	    	double driveL_new = Robot.oi.getL();
+	    	if(driveL_new > 1.00) driveL_new = 1.00;
+	    	else if(driveL_new < -1.0) driveL_new = -1.0;
+	    	
+	    	double driveR_new = Robot.oi.getR();
+	    	if(driveR_new > 1.0) driveR_new = 1.0;
+	    	else if(driveR_new < -1.0) driveR_new = -1.0;
+	    	
+	    	// [PB, 2016-06-11, 09:18]: modified the low-pass filter factor from 0.03 to 0.3
+	    	double driveL = (driveL_new - driveL_old) * 0.12 + driveL_old; //TODO: Test coeff
+	    	double driveR = (driveR_new - driveR_old) * 0.12 + driveR_old;
+	    	
+	    	driveL_old = driveL;
+	    	driveR_old = driveR;
+	    	
+	    	Robot.drivetrain.driveRaw(driveL, driveR);
+	    	
+	    	SmartDashboard.putNumber("teleopDriveX", driveL);
+	    	SmartDashboard.putNumber("teleopDriveY", driveR);
+    	}
+    	else{
+    		double driveF_new = Robot.oi.getForwardArcade();
+	    	double driveSide_new = Robot.oi.getSideArcade();
+	    	
+	    	double driveF = (driveF_new - driveF_old) * 0.075 + driveF_old; //TODO: Test coeff
+	    	double driveSide = (driveSide_new - driveSide_old) * 0.5 + driveSide_old;
+	    	
+	    	driveF_old = driveF;
+	    	driveSide_old = driveSide;
+	    	
+	    	Robot.drivetrain.driveArcade(driveF, driveSide);
+    	}
     }
 
 
