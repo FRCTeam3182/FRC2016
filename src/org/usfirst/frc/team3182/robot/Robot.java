@@ -95,15 +95,15 @@ public class Robot extends IterativeRobot {
         server.startAutomaticCapture("cam1");
     }
 	
-	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-     */
-    public void disabledInit(){
-    	oi = new OI();
-    }
-	
+  /**
+   * This function is called once each time the robot enters Disabled mode.
+   * You can use it to reset any subsystem information you want to clear when
+   * the robot is disabled.
+	 */
+  public void disabledInit() {
+    oi = new OI();
+  }
+
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
@@ -117,55 +117,49 @@ public class Robot extends IterativeRobot {
 	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
-    public void autonomousInit() {
-//    	double autoSpeed_pct = SmartDashboard.getNumber("Auto Speed (0.0 - 1.0)", 1.0);
-//        double autoTime_ms   = SmartDashboard.getNumber("Auto Time (ms)", 3000);
-//        
-//        TimedDrive td = new TimedDrive((long) autoTime_ms, autoSpeed_pct);
-//        td.start();
-        
-        autonomousCommand = (Command) chooser.getSelected();
-        if (autonomousCommand != null) autonomousCommand.start();
-       
-    }
+  public void autonomousInit() {
+    //double autoSpeed_pct = SmartDashboard.getNumber("Auto Speed (0.0 - 1.0)", 1.0);
+    //double autoTime_ms   = SmartDashboard.getNumber("Auto Time (ms)", 3000);
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+    //TimedDrive td = new TimedDrive((long) autoTime_ms, autoSpeed_pct);
+    //td.start();
+  
+    // Select an automous mode from the smart dashboard  
+    autonomousCommand = (Command) chooser.getSelected();
+    if (autonomousCommand != null) autonomousCommand.start();
+  }
 
-    public void teleopInit() {
-        if (autonomousCommand != null) autonomousCommand.cancel();
-        
-        warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
-    }
+  // This function is called periodically during autonomous mode.
+  public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
+  }
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
+  // Initialize the code prior to running telop mode. This function is called once upon entering telop. 
+  public void teleopInit() {
+    if (autonomousCommand != null) autonomousCommand.cancel();
+    warningTime=SmartDashboard.getNumber("Warning Time (sec)", 45);
+  }	
 
-        // Warns Drivers at time
-        if (ds.getMatchTime()<=warningTime) SmartDashboard.putString("Match Warning", ds.getMatchTime() + " second warning!!");
-    }
- 
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-    	
-        LiveWindow.run();
-        //Scheduler.getInstance().run();
-    }
-    
-    public long getDSms() {
-    	return (long)SmartDashboard.getNumber("Seconds", 0);
-    }
-    public double getDSspeed() {
-    	return (double)SmartDashboard.getNumber("Speed", 0);
-    }
+  // This function is called periodically during operator control. This is the main loop of the robot while in telop mode
+  public void teleopPeriodic() {
+    Scheduler.getInstance().run();
+    // Warns Drivers at time
+    if (ds.getMatchTime()<=warningTime) SmartDashboard.putString("Match Warning", ds.getMatchTime() + " second warning!!");
+  }
+
+  // This function is called periodically during test mode. Only the live window runs when it is called.
+  public void testPeriodic() {	
+    LiveWindow.run();
+    //Scheduler.getInstance().run();
+  }
+
+  // Returns the number of seconds from the SmartDashboard, defaults to 0
+  public long getDSms() {
+  	return (long)SmartDashboard.getNumber("Seconds", 0);
+  }
+
+  // Returns the speed from the SmartDashboard, defaults to 0
+  public double getDSspeed() {
+  	return (double)SmartDashboard.getNumber("Speed", 0);
+  }
 }
