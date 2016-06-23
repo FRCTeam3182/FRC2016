@@ -58,13 +58,16 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
         drivetrain.stop();
         
+        //Sets server equal to the camera plugged in. sets quality and begins capture
         server = CameraServer.getInstance();
         server.setQuality(50);
         server.startAutomaticCapture("cam1");
 
+	//Populates smart dashboard with auto speed setting and auto time
         SmartDashboard.putNumber("Auto Speed (0.0 - 1.0)", .7);
         SmartDashboard.putNumber("Auto Time (ms)",        3000);
         
+        //Populates Smart Dash with four chooser objects that give options for autonomous mode.
         chooser = new SendableChooser();
         chooser.addObject("3 second .7 speed", new TimedDrive(3000, .7));
         chooser.addObject("3.5 second .7 speed", new TimedDrive(3500, .7));
@@ -84,15 +87,18 @@ public class Robot extends IterativeRobot {
         	
         });
         
+        //Puts data for the chooser on the smart dashboard.
         SmartDashboard.putData("Auto mode", chooser);
-
+        
+        //Prints the name of the scheduler
         System.out.println(Scheduler.getInstance().getName());
 
         ds = DriverStation.getInstance();
-        
-        CameraServer server = CameraServer.getInstance();
-        server.setQuality(50);
+        //This was a repeated section of code from earlier
+        /*CameraServer server = CameraServer.getInstance();
+         *server.setQuality(50);
         server.startAutomaticCapture("cam1");
+        */
     }
 	
   /**
