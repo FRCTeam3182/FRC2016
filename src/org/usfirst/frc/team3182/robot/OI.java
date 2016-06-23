@@ -17,6 +17,12 @@ public class OI {
 
     // Init joystick mappings
     Joystick driveStickR = new Joystick(RobotMap.driveStickR);
+    JoystickButton buttonTestAuto1 = new JoystickButton(driveStickR, 10); //FIXME: Remove before competition
+    
+    // [PB, 2016-06-11, 9:24]: buttons for collector at WIWI
+    JoystickButton buttonExpel   = new JoystickButton(driveStickR, 11);
+    JoystickButton buttonCollect = new JoystickButton(driveStickR, 10); //FIXME: Remove before competition
+
     Joystick driveStickL = new Joystick(RobotMap.driveStickL);
     
     // Init a test button
@@ -37,47 +43,49 @@ public class OI {
         
         // Print a little message to the console
         System.out.println("OI init");
-        
-        // If the "powerglove" is actually a joystick (apparently untested)
-        if (powerGlove.getName().equals("Logitech Extreme 3D")) { //TODO: Test this
-        	Robot.usesPowerGlove = false;
-            System.out.println("Not Using PowerGlove");
-            pgButton1.whenPressed(new CollectorControl(-1)); //Button 1, expel
-            pgButton2.whenPressed(new CollectorControl(.5)); //Button 2, intake
-            pgButton3.whenPressed(new CollectorControl(0)); //Button 3, turn off (just in case, shouldn't be necessesary)
-            pgButton4.whenPressed(new LightsControl(Animation.CELEBRATE));
-        
-        // Otherwise, if we have a power glove connected
-        } else {
-            Robot.usesPowerGlove = true;
-            System.out.println("Using PowerGlove");
-            pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
-        }
+               	
+        // Operate as if we have a power glove connected
+        Robot.usesPowerGlove = true;
+        System.out.println("Using PowerGlove");
+        pgButton2.whenPressed(new LightsControl(Animation.CELEBRATE));
         
         // Update the smart dashboard with some drivetrain info
         SmartDashboard.putData(Robot.drivetrain);
     }
 
     public double getCollectValue() {
-        if (!pgButton4.get())
-            return 0;
-        else
-            return pgButton3.get() ? -.65 : 1;
+    	/*if( driveStickL.getRawButton(3)) return -.65;
+    	if( driveStickR.getRawButton(3)) return 1;
+    	return 0;*/
+    	
+        //if (!pgButton4.get())
+        //    return 0;
+        //else
+        //    return pgButton3.get() ? -.65 : 1;
+    	
+    	// [PB, 2016-06-11, 9:27]: button based collect and expel at WIWI
+        if (buttonCollect.get()) {
+            return -0.65;
+        } else if (buttonExpel.get()) {
+            return 1;
+        } else {
+        	return 0;
+        }
     }
 
     public double getL() {
-    	if(Math.abs(driveStickL.getY())<.15)return 0; // Deadzone
-    	SmartDashboard.putNumber("joyL", driveStickL.getY());
-        return driveStickL.getY();
+       		if(Math.abs(driveStickL.getY())<.45)return 0; // Deadzone
+       		return driveStickR.getRawButton(1) || driveStickL.getRawButton(1) ? driveStickL.getY() : driveStickL.getY()*.8;
     }
 
 
     public double getR() {
-    	if(Math.abs(driveStickR.getY())<.15)return 0; // Deadzone
-    	SmartDashboard.putNumber("joyR", driveStickR.getY());
-        return driveStickR.getY();
+    	if(Math.abs(driveStickR.getY())<.25)return 0; // Deadzone
+//    	SmartDashboard.putNumber("joyR", driveStickR.getY());
+        return driveStickR.getRawButton(1) || driveStickL.getRawButton(1) ? driveStickR.getY() : driveStickR.getY()*.8;
+    
     }
-
+  
     public double getLExp() { //"ramps up"
     	if(Math.abs(getL())<.1)return 0; // Deadzone
     	if (getL() > 0) return Math.pow(getL(), 2);
@@ -93,7 +101,16 @@ public class OI {
     public double getPowerGloveTilt() {
         return powerGlove.getY();
     }
-
+    public double getForwardArcade() {
+    		 if (!pgButton4.get())
+                return 0;
+            else
+                return pgButton3.get() ? -.6 : .6;
+    }
+    public double getSideArcade(){
+    	if(Math.abs(powerGlove.getX())<.25)return 0; // Deadzone
+    	return -powerGlove.getX()*.9;
+    }
 
 }
 
