@@ -40,4 +40,14 @@ public class RobotMap {
 	//Arm sensors
 	public static final int armPotentiometer = 2;
 	
+	
+	
+	
+	public static final boolean isArcade = false; ///<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	
+	
+	
+	
+	
 }
