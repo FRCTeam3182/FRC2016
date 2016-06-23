@@ -50,16 +50,22 @@ public class DriveControl extends Command {
 	    	SmartDashboard.putNumber("teleopDriveX", driveL);
 	    	SmartDashboard.putNumber("teleopDriveY", driveR);
     	}
-    	else{
+
+	    // Otherwise, if we are operating in Arcade Drive
+    	else {
+    	    // Get the forward and side values of the single joystick
     		double driveF_new = Robot.oi.getForwardArcade();
 	    	double driveSide_new = Robot.oi.getSideArcade();
 	    	
+	    	// Use a low pass filter to dampen the repsonse of the joysticks
 	    	double driveF = (driveF_new - driveF_old) * 0.075 + driveF_old; //TODO: Test coeff
 	    	double driveSide = (driveSide_new - driveSide_old) * 0.5 + driveSide_old;
 	    	
+	    	// Update old values for the next pass
 	    	driveF_old = driveF;
 	    	driveSide_old = driveSide;
 	    	
+	    	// Do the drive
 	    	Robot.drivetrain.driveArcade(driveF, driveSide);
     	}
     }
