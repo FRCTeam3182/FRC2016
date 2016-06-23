@@ -43,7 +43,8 @@ public class OI {
         SmartDashboard.putData(Robot.drivetrain);
 
     }
-
+    
+    //Returns a value that tells whether button 4, button 3, or both buttons 4 and 3 of the powerglove are pressed.
     public double getCollectValue() {
     	/*if( driveStickL.getRawButton(3)) return -.65;
     	if( driveStickR.getRawButton(3)) return 1;
@@ -63,32 +64,37 @@ public class OI {
         	return 0;
         }
     }
-
+    
+    //Refer to getR() comment
     public double getL() {
        		if(Math.abs(driveStickL.getY())<.45)return 0; // Deadzone
        		return driveStickR.getRawButton(1) || driveStickL.getRawButton(1) ? driveStickL.getY() : driveStickL.getY()*.8;
     }
 
-
+    //Returns the value of the y position of the right joystick and displays it on smart dash  with a deadzone for positions under .15
     public double getR() {
     	if(Math.abs(driveStickR.getY())<.25)return 0; // Deadzone
 //    	SmartDashboard.putNumber("joyR", driveStickR.getY());
         return driveStickR.getRawButton(1) || driveStickL.getRawButton(1) ? driveStickR.getY() : driveStickR.getY()*.8;
     
     }
-  
+
+    //Refer to getREex() comment
+
     public double getLExp() { //"ramps up"
     	if(Math.abs(getL())<.1)return 0; // Deadzone
     	if (getL() > 0) return Math.pow(getL(), 2);
         else return -Math.abs(Math.pow(getL(), 2));
     }
 
+    //This returns and exponent of the value of the position of the right joystick. Note that the deadzone in the first line of this
+    //method is made redundant by the deadzone of the getR() method.
     public double getRExp() {
     	if(Math.abs(getR())<.1) return 0; // Deadzone
         if (getR() > 0) return Math.pow(getR(), 2);
         else return -Math.abs(Math.pow(getR(), 2));
     }
-
+    // Returns the Y-axis angle of the powerglove (tilt)
     public double getPowerGloveTilt() {
         return powerGlove.getY();
     }

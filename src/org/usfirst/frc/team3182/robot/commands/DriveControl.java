@@ -13,6 +13,7 @@ public class DriveControl extends Command {
 	private double driveL_old = 0, driveR_old = 0;
 	private double driveF_old=0;
 	private double driveSide_old=0;
+    
     public DriveControl() {
     	requires(Robot.drivetrain);
     }
@@ -25,11 +26,13 @@ public class DriveControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { //low pass filtering; driveX = (driveX - driveX_old) * coeff + driveX_old
+        // If we are in tank mode
     	if(!RobotMap.isArcade){
+    	    //Max range for driveL_new is -1.00 and 1.00
 	    	double driveL_new = Robot.oi.getL();
 	    	if(driveL_new > 1.00) driveL_new = 1.00;
 	    	else if(driveL_new < -1.0) driveL_new = -1.0;
-	    	
+	    	//Same as driveR_new
 	    	double driveR_new = Robot.oi.getR();
 	    	if(driveR_new > 1.0) driveR_new = 1.0;
 	    	else if(driveR_new < -1.0) driveR_new = -1.0;
@@ -37,12 +40,13 @@ public class DriveControl extends Command {
 	    	// [PB, 2016-06-11, 09:18]: modified the low-pass filter factor from 0.03 to 0.3
 	    	double driveL = (driveL_new - driveL_old) * 0.12 + driveL_old; //TODO: Test coeff
 	    	double driveR = (driveR_new - driveR_old) * 0.12 + driveR_old;
-	    	
+	    	//Updates old values
 	    	driveL_old = driveL;
 	    	driveR_old = driveR;
-	    	
+	    	//Gives drivetrain driveRaw() the values of the right and left
 	    	Robot.drivetrain.driveRaw(driveL, driveR);
 	    	
+	    	//Puts on the smart dash driveL and driveR
 	    	SmartDashboard.putNumber("teleopDriveX", driveL);
 	    	SmartDashboard.putNumber("teleopDriveY", driveR);
     	}
